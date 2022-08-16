@@ -1,18 +1,19 @@
-import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import { Document, Page, Text, View } from '@react-pdf/renderer';
 import docStyles from './docStyles';
+import Section from './Section';
 
 // Create Document Component
-const ResumeDoc = () => {
-    return <Document>
+const ResumeDoc = (
+    { detail, experience, education, skils }: any
+) => {
+    return <Document >
         <Page size="A4" style={docStyles.page}>
-            <View style={docStyles.section}>
-                <Text>Section #1</Text>
-            </View>
-            <View style={docStyles.section}>
-                <Text>Section #2</Text>
-            </View>
-        </Page>
-    </Document>
+            <Section title={detail.personName} titleStyle={{fontSize: 17}}>
+            <Text>{`${detail.phone} | ${detail.email}`}</Text>
+            <Text>hahaha</Text>
+        </Section>
+    </Page>
+    </Document >
 
 };
 
