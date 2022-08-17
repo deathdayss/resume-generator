@@ -1,9 +1,9 @@
 export type Period = [string, string]
 export interface Detail {
     personName: string,
-    visa: string,
-    phone: string,
-    email: string
+    visa: string | undefined,
+    phone: string | undefined,
+    email: string | undefined
 }
 
 export interface Experience {
