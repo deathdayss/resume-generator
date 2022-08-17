@@ -4,11 +4,11 @@ import ControlArea from '../ControlArea'
 
 const Main = () => {
     return <div className={styles.main}>
-        <div className={styles.left}>
-            <PdfViewArea />
-        </div>
-        <div className={styles.right}>
-            <ControlArea />
+        <PdfViewArea />
+        <div className={styles.rightFlexItem}>
+            <div className={styles.rightContainer}>
+                <ControlArea />
+            </div>
         </div>
     </div>
 }

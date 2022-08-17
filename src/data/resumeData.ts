@@ -1,6 +1,7 @@
 type Period = [string, string]
 export interface Detail {
     personName: string,
+    visa: string,
     phone: string,
     email: string
 }
@@ -36,6 +37,7 @@ export interface ResumeData {
 const resumeData: ResumeData = {
     detail: {
         personName: 'Zhicheng Wang',
+        visa: 'subclass (full working right)',
         phone: '0413478828',
         email: 'zhichengwangs@outlook.com'
     },

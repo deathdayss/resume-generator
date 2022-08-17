@@ -1,5 +1,6 @@
 import { Education, Experience } from '@/data/resumeData';
 import { Text, View } from '@react-pdf/renderer'
+import Section from '../components/Section';
 import docStyles from './docStyles';
 
 interface EducationViewProps {
@@ -23,4 +24,14 @@ const EducationView = ({ education, last }: EducationViewProps) => {
     </View>
 }
 
-export default EducationView;
+interface EducationSectionProps {
+    education: Education[]
+}
+
+const EducationSection = ({ education }: EducationSectionProps) => {
+    return <Section title='Education'>
+        {education.map((edu, index) => <EducationView key={edu.period[0] + edu.period[1]} education={edu} last={index === education.length - 1} />)}
+    </Section>
+}
+
+export default EducationSection;
