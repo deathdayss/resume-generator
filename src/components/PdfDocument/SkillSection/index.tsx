@@ -1,14 +1,23 @@
 import { Text } from '@react-pdf/renderer';
-import { Skill } from "@/data/resumeData"
+import { SkillInfo } from "@/data/resumeData"
 import Section from '../components/Section';
+import localization, { LanguageContext } from '@/data/localization';
+import { useContext } from 'react';
 
 interface SkillSectionProps {
-    skills: Skill[]
+    skills: SkillInfo
 }
 
 const SkillSection = ({ skills }: SkillSectionProps) => {
-    return <Section title='Skills'>
-        {skills.map(skill => <Text key={skill.skillName}>{skill.skillName} - {skill.proficiency}</Text>)}
+    const langCode = useContext(LanguageContext);
+    const { title, items } = skills;
+    console.log('langCode in Skill section', langCode)
+    if (items.length === 0) {
+        return null;
+    }
+    const skillLocal = localization[langCode].document.skill;
+    return <Section title={title ? title : skillLocal.title}>
+        {items.map((skill, index) => <Text key={index}>{skill.skillName ? skill.skillName : skillLocal.yourSkillName} - {skill.proficiency ? skill.proficiency : skillLocal.yourProficiency}</Text>)}
     </Section>
 }
 
