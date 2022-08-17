@@ -3,6 +3,7 @@ import { Education, EducationInfo, Experience } from '@/data/resumeData';
 import { Text, View } from '@react-pdf/renderer'
 import { useContext, useMemo } from 'react';
 import { getPeriodText } from '../common/helper';
+import { LastProps } from '../common/type';
 import Section from '../components/Section';
 import { DocStylesContext } from '../docStyles';
 
@@ -28,7 +29,7 @@ const EducationView = ({ education, last }: EducationViewProps) => {
             <Text>{education.duration ? education.duration : commonLocal.duration}</Text>
             <Text>{`    ${periodText}`}</Text>
         </Text>
-            {education.GPA === undefined ? null : <Text style={docStyles.boldText}>GPA: {education.GPA ? education.GPA : educationLocal.yourGPA}</Text>}
+        {education.GPA === undefined ? null : <Text style={docStyles.boldText}>GPA: {education.GPA ? education.GPA : educationLocal.yourGPA}</Text>}
         {education.comments.map((comment, index) => <Text key={index}>
             <Text style={docStyles.boldText}>·</Text>
             <Text>{` ${comment ? comment : commonLocal.yourComment}`}</Text>
@@ -36,18 +37,18 @@ const EducationView = ({ education, last }: EducationViewProps) => {
     </View>
 }
 
-interface EducationSectionProps {
+interface EducationSectionProps extends LastProps {
     education: EducationInfo
 }
 
-const EducationSection = ({ education }: EducationSectionProps) => {
+const EducationSection = ({ education, last = false }: EducationSectionProps) => {
     const langCode = useContext(LanguageContext);
     const { title, items } = education;
     if (items.length === 0) {
         return null;
     }
     const educationLocal = localization[langCode].document.education;
-    return <Section title={title ? title : educationLocal.title}>
+    return <Section title={title ? title : educationLocal.title} last={last}>
         {items.map((edu, index) => <EducationView key={index} education={edu} last={index === items.length - 1} />)}
     </Section>
 }

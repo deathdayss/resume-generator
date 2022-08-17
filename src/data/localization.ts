@@ -33,6 +33,9 @@ interface localizationContent {
             title: string,
             yourSkillName: string,
             yourProficiency: string
+        },
+        other: {
+            title: string,
         }
     }
 }
@@ -68,6 +71,9 @@ const localization: { [key in Language]: localizationContent } = {
                 title: 'Skills',
                 yourSkillName: '[Your Skill]',
                 yourProficiency: '[You Proficiency]'
+            },
+            other: {
+                title: 'Other',
             }
         }
     },
@@ -100,6 +106,9 @@ const localization: { [key in Language]: localizationContent } = {
                 title: '技能',
                 yourSkillName: '[你的技能]',
                 yourProficiency: '[你的熟练度]'
+            },
+            other: {
+                title: '其他'
             }
         },
     }
