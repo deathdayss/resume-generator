@@ -1,27 +1,34 @@
-export const changeIndex = (arr: any[], oldIndex: number, newIndex: number) => {
-    const newArr: any[] = [];
+import { SectionForm } from "../dataType";
+
+export const changeFormIndex = (arr: SectionForm[], oldIndex: number, newIndex: number) => {
+    const newArr: SectionForm[] = [];
     const minIndex = Math.min(oldIndex, newIndex);
     const maxIndex = Math.max(oldIndex, newIndex);
     for (let i = 0; i < arr.length; ++i) {
+        let nextForm;
         if (i < minIndex || i > maxIndex) {
-            newArr.push(arr[i]);
+            nextForm = arr[i];
         }
         else if (i === newIndex) {
-            newArr.push(arr[oldIndex])
+            nextForm = arr[oldIndex];
+            nextForm = { ...nextForm, index: i };
         }
         else if (i >= minIndex) {
-            newArr.push(arr[oldIndex <= newIndex ? i + 1 : i - 1])
+            nextForm = arr[oldIndex <= newIndex ? i + 1 : i - 1];
+            nextForm = { ...nextForm, index: i };
+        }
+        if (nextForm) {
+            newArr.push(nextForm);
+        }
+        else {
+            throw new Error("changeIndex undefined nextForm");
         }
     }
     return newArr;
 }
 
-export const pushElement = <T>(arr: T[], element: T) => {
-    const newArr = [...arr];
-    newArr.push(element)
-    return newArr;
-}
-
-export const deleteByElement = <T>(arr: T[], element: T) => {
-    return arr.filter(elem => elem !== element);
+export const changeFormPropValue = (sectionForm: SectionForm, sectionForms: SectionForm[], propName: string, propValue: any) => {
+    const newSectionForms = [...sectionForms];
+    newSectionForms[sectionForm.index] = {...sectionForm, [propName]: propValue};
+    return newSectionForms;
 }
