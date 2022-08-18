@@ -25,18 +25,19 @@ const ResumeDoc = (
             <Page size="A4" style={styles.page}>
                 {sectionInfos.map((sectionInfo, index) => {
                     const last = index === sectionInfos.length - 1;
-                    const { id, data } = sectionInfo
+                    const { id, textData, templateId } = sectionInfo
+                    const commonProps = {key:id, last, templateId};
                     switch (id) {
                         case 'Detail':
-                            return <DetailSection key={id} detail={data} last={last} />;
+                            return <DetailSection {...commonProps} detail={textData}/>;
                         case 'Experience':
-                            return <ExperienceSection key={id} experience={data} last={last} />
+                            return <ExperienceSection {...commonProps} experience={textData}/>
                         case 'Education':
-                            return <EducationSection key={id} education={data} last={last} />;
+                            return <EducationSection {...commonProps} education={textData}/>;
                         case 'Skill':
-                            return <SkillSection key={id} skill={data} last={last} />;
+                            return <SkillSection {...commonProps} skill={textData}/>;
                         case 'Other':
-                            return <OtherSection key={id} other={data} last={last} />;
+                            return <OtherSection {...commonProps} other={textData}/>;
                         default:
                             throw new Error('invalid section id')
                     }

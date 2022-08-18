@@ -1,15 +1,14 @@
 import localization, { LanguageContext } from '@/data/localization';
-import { Education, EducationInfo, Experience } from '@/data/resumeData';
+import { Education, EducationInfo } from '@/data/resumeData';
 import { Text, View } from '@react-pdf/renderer'
 import { useContext, useMemo } from 'react';
 import { getPeriodText } from '../common/helper';
-import { LastProps } from '../common/type';
+import { LastProps, SectionProps } from '../common/type';
 import Section from '../components/Section';
 import { DocStylesContext } from '../docStyles';
 
-interface EducationViewProps {
+interface EducationViewProps extends LastProps {
     education: Education,
-    last: boolean
 }
 
 const EducationView = ({ education, last }: EducationViewProps) => {
@@ -37,11 +36,11 @@ const EducationView = ({ education, last }: EducationViewProps) => {
     </View>
 }
 
-interface EducationSectionProps extends LastProps {
+interface EducationSectionProps extends SectionProps {
     education: EducationInfo
 }
 
-const EducationSection = ({ education, last = false }: EducationSectionProps) => {
+const EducationSection = ({ education, templateId, last = false }: EducationSectionProps) => {
     const langCode = useContext(LanguageContext);
     const { title, items } = education;
     if (items.length === 0) {

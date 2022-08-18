@@ -48,25 +48,28 @@ export interface OtherInfo {
     comment: string
 }
 
-export type SectionInfo = { id: 'Detail', data: Detail } |
-{ id: 'Experience', data: ExperienceInfo } |
-{ id: 'Education', data: EducationInfo } |
-{ id: 'Skill', data: SkillInfo } |
-{ id: 'Other', data: OtherInfo }
+export type TemplateId = string | undefined
+
+export type SectionInfo = { id: 'Detail', textData: Detail, templateId: TemplateId } |
+{ id: 'Experience', textData: ExperienceInfo, templateId: TemplateId } |
+{ id: 'Education', textData: EducationInfo, templateId: TemplateId } |
+{ id: 'Skill', textData: SkillInfo, templateId: TemplateId } |
+{ id: 'Other', textData: OtherInfo, templateId: TemplateId }
 
 export const sectionInfos: SectionInfo[] = [
     {
         id: 'Detail',
-        data: {
+        textData: {
             personName: 'Zhicheng Wang',
             visa: 'subclass 500 (full working right)',
             phone: '0413478828',
             email: 'zhichengwangs@outlook.com'
-        }
+        },
+        templateId: undefined
     },
     {
         id: 'Experience',
-        data: {
+        textData: {
             title: '',
             items: [{
                 companyName: 'Mochi Labs Pty Ltd (Canberra)',
@@ -84,11 +87,12 @@ export const sectionInfos: SectionInfo[] = [
                 comments: ['Debugged the page including passing the html fragment with style, cleaning left reference of Input component.',
                     'Used ant-design library and Flex layout to construct the data config page for an internal management system. Implemented a customised Cascader component to choose multiple items. This function has not been implemented in Cascader component of ant-design library.']
             }]
-        }
+        },
+        templateId: undefined
     },
     {
         id: 'Education',
-        data: {
+        textData: {
             title: '',
             items: [{
                 instituionName: 'The Australian National University',
@@ -98,11 +102,12 @@ export const sectionInfos: SectionInfo[] = [
                 duration: '3-year Degree',
                 comments: ['Courses include programming courses such as Java, Haskell, Python, SQL, software engineering courses, machine Learning and math courses']
             }]
-        }
+        },
+        templateId: undefined
     },
     {
         id: 'Skill',
-        data: {
+        textData: {
             title: '',
             items: [{
                 skillName: 'Javasciprt/Typescript ES6',
@@ -112,13 +117,15 @@ export const sectionInfos: SectionInfo[] = [
                 skillName: 'Javasciprt/Typescript ES6',
                 proficiency: 'proficient'
             }]
-        }
+        },
+        templateId: undefined
     },
     {
         id: 'Other',
-        data: {
+        textData: {
             title: '',
             comment: 'github: https://github.com/deathdayss'
-        }
+        },
+        templateId: undefined
     }
 ]

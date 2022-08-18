@@ -2,14 +2,14 @@ import localization, { LanguageContext } from "@/data/localization";
 import { OtherInfo } from "@/data/resumeData"
 import { Text } from "@react-pdf/renderer";
 import { useContext } from "react";
-import { LastProps } from "../common/type";
+import { SectionProps } from "../common/type";
 import Section from "../components/Section"
 
-interface OtherSectionProps extends LastProps {
+interface OtherSectionProps extends SectionProps {
     other: OtherInfo | undefined
 }
 
-const OtherSection = ({ other, last = false }: OtherSectionProps) => {
+const OtherSection = ({ other, templateId, last = false }: OtherSectionProps) => {
     const langCode = useContext(LanguageContext);
     if (other === undefined) {
         return null;

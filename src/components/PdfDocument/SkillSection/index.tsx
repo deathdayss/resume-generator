@@ -3,16 +3,15 @@ import { SkillInfo } from "@/data/resumeData"
 import Section from '../components/Section';
 import localization, { LanguageContext } from '@/data/localization';
 import { useContext } from 'react';
-import { LastProps } from '../common/type';
+import { SectionProps } from '../common/type';
 
-interface SkillSectionProps extends LastProps {
+interface SkillSectionProps extends SectionProps {
     skill: SkillInfo
 }
 
-const SkillSection = ({ skill, last = false }: SkillSectionProps) => {
+const SkillSection = ({ skill, templateId, last = false }: SkillSectionProps) => {
     const langCode = useContext(LanguageContext);
     const { title, items } = skill;
-    console.log('langCode in Skill section', langCode)
     if (items.length === 0) {
         return null;
     }

@@ -3,13 +3,12 @@ import { Experience, ExperienceInfo } from '@/data/resumeData';
 import { Text, View } from '@react-pdf/renderer'
 import { useContext, useMemo } from 'react';
 import { getPeriodText } from '../common/helper';
-import { LastProps } from '../common/type';
+import { LastProps, SectionProps } from '../common/type';
 import Section from '../components/Section';
 import { DocStylesContext } from '../docStyles';
 
-interface ExperienceViewProps {
+interface ExperienceViewProps extends LastProps {
     experience: Experience,
-    last: boolean
 }
 
 const ExperienceView = ({ experience, last }: ExperienceViewProps) => {
@@ -36,7 +35,7 @@ const ExperienceView = ({ experience, last }: ExperienceViewProps) => {
     </View>
 }
 
-interface ExperienceSectionProps extends LastProps {
+interface ExperienceSectionProps extends SectionProps {
     experience: ExperienceInfo
 }
 

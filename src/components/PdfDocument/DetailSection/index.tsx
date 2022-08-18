@@ -2,14 +2,14 @@ import localization, { LanguageContext } from "@/data/localization";
 import { Detail } from "@/data/resumeData"
 import { Text } from "@react-pdf/renderer";
 import { useContext, useMemo } from "react";
-import { LastProps } from "../common/type";
+import { SectionProps } from "../common/type";
 import Section from "../components/Section"
 
-interface DetailSectionProps extends LastProps {
+interface DetailSectionProps extends SectionProps {
     detail: Detail
 }
 
-const DetailSection = ({ detail, last = false }: DetailSectionProps) => {
+const DetailSection = ({ detail, templateId, last = false }: DetailSectionProps) => {
     const langCode = useContext(LanguageContext);
 
     const detailLocal = localization[langCode].document.detail;
