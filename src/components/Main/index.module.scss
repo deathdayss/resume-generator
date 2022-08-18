@@ -2,10 +2,6 @@
     display: flex;
     flex-direction: row-reverse;
     .rightFlexItem {
-        height: 2000px;
         width: 50%;
-        .rightContainer {
-            padding: 20px;
-        }
     }
 }

@@ -49,21 +49,24 @@ export interface OtherInfo {
 }
 
 export type TemplateId = string | undefined
+export type SectionId = 'Detail' | 'Experience' | 'Education' | 'Skill' | 'Other';
+export type SectionData = Detail | ExperienceInfo | EducationInfo | SkillInfo | OtherInfo
+export const initialSectionIds: SectionId[] = ['Detail', 'Experience', 'Education', 'Skill', 'Other']
 
-export type SectionInfo = { id: 'Detail', textData: Detail, templateId: TemplateId } |
-{ id: 'Experience', textData: ExperienceInfo, templateId: TemplateId } |
-{ id: 'Education', textData: EducationInfo, templateId: TemplateId } |
-{ id: 'Skill', textData: SkillInfo, templateId: TemplateId } |
-{ id: 'Other', textData: OtherInfo, templateId: TemplateId }
+export interface SectionInfo {
+    id: SectionId,
+    textData: SectionData,
+    templateId: TemplateId
+}
 
-export const sectionInfos: SectionInfo[] = [
+export const initialSectionInfos: SectionInfo[] = [
     {
         id: 'Detail',
         textData: {
-            personName: 'Zhicheng Wang',
-            visa: 'subclass 500 (full working right)',
-            phone: '0413478828',
-            email: 'zhichengwangs@outlook.com'
+            personName: '',
+            visa: '',
+            phone: '',
+            email: ''
         },
         templateId: undefined
     },
@@ -71,22 +74,7 @@ export const sectionInfos: SectionInfo[] = [
         id: 'Experience',
         textData: {
             title: '',
-            items: [{
-                companyName: 'Mochi Labs Pty Ltd (Canberra)',
-                position: 'Front-end Internship',
-                period: ['07/2021', 'current'],
-                duration: '3 months',
-                comments: ['Debugged the page including repairing the Emoji component. Created a customized highlighting system for the user selection based on a collaborative library ProseMirror.',
-                    'Writing automatic front-end tests by using Playwright.']
-            },
-            {
-                companyName: 'Meiping Meiwu (Shanghai) Technology Ltd',
-                position: 'Front-end Internship',
-                period: ['12/2021', '02/2022'],
-                duration: '3 months',
-                comments: ['Debugged the page including passing the html fragment with style, cleaning left reference of Input component.',
-                    'Used ant-design library and Flex layout to construct the data config page for an internal management system. Implemented a customised Cascader component to choose multiple items. This function has not been implemented in Cascader component of ant-design library.']
-            }]
+            items: []
         },
         templateId: undefined
     },
@@ -94,14 +82,7 @@ export const sectionInfos: SectionInfo[] = [
         id: 'Education',
         textData: {
             title: '',
-            items: [{
-                instituionName: 'The Australian National University',
-                degree: 'Bachelor of Information Technology',
-                GPA: '6.412/7',
-                period: ['02/2019', '06/2022'],
-                duration: '3-year Degree',
-                comments: ['Courses include programming courses such as Java, Haskell, Python, SQL, software engineering courses, machine Learning and math courses']
-            }]
+            items: []
         },
         templateId: undefined
     },
@@ -109,14 +90,7 @@ export const sectionInfos: SectionInfo[] = [
         id: 'Skill',
         textData: {
             title: '',
-            items: [{
-                skillName: 'Javasciprt/Typescript ES6',
-                proficiency: 'proficient'
-            },
-            {
-                skillName: 'Javasciprt/Typescript ES6',
-                proficiency: 'proficient'
-            }]
+            items: []
         },
         templateId: undefined
     },
@@ -124,7 +98,7 @@ export const sectionInfos: SectionInfo[] = [
         id: 'Other',
         textData: {
             title: '',
-            comment: 'github: https://github.com/deathdayss'
+            comment: ''
         },
         templateId: undefined
     }

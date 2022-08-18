@@ -10,7 +10,7 @@ import OtherSection from './OtherSection';
 import SkillSection from './SkillSection';
 
 interface ResumeDocProps {
-    styleArgs?: object
+    styleArgs: object
     sectionInfos: SectionInfo[]
 }
 
@@ -26,18 +26,18 @@ const ResumeDoc = (
                 {sectionInfos.map((sectionInfo, index) => {
                     const last = index === sectionInfos.length - 1;
                     const { id, textData, templateId } = sectionInfo
-                    const commonProps = {key:id, last, templateId};
+                    const commonProps = { key: id, last, templateId };
                     switch (id) {
                         case 'Detail':
-                            return <DetailSection {...commonProps} detail={textData}/>;
+                            return <DetailSection {...commonProps} detail={textData as Detail} />;
                         case 'Experience':
-                            return <ExperienceSection {...commonProps} experience={textData}/>
+                            return <ExperienceSection {...commonProps} experience={textData as ExperienceInfo} />
                         case 'Education':
-                            return <EducationSection {...commonProps} education={textData}/>;
+                            return <EducationSection {...commonProps} education={textData as EducationInfo} />;
                         case 'Skill':
-                            return <SkillSection {...commonProps} skill={textData}/>;
+                            return <SkillSection {...commonProps} skill={textData as SkillInfo} />;
                         case 'Other':
-                            return <OtherSection {...commonProps} other={textData}/>;
+                            return <OtherSection {...commonProps} other={textData as OtherInfo} />;
                         default:
                             throw new Error('invalid section id')
                     }
