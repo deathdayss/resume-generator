@@ -12,9 +12,6 @@ interface SkillSectionProps extends SectionProps {
 const SkillSection = ({ skill, templateId, last = false }: SkillSectionProps) => {
     const langCode = useContext(LanguageContext);
     const { title, items } = skill;
-    if (items.length === 0) {
-        return null;
-    }
     const skillLocal = localization[langCode].document.skill;
     return <Section title={title ? title : skillLocal.title} last={last}>
         {items.map((skill, index) => <Text key={index}>{skill.skillName ? skill.skillName : skillLocal.yourSkillName} - {skill.proficiency ? skill.proficiency : skillLocal.yourProficiency}</Text>)}

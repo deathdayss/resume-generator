@@ -8,7 +8,7 @@ interface CollapsePanelprops extends CollapseProps {
 export const CollapsePanel = (props: CollapsePanelprops) => {
     const { in: boolean, collapseId, ...CollapseProps } = props;
     const collapseState = useContext(CollapseContext);
-    return <Collapse {...CollapseProps} in={collapseId in collapseState} />
+    return <Collapse {...CollapseProps} in={collapseState.includes(collapseId)} />
 }
 
 interface CollapseAllProps {
@@ -19,7 +19,6 @@ interface CollapseAllProps {
 const CollapseContext = React.createContext<string[]>([]);
 
 export const CollapseAll = ({ collapseState, children }: CollapseAllProps) => {
-
     return <CollapseContext.Provider value={collapseState}>{children} </CollapseContext.Provider>
 }
 

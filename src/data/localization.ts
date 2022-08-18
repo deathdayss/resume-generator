@@ -5,6 +5,15 @@ export type Language = 'eng' | 'chi'
 export const LanguageContext = React.createContext<Language>('eng')
 
 interface localizationContent {
+    form: {
+        title: {
+            Detail: string,
+            Experience: string,
+            Education: string,
+            Skill: string,
+            Other: string
+        }
+    },
     document: {
         common: {
             duration: string,
@@ -43,12 +52,21 @@ interface localizationContent {
 const localization: { [key in Language]: localizationContent } = {
 
     eng: {
+        form: {
+            title: {
+                Detail: 'Personal Detail',
+                Experience: 'Experience',
+                Education: 'Education',
+                Skill: 'Skill',
+                Other: 'Other'
+            }
+        },
         document: {
             common: {
                 duration: '[Duration in Months or Years]',
                 startDate: '[Start Date]',
                 endDate: '[End Date]',
-                yourComment: 'Your Comment'
+                yourComment: '[Your Comment]'
             },
             detail: {
                 yourName: '[Your Name]',
@@ -78,6 +96,15 @@ const localization: { [key in Language]: localizationContent } = {
         }
     },
     chi: {
+        form: {
+            title: {
+                Detail: '个人信息',
+                Experience: '工作经历',
+                Education: '教育背景',
+                Skill: '技能',
+                Other: '其他'
+            }
+        },
         document: {
             common: {
                 duration: '[时长（年、月）]',
@@ -97,7 +124,7 @@ const localization: { [key in Language]: localizationContent } = {
                 companyName: '[公司名称]',
             },
             education: {
-                title: '教育经历',
+                title: '教育背景',
                 yourDegree: '[你的学位]',
                 instituionName: '[教育机构名称]',
                 yourGPA: '[你的GPA]'

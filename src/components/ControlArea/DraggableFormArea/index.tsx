@@ -9,58 +9,112 @@ import {
     SortEnd,
     SortEvent,
 } from 'react-sortable-hoc';
-import React, { ReactNode, useState } from "react";
-import Collapse from '@mui/material/Collapse';
-import { CollapseAll, CollapsePanel } from "@/components/Collapse";
-
-interface DraggableFormAreaProps {
-    sectionIds: SectionId[],
-    setSectionIds: (arg: SectionId[]) => void,
-    sectionForm: SectionForm,
-    setSectionForm: (arg: SectionForm) => void
-}
+import React, { ReactNode, useContext, useMemo, useState } from "react";
+import { CollapseAll, CollapsePanel } from "@/components/ControlArea/Collapse";
+import { deleteByElement, pushElement, changeIndex } from "../helper/helper";
+import { IconButton, IconButtonProps, styled } from "@mui/material";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import DragIndicatorIcon from '@material-ui/icons/DragIndicator';
+import styles from './index.module.scss';
+import localization, { LanguageContext } from "@/data/localization";
 
 const text = 'panel text'
 
-const DragHandle = SortableHandle(() => <span>::</span>);
+const DragHandle = SortableHandle(() => <span className={styles.dragingHandler}><DragIndicatorIcon /></span>);
 
-const MySortable = ({ value }: { value: string }) => {
-    const [open, setOpen] = useState(true);
+interface ExpandMoreProps extends IconButtonProps {
+    expand: boolean;
+}
+
+interface SectionFormPanelProps {
+    value: SectionId,
+    collapseState: SectionId[],
+    setCollapseState: (args: SectionId[]) => void,
+    sectionForm: SectionForm,
+    setSectionForm: (args: SectionForm) => void,
+}
+
+const CollapseButton = styled((props: ExpandMoreProps) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+    transform: expand ? 'rotate(0deg)' : 'rotate(-90deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+        duration: theme.transitions.duration.shortest,
+    }),
+}));
+
+const SectionFormPanel = ({ value, collapseState, setCollapseState, sectionForm, setSectionForm }: SectionFormPanelProps) => {
+    const langCode = useContext(LanguageContext);
+    const titleLocal = localization[langCode].form.title;
+    const isCollapse = useMemo(() => collapseState.includes(value), [collapseState, value])
+    const title = (sectionForm[value].textData as any).title;
     return <div>
-        <button onClick={() => {
-            setOpen(!open);
-        }}>click to collapse</button>
+        <div className={styles.panelHeader}>
+            <CollapseButton
+                expand={isCollapse}
+                onClick={() => {
+                    if (isCollapse) {
+                        setCollapseState(deleteByElement(collapseState, value))
+                    }
+                    else {
+                        setCollapseState(pushElement(collapseState, value))
+                    }
+                }}
+                aria-expanded={isCollapse}
+                aria-label="show more"
+            >
+                <ExpandMoreIcon />
+            </CollapseButton>
+            <span className={styles.panelTitle}>
+                {title === undefined ? titleLocal.Detail : (title ? title : titleLocal[value])}
+            </span>
+            <DragHandle />
+        </div>
         <CollapsePanel collapseId={value} timeout="auto" unmountOnExit>
             <li>
                 collapse Content
-                <DragHandle />
                 {value}
             </li>
         </CollapsePanel>
     </div>
 }
 
-const SortableItem: React.ComponentClass<SortableElementProps & { value: string }, any> = SortableElement(MySortable);
+const SortableItem: React.ComponentClass<SortableElementProps & SectionFormPanelProps, any> = SortableElement(SectionFormPanel);
 
-const SortableList: React.ComponentClass<SortableContainerProps & { children: ReactNode }, any> = SortableContainer(({ children }: { children: ReactNode }) => {
-    return <>{children}</>;
+interface SortableListProps {
+    children: ReactNode
+}
+
+const SortableList: React.ComponentClass<SortableContainerProps & SortableListProps, any> = SortableContainer(({ children }: SortableListProps) => {
+    return <div>{children}</div>;
 });
 
-const DraggableFormArea = ({ sectionIds, setSectionIds, sectionForm, setSectionForm }: DraggableFormAreaProps) => {
+interface DraggableFormAreaProps {
+    collapseState: SectionId[],
+    setCollapseState: (arg: SectionId[]) => void,
+    sectionForm: SectionForm,
+    setSectionForm: (arg: SectionForm) => void
+}
 
-    const [state, setState] = useState<string[]>(initialSectionIds);
+const DraggableFormArea = ({ collapseState, setCollapseState, sectionForm, setSectionForm }: DraggableFormAreaProps) => {
+    const [formPanelIds, setFormPanelIds] = useState(initialSectionIds);
 
-    const onSortEnd = ({ oldIndex, newIndex }: SortEnd, e: SortEvent) => {
-        const newState = [...state];
-        const temp = newState[oldIndex];
-        newState[oldIndex] = newState[newIndex];
-        newState[newIndex] = temp;
-        setState(newState);
+    const onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
+        setFormPanelIds(changeIndex(formPanelIds, oldIndex, newIndex));
     };
-    return <CollapseAll collapseState={initialSectionIds}>
-        <SortableList onSortEnd={onSortEnd} useDragHandle>
-            {state.map((value, index) => (
-                <SortableItem key={`item-${value}`} index={index} value={value} />
+    return <CollapseAll collapseState={collapseState}>
+        <SortableList onSortEnd={onSortEnd} useDragHandle >
+            {formPanelIds.map((sectionId, index) => (
+                <SortableItem key={`item-${sectionId}`}
+                    index={index}
+                    value={sectionId}
+                    collapseState={collapseState}
+                    setCollapseState={setCollapseState}
+                    sectionForm={sectionForm}
+                    setSectionForm={setSectionForm}
+                />
             ))}
         </SortableList>
     </CollapseAll>

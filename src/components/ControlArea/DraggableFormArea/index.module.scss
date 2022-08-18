@@ -1,0 +1,23 @@
+.panelHeader {
+    display: flex;
+    align-items: center;
+    background-color: rgb(240, 240, 240);
+    border: 0.0625rem solid rgb(220, 220, 220);
+    .panelTitle {
+        font-size: 2rem;
+        margin-left: 0.5rem;
+    }
+    .dragingHandler {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-left: auto;
+        margin-right: 1rem;
+        color: gray;
+        cursor: grab;
+    }
+}
+
+.panelHeader > button {
+    margin-left: 0.5rem;
+}

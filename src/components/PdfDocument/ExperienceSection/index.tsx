@@ -42,9 +42,6 @@ interface ExperienceSectionProps extends SectionProps {
 const ExperienceSection = ({ experience, last = false }: ExperienceSectionProps) => {
     const langCode = useContext(LanguageContext);
     const { title, items } = experience;
-    if (items.length === 0) {
-        return null;
-    }
     const experienceLocal = localization[langCode].document.experience;
     return <Section title={title ? title : experienceLocal.titile} last={last}>
         {items.map((exp, index) => <ExperienceView key={index} experience={exp} last={index === items.length - 1} />)}

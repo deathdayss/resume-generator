@@ -1,11 +1,9 @@
 import { Language } from '@/data/localization';
 import { initialSectionIds, SectionId, SectionInfo } from '@/data/resumeData';
 import styles from './index.module.scss';
-import { Collapse } from 'antd';
 import { useState } from 'react';
 import { initialSectionForm } from './dataType';
 import DraggableFormArea from './DraggableFormArea';
-const { Panel } = Collapse;
 const text = 'panel text';
 
 interface ControlAreaProps {
@@ -18,13 +16,13 @@ interface ControlAreaProps {
 }
 
 const ControlArea = ({ sectionInfos, styleArgs, updateDoc, setLangCode, setSectionInfos, setStylesArgs }: ControlAreaProps) => {
-    const [sectionIds, setSectionIds] = useState<SectionId[]>(initialSectionIds);
+    const [collapseState, setCollapseState] = useState(initialSectionIds);
     const [sectionForm, setSectionForm] = useState(initialSectionForm);
     return <div className={styles.controlContainer}>
         <div className={styles.formArea}>
             <div>
-                <DraggableFormArea sectionIds={sectionIds}
-                    setSectionIds={setSectionIds}
+                <DraggableFormArea collapseState={collapseState}
+                    setCollapseState={setCollapseState}
                     sectionForm={sectionForm}
                     setSectionForm={setSectionForm} />
             </div>
