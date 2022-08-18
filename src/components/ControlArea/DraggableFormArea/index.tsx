@@ -11,6 +11,7 @@ import {
 } from 'react-sortable-hoc';
 import React, { ReactNode, useState } from "react";
 import Collapse from '@mui/material/Collapse';
+import { CollapseAll, CollapsePanel } from "@/components/Collapse";
 
 interface DraggableFormAreaProps {
     sectionIds: SectionId[],
@@ -21,7 +22,6 @@ interface DraggableFormAreaProps {
 
 const text = 'panel text'
 
-
 const DragHandle = SortableHandle(() => <span>::</span>);
 
 const MySortable = ({ value }: { value: string }) => {
@@ -30,20 +30,20 @@ const MySortable = ({ value }: { value: string }) => {
         <button onClick={() => {
             setOpen(!open);
         }}>click to collapse</button>
-        <Collapse in={open} timeout="auto" unmountOnExit>
+        <CollapsePanel collapseId={value} timeout="auto" unmountOnExit>
             <li>
                 collapse Content
                 <DragHandle />
                 {value}
             </li>
-        </Collapse>
+        </CollapsePanel>
     </div>
 }
 
 const SortableItem: React.ComponentClass<SortableElementProps & { value: string }, any> = SortableElement(MySortable);
 
 const SortableList: React.ComponentClass<SortableContainerProps & { children: ReactNode }, any> = SortableContainer(({ children }: { children: ReactNode }) => {
-    return <ul>{children}</ul>;
+    return <>{children}</>;
 });
 
 const DraggableFormArea = ({ sectionIds, setSectionIds, sectionForm, setSectionForm }: DraggableFormAreaProps) => {
@@ -57,23 +57,13 @@ const DraggableFormArea = ({ sectionIds, setSectionIds, sectionForm, setSectionF
         newState[newIndex] = temp;
         setState(newState);
     };
-    // return <Collapse defaultActiveKey={initialSectionIds}>
-    //     <Panel header="This is panel header 1" key="1">
-    //         <p>{text}</p>
-    //     </Panel>
-    //     <Panel header="This is panel header 2" key="2">
-    //         <p>{text}</p>
-    //     </Panel>
-    //     <Panel header="This is panel header 3" key="3">
-    //         <p>{text}</p>
-    //     </Panel>
-    // </Collapse>;
-    return <SortableList onSortEnd={onSortEnd} useDragHandle>
-        {state.map((value, index) => (
-            <SortableItem key={`item-${value}`} index={index} value={value} />
-            // <Collapse.Panel header="This is panel header 1" key={value}></Collapse.Panel>
-        ))}
-    </SortableList>
+    return <CollapseAll collapseState={initialSectionIds}>
+        <SortableList onSortEnd={onSortEnd} useDragHandle>
+            {state.map((value, index) => (
+                <SortableItem key={`item-${value}`} index={index} value={value} />
+            ))}
+        </SortableList>
+    </CollapseAll>
 }
 
 export default DraggableFormArea;
