@@ -5,7 +5,16 @@ export type Language = 'eng' | 'chi'
 export const LanguageContext = React.createContext<Language>('eng')
 
 interface localizationContent {
+    name: string,
     form: {
+        button: {
+            collapseAll: string,
+            expandAll: string,
+            defaultLayout: string,
+            useAll: string,
+            openView: string,
+            hideView: string
+        },
         title: {
             Detail: string,
             Experience: string,
@@ -50,9 +59,17 @@ interface localizationContent {
 }
 
 const localization: { [key in Language]: localizationContent } = {
-
     eng: {
+        name: 'English',
         form: {
+            button: {
+                collapseAll: 'Collapse All',
+                expandAll: 'Expand All',
+                defaultLayout: 'Default Layout',
+                useAll: 'Use All Sections',
+                openView: 'Open View',
+                hideView: 'Hide View'
+            },
             title: {
                 Detail: 'Personal Detail',
                 Experience: 'Experience',
@@ -96,7 +113,16 @@ const localization: { [key in Language]: localizationContent } = {
         }
     },
     chi: {
+        name: '中文',
         form: {
+            button: {
+                collapseAll: '收起全部',
+                expandAll: '展开全部',
+                defaultLayout: '默认布局',
+                useAll: '使用全部板块',
+                openView: '打开视图',
+                hideView: '关闭视图'
+            },
             title: {
                 Detail: '个人信息',
                 Experience: '工作经历',

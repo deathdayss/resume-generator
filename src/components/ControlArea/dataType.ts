@@ -7,4 +7,4 @@ export type SectionForm = {
     index: number,
 }
 
-export const initialSectionForms: SectionForm[] = initialSectionIds.map((id, index) => ({ id, inUse: true, isCollapse: true, index }));
+export const initialSectionForms: SectionForm[] = initialSectionIds.map((id, index) => ({ id, inUse: true, isCollapse: false, index }));

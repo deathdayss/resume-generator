@@ -1,0 +1,22 @@
+.buttonContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    .CollapseButton {
+        width: 8.3rem;
+        margin-right: 0.5rem !important;
+        text-transform: none !important;
+    }
+    .pdfViewButton {
+        margin-right: 0.5rem !important;
+        text-transform: none !important;
+    }
+    .layoutButton {
+        margin-right: 0.5rem !important;
+        text-transform: none !important;
+    }
+
+    .selectLang {
+        margin-left: auto;
+    }
+}

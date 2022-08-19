@@ -7,12 +7,9 @@ interface DetailFormProps extends SectionFormProps {
 
 }
 
-const DetailForm = ({ sectionForm }: DetailFormProps) => {
+const DetailForm = ({ sectionId }: DetailFormProps) => {
     const [useInput, setUseInput] = useState(true);
     return <FormCard>
-        <div onClick={() => {
-            setUseInput(!useInput)
-        }}>change item</div>
         {/* {useInput ? <Form.Item
             label="Username"
             name="username"

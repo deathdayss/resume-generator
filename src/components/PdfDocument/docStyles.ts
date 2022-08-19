@@ -8,23 +8,25 @@ const fontWeight: FontWeight = 'bold';
 const docStyles = {
     page: {
         padding: '0.75in',
-        fontSize: 12,
+        fontSize: '12',
         fontFamily: fontFamily[0],
     },
     section: {
-        marginBottom: 15,
+        marginBottom: '15',
     },
     title: {
-        fontSize: 17,
-        marginBottom: 5
+        fontSize: '17',
+        marginBottom: '5'
     },
     boldText: {
         fontWeight
     },
     sectionItem: {
-        marginBottom: 10,
+        marginBottom: '10',
     }
 };
+
+export type DocStyles = typeof docStyles;
 
 export const DocStylesContext = React.createContext(docStyles);
 

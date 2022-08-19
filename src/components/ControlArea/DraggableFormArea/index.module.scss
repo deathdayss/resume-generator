@@ -4,14 +4,17 @@
     background-color: rgb(240, 240, 240);
     border: 0.0625rem solid rgb(220, 220, 220);
     .panelTitle {
-        font-size: 2rem;
+        font-size: 1.6rem;
         margin-left: 0.5rem;
+    }
+    .inUseCheckbox {
+        margin-left: auto;
+        margin-right: 1rem;
     }
     .dragingHandler {
         display: inline-block;
-        width: 24px;
-        height: 24px;
-        margin-left: auto;
+        width: 1.5rem;
+        height: 1.5rem;
         margin-right: 1rem;
         color: gray;
         cursor: grab;

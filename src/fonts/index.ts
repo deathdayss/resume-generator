@@ -30,6 +30,8 @@ Font.register({
     ]
 })
 
+export const chiFonts = ['Deng-xian'];
+
 const fontFamily = ['Arial', 'Deng-xian', 'Times-new-roman']
 
 export default fontFamily;

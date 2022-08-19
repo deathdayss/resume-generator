@@ -11,8 +11,8 @@ import {
 } from 'react-sortable-hoc';
 import React, { ReactNode, useContext, useMemo, useState } from "react";
 import { CollapseAll, CollapsePanel } from "@/components/ControlArea/Collapse";
-import { changeFormIndex, changeFormPropValue } from "../helper/helper";
-import { IconButton, IconButtonProps, styled } from "@mui/material";
+import { changeFormIndex, changeFormPropValue } from "../../helper/helper";
+import { Checkbox, IconButton, IconButtonProps, styled } from "@mui/material";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DragIndicatorIcon from '@material-ui/icons/DragIndicator';
 import styles from './index.module.scss';
@@ -44,19 +44,35 @@ const CollapseButton = styled((props: ExpandMoreProps) => {
     }),
 }));
 
+const getFormPanel = (id: SectionId, last: boolean) => {
+    switch (id) {
+        case 'Detail':
+            return <DetailForm sectionId={id} />;
+        case 'Experience':
+            return;
+        case 'Education':
+            return;
+        case 'Skill':
+            return;
+        case 'Other':
+            return;
+    }
+}
+
 const SectionFormPanel = ({ value, sectionForms, setSectionForms }: SectionFormPanelProps) => {
     const langCode = useContext(LanguageContext);
+    const collapseHandle = () => {
+        if (!value.inUse) {
+            return;
+        }
+        setSectionForms(changeFormPropValue(value, sectionForms, { isCollapse: !value.isCollapse }));
+    }
     return <div>
         <div className={styles.panelHeader}>
             <CollapseButton
-                expand={value.isCollapse}
-                onClick={() => {
-                    if (!value.inUse) {
-                        return;
-                    }
-                    setSectionForms(changeFormPropValue(value, sectionForms, 'isCollapse', !value.isCollapse));
-                }}
-                aria-expanded={value.isCollapse}
+                expand={!value.isCollapse}
+                onClick={collapseHandle}
+                aria-expanded={!value.isCollapse}
                 aria-label="show more"
             >
                 <ExpandMoreIcon />
@@ -64,11 +80,13 @@ const SectionFormPanel = ({ value, sectionForms, setSectionForms }: SectionFormP
             <span className={styles.panelTitle}>
                 {localization[langCode].form.title[value.id]}
             </span>
+            <Checkbox className={styles.inUseCheckbox} checked={value.inUse} onChange={(_e, checked) => {
+                setSectionForms(changeFormPropValue(value, sectionForms, { inUse: checked, isCollapse: !checked }));
+            }} />
             <DragHandle />
-            <button type="submit">submit form</button>
         </div>
         <CollapsePanel collapseId={value.id} timeout="auto" unmountOnExit>
-            <DetailForm sectionForm={value} />
+            {value.inUse ? <DetailForm sectionId={value.id} /> : null}
         </CollapsePanel>
     </div>
 }
@@ -93,12 +111,13 @@ const DraggableFormArea = ({ sectionForms, setSectionForms }: DraggableFormAreaP
     const onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
         setSectionForms(changeFormIndex(sectionForms, oldIndex, newIndex));
     };
-    return <CollapseAll collapseState={useMemo(() => sectionForms.reduce<SectionId[]>((result, sectionForm) => {
-        if (sectionForm.isCollapse) {
+    const collapseState = useMemo(() => sectionForms.reduce<SectionId[]>((result, sectionForm) => {
+        if (!sectionForm.isCollapse) {
             result.push(sectionForm.id);
         }
         return result;
-    }, []), [sectionForms])}>
+    }, []), [sectionForms]);
+    return <CollapseAll collapseState={collapseState}>
         <SortableList onSortEnd={onSortEnd} useDragHandle >
             {sectionForms.map((sectionForm, index) => (
                 <SortableItem key={`item-${sectionForm.id}`}

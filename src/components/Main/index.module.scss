@@ -1,7 +1,11 @@
 .main {
     display: flex;
-    flex-direction: row-reverse;
+    .leftFlexItem {
+        // flex-basis: 50%;
+        min-height: 100vh;
+        flex: 1;
+    }
     .rightFlexItem {
-        width: 50%;
+        flex: 1;
     }
 }

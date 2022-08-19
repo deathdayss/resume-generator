@@ -1,7 +1,11 @@
-.container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 50.1%;
+.PdfViewContainer {
+    height: 99.5vh;
+    padding-right: 0.2rem;
+    .resizableSide:hover {
+        background-color: rgb(122, 164, 255);
+    }
+}
+
+.PdfViewContainer > div {
+    height: 100% !important;
 }

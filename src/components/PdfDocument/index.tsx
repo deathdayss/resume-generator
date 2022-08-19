@@ -11,7 +11,7 @@ import SkillSection from './SkillSection';
 
 interface ResumeDocProps {
     styleArgs: object
-    sectionInfos: SectionInfo[]
+    sectionInfos: SectionInfo[],
 }
 
 const ResumeDoc = (
@@ -20,7 +20,17 @@ const ResumeDoc = (
     const styles = useMemo(() => {
         return StyleSheet.create({ ...docStyles, ...styleArgs })
     }, [styleArgs]);
-    return <Document >
+    const title = useMemo(() => {
+        let title = 'Resume Title';
+        for (const sectionInfo of sectionInfos) {
+            const personName = (sectionInfo.textData as Detail).personName
+            if (sectionInfo.id === 'Detail' && personName) {
+                title = `${personName}-resume`
+            }
+        }
+        return title;
+    }, [sectionInfos])
+    return <Document title={title}>
         <DocStylesContext.Provider value={styles}>
             <Page size="A4" style={styles.page}>
                 {sectionInfos.map((sectionInfo, index) => {
