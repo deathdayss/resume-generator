@@ -1,4 +1,13 @@
+import localization, { Language } from "@/data/localization";
+import { Detail, SectionInfo } from "@/data/resumeData";
 import { SectionForm } from "../ControlArea/dataType";
+
+export interface UsePDFInstance {
+    loading: boolean;
+    blob: Blob | null;
+    url: string | null;
+    error: string | null;
+}
 
 export const changePropsValue = (targetObj: { [name: string]: any }, repalceObj: { [name: string]: any }) => {
     const newTargetObj = { ...targetObj }
@@ -52,4 +61,34 @@ export const changeFormPropValue = (sectionForm: SectionForm, sectionForms: Sect
     const newSectionForms = [...sectionForms];
     newSectionForms[sectionForm.index] = { ...sectionForm, ...valueObj };
     return newSectionForms;
+}
+
+export const downloadFile = (jsonFile: object, fileName: string) => {
+
+    const json = JSON.stringify(jsonFile, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const href = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = href;
+    link.download = fileName + ".json";
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    URL.revokeObjectURL(href);
+}
+
+export const validateJSON = (jsonContent: any) => {
+    return true;
+}
+
+export const getPdfTitle = (sectionInfos: SectionInfo[], langCode: Language) => {
+    let title = localization[langCode].resumeTitle;
+    for (const sectionInfo of sectionInfos) {
+        if (sectionInfo.id === 'Detail' && (sectionInfo.textData as Detail).personName) {
+            title = `${(sectionInfo.textData as Detail).personName}-${localization[langCode].resume}`
+        }
+    }
+    return title;
 }

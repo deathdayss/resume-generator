@@ -1,38 +1,26 @@
+import { LanguageContext } from '@/data/localization';
 import { Detail, EducationInfo, ExperienceInfo, OtherInfo, SectionInfo, SkillInfo } from '@/data/resumeData';
 import { Document, Page, StyleSheet } from '@react-pdf/renderer';
-import React from 'react';
 import { useMemo } from 'react';
 import DetailSection from './DetailSection';
-import docStyles, { DocStylesContext } from './docStyles';
+import { DocStyles, DocStylesContext } from './docStyles';
 import EducationSection from './EducationSection';
 import ExperienceSection from './ExperienceSection';
 import OtherSection from './OtherSection';
 import SkillSection from './SkillSection';
 
 interface ResumeDocProps {
-    styleArgs: object
+    styleArgs: DocStyles
     sectionInfos: SectionInfo[],
+    title: string
 }
 
 const ResumeDoc = (
-    { sectionInfos, styleArgs }: ResumeDocProps
+    { sectionInfos, styleArgs, title }: ResumeDocProps
 ) => {
-    const styles = useMemo(() => {
-        return StyleSheet.create({ ...docStyles, ...styleArgs })
-    }, [styleArgs]);
-    const title = useMemo(() => {
-        let title = 'Resume Title';
-        for (const sectionInfo of sectionInfos) {
-            const personName = (sectionInfo.textData as Detail).personName
-            if (sectionInfo.id === 'Detail' && personName) {
-                title = `${personName}-resume`
-            }
-        }
-        return title;
-    }, [sectionInfos])
     return <Document title={title}>
-        <DocStylesContext.Provider value={styles}>
-            <Page size="A4" style={styles.page}>
+        <DocStylesContext.Provider value={styleArgs}>
+            <Page size="A4" style={styleArgs.page}>
                 {sectionInfos.map((sectionInfo, index) => {
                     const last = index === sectionInfos.length - 1;
                     const { id, textData, templateId } = sectionInfo
