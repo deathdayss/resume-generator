@@ -15,6 +15,13 @@ const eng = {
         formatError: 'Invalid Data Structure of the .json File'
     },
     form: {
+        label: {
+            title: 'The Section Title',
+            personName: 'Name',
+            visa: 'Visa State',
+            phone: 'Phone Number',
+            email: 'Email'
+        },
         button: {
             collapseAll: 'Collapse All',
             expandAll: 'Expand All',
@@ -83,6 +90,13 @@ const chi: localizationContent = {
         formatError: '.json文件数据结构不正确'
     },
     form: {
+        label: {
+            title: '板块名称',
+            personName: '姓名',
+            visa: '签证状态',
+            phone: '电话',
+            email: '电子邮件'
+        },
         button: {
             collapseAll: '收起全部',
             expandAll: '展开全部',

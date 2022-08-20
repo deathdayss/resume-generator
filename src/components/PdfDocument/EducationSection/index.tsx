@@ -28,7 +28,7 @@ const EducationView = ({ education, last }: EducationViewProps) => {
             <Text>{education.duration ? education.duration : commonLocal.duration}</Text>
             <Text>{`    ${periodText}`}</Text>
         </Text>
-        {education.GPA === undefined ? null : <Text style={docStyles.boldText}>GPA: {education.GPA ? education.GPA : educationLocal.yourGPA}</Text>}
+        {education.GPA === null ? null : <Text style={docStyles.boldText}>GPA: {education.GPA ? education.GPA : educationLocal.yourGPA}</Text>}
         {education.comments.map((comment, index) => <Text key={index}>
             <Text style={docStyles.boldText}>·</Text>
             <Text>{` ${comment ? comment : commonLocal.yourComment}`}</Text>

@@ -1,7 +1,7 @@
 import { LanguageContext } from '@/data/localization';
-import { Detail, EducationInfo, ExperienceInfo, OtherInfo, SectionInfo, SkillInfo } from '@/data/resumeData';
+import { Detail, docDataToFormData, DocFormDataContext, EducationInfo, ExperienceInfo, OtherInfo, SectionInfo, SkillInfo } from '@/data/resumeData';
 import { Document, Page, StyleSheet } from '@react-pdf/renderer';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import DetailSection from './DetailSection';
 import { DocStyles, DocStylesContext } from './docStyles';
 import EducationSection from './EducationSection';
@@ -9,15 +9,9 @@ import ExperienceSection from './ExperienceSection';
 import OtherSection from './OtherSection';
 import SkillSection from './SkillSection';
 
-interface ResumeDocProps {
-    styleArgs: DocStyles
-    sectionInfos: SectionInfo[],
-    title: string
-}
 
-const ResumeDoc = (
-    { sectionInfos, styleArgs, title }: ResumeDocProps
-) => {
+const ResumeDoc = () => {
+    const { sectionInfos, styleArgs, title } = useContext(DocFormDataContext);
     return <Document title={title}>
         <DocStylesContext.Provider value={styleArgs}>
             <Page size="A4" style={styleArgs.page}>

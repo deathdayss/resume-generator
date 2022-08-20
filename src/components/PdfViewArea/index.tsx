@@ -29,7 +29,6 @@ const PdfViewArea = ({ src, resizableStateRef, setResizableStateRef }: PdfViewAr
             if (resizableContainer) {
                 let containerWidth = Math.max(resizableContainer.clientWidth, minWidth);
                 containerWidth = Math.min(resizableContainer.clientWidth, maxWidth);
-                console.log(containerWidth);
                 setResizableStateRef({
                     useDragging: resizableStateRef.current.useDragging,
                     width: containerWidth

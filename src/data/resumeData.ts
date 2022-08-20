@@ -1,12 +1,13 @@
 import { SectionForm } from "@/components/ControlArea/dataType"
 import { DocStyles, DocStylesKey, FormStyles, FormStylesKey } from "@/components/PdfDocument/docStyles"
+import React from "react"
 
 export type Period = [string, string]
 export interface Detail {
     personName: string,
-    visa: string | undefined,
-    phone: string | undefined,
-    email: string | undefined
+    visa: string | null,
+    phone: string | null,
+    email: string | null
 }
 
 export interface Experience {
@@ -20,7 +21,7 @@ export interface Experience {
 export interface Education {
     instituionName: string,
     degree: string,
-    GPA: string | undefined,
+    GPA: string | null,
     period: Period,
     duration: string,
     comments: string[]
@@ -136,17 +137,16 @@ export const FormDataToDocData = (sectionForms: SectionForm[]) => {
     return sectionInfos;
 }
 
-function mergeKeyValue<K extends keyof T, T, F extends keyof M, M>(target: T, key: K, modifier: M, modifierKey?: F) {
-    if (!modifierKey) {
-        modifierKey = key as unknown as F;
-    }
-    target[key] = { ...target[key], ...modifier[modifierKey as F] };
+export interface DocFormDataContextProps {
+    sectionForms: SectionForm[], 
+    setSectionForms: (sectionForms: SectionForm[]) => void, 
+    sectionInfos: SectionInfo[],
+    setSectionInfos: (sectionInfos: SectionInfo[]) => void,
+    styleArgs: DocStyles,
+    setStylesArgs: (styleArgs: DocStyles) => void,
+    formStyleArgs: FormStyles,
+    setFormStyleArgs: (formStyleArgs: FormStyles) => void,
+    title: string
 }
 
-export const mergeFormToDocStyles = (formStyles: FormStyles, docStyles: DocStyles) => {
-    const newDoctyles = { ...docStyles };
-    for (const key in formStyles) {
-        mergeKeyValue(newDoctyles, key as DocStylesKey, formStyles);
-    }
-    return newDoctyles;
-}   
+export const DocFormDataContext = React.createContext<DocFormDataContextProps>({} as DocFormDataContextProps)

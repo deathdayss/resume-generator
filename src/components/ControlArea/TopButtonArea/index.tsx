@@ -1,50 +1,33 @@
-import { ResizableState, ResizableStateRef } from "@/components/PdfViewArea";
+import { ResizableState } from "@/components/PdfViewArea";
 import localization, { Language, LanguageContext } from "@/data/localization";
 import { ForwardOutlined, UploadOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Button } from "@mui/material";
-import { Select, UploadProps, message } from "antd";
-import { Dispatch, SetStateAction, useContext, useState } from "react";
+import { Select, message } from "antd";
+import { useContext, useState } from "react";
 import { animated, useSpring } from "react-spring";
-import { SectionForm } from "../dataType";
 import { changeAllPropsValue, downloadFile, UsePDFInstance, validateJSON } from "../../helper/helper";
 import styles from './index.module.scss';
-import { PDFDownloadLink, Document } from "@react-pdf/renderer";
-import { SectionInfo } from "@/data/resumeData";
-import { DocStyles, FormStyles } from "@/components/PdfDocument/docStyles";
+import { DocFormDataContext } from "@/data/resumeData";
 
 const { Option } = Select;
 
 interface TopButtonAreaProps {
-    sectionForms: SectionForm[],
-    setSectionForms: (arg: SectionForm[]) => void,
     setLangCode: (arg: Language) => void
     setResizableStateRef: (arg: ResizableState) => void,
     setIsPdfViewOpen: (isPdfViewOpen: boolean) => void,
     isPdfViewOpen: boolean,
-    sectionInfos: SectionInfo[],
-    setSectionInfos: (sectionInfos: SectionInfo[]) => void,
-    title: string,
     instanceDoc: UsePDFInstance,
-    formStyleArgs: FormStyles,
-    setFormStyleArgs: (formStyleArgs: FormStyles) => void,
-    applyFormStyleArgs: () => void,
 }
 
-const TopButtonArea = ({ sectionForms,
-    setSectionForms,
+const TopButtonArea = ({
     setLangCode,
     setResizableStateRef,
     setIsPdfViewOpen,
     isPdfViewOpen,
-    sectionInfos,
-    setSectionInfos,
-    title,
     instanceDoc,
-    formStyleArgs,
-    setFormStyleArgs,
-    applyFormStyleArgs
 }: TopButtonAreaProps) => {
     const langCode = useContext(LanguageContext);
+    const {sectionForms, setSectionForms, title} = useContext(DocFormDataContext);
     const buttonLocal = localization[langCode].form.button;
     const messageLocal = localization[langCode].message;
     const [willCollapse, setWillCollapse] = useState(true);

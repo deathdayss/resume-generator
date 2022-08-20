@@ -1,37 +1,31 @@
 import FormCard from "../FormCard";
 import { SectionFormProps } from "../type";
-import { Checkbox, Form, Input } from 'antd';
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useDestructFormInput, useSectionForm } from "@/hooks";
+import localization, { LanguageContext } from "@/data/localization";
+import styles from './index.module.scss';
+import { TextField } from "@mui/material";
+// import { Input } from "@mui/material";
 
-interface DetailFormProps extends SectionFormProps {
+const DetailForm = ({ sectionForm }: SectionFormProps) => {
+    const { index, sectionForms, setSectionForms, last } = useSectionForm(sectionForm);
+    const langCode = useContext(LanguageContext);
+    const labelLocal = localization[langCode].form.label;
+    const valueOnChange = useDestructFormInput(sectionForms, setSectionForms);
 
-}
-
-const DetailForm = ({ sectionId }: DetailFormProps) => {
-    const [useInput, setUseInput] = useState(true);
-    return <FormCard>
-        {/* {useInput ? <Form.Item
-            label="Username"
-            name="username"
-            rules={[{ required: true, message: 'Please input your username!' }]}
+    return <FormCard last={last}>
+        <div className={styles.formContainer}>
+            <div>
+                <TextField label={labelLocal.personName} {...valueOnChange([index, 'textData', 'personName'])} variant='filled' />
+            </div>
+            <div>456</div>
+        </div>
+        {/* <Form.Item
+            label={labelLocal.personName}
+            name={labelLocal.personName}
         >
-            <Input />
-        </Form.Item> : <Input />} */}
-        {useInput ? <Form.Item
-            label="Username"
-            name="username"
-            rules={[{ required: true, message: 'Please input your username!' }] }
-        >
-            <Input  />
-        </Form.Item> : null}
-        <Form.Item
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
-        >
-            <Input.Password />
-        </Form.Item>
-        <div>Detail Form</div>
+            <Input {...valueOnChange([index, 'textData', 'personName'])} />
+        </Form.Item> */}
     </FormCard >
 }
 

@@ -4,6 +4,7 @@
     background-color: rgb(240, 240, 240);
     border: 0.0625rem solid rgb(220, 220, 220);
     .panelTitle {
+        user-select: none;
         font-size: 1.7rem;
         margin-left: 0.5rem;
     }

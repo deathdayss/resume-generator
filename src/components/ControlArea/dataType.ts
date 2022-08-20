@@ -9,4 +9,41 @@ export type SectionForm = {
     index: number,
 }
 
-export const initialSectionForms: SectionForm[] = initialSectionIds.map((id, index) => ({ id, inUse: true, textData: {title: 'initialForm', items: []},templateId: '', isCollapse: false, index }));
+const sectionFormsDelegate = [
+    {
+        textData: {
+            personName: '',
+            visa: '',
+            phone: '',
+            email: ''
+        },
+    },
+    {
+        textData: {
+            title: '',
+            items: []
+        }
+    },
+    {
+        textData: {
+            title: '',
+            items: []
+        }
+    },
+    {
+        textData: {
+            title: '',
+            items: []
+        }
+    },
+    {
+        title: '',
+        comment: ''
+    },
+] as SectionForm[];
+
+initialSectionIds.forEach((id, index) => {
+    sectionFormsDelegate[index] = { ...sectionFormsDelegate[index], id, templateId: 'default', inUse: true, isCollapse: false, index };
+})
+
+export const initialSectionForms = sectionFormsDelegate;

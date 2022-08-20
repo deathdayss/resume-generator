@@ -9,12 +9,15 @@ export interface UsePDFInstance {
     error: string | null;
 }
 
-export const changePropsValue = (targetObj: { [name: string]: any }, repalceObj: { [name: string]: any }) => {
+interface StringKeyObj {
+    [name: string]: any
+}
+
+export const changePropsValue = (targetObj: StringKeyObj, repalceObj: StringKeyObj) => {
     const newTargetObj = { ...targetObj }
     for (let key in repalceObj) {
         newTargetObj[key] = { ...newTargetObj[key], ...repalceObj[key] }
     }
-    console.log('newTargetObj', newTargetObj)
     return newTargetObj;
 }
 
@@ -91,4 +94,10 @@ export const getPdfTitle = (sectionInfos: SectionInfo[], langCode: Language) => 
         }
     }
     return title;
+}
+
+export const setArrayElement = <T>(element: T, index: number, elementArray: T[], setElementArray: (arg: T[]) => void) => {
+    const newElementArray = [...elementArray];
+    newElementArray[index] = element;
+    setElementArray(newElementArray);
 }

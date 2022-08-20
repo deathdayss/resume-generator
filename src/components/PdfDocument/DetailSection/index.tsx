@@ -16,13 +16,13 @@ const DetailSection = ({ detail, templateId, last = false }: DetailSectionProps)
     const emailPhoneText = useMemo(() => {
         const emailText = detail.email ? detail.email : detailLocal.yourEmail;
         const phoneText = detail.phone ? detail.phone : detailLocal.yourPhone;
-        if (detail.email !== undefined && detail.phone === undefined) {
+        if (detail.email !== null && detail.phone === null) {
             return emailText;
         }
-        else if (detail.email === undefined && detail.phone !== undefined) {
+        else if (detail.email === null && detail.phone !== null) {
             return phoneText;
         }
-        else if (detail.email !== undefined && detail.phone !== undefined) {
+        else if (detail.email !== null && detail.phone !== null) {
             return `${emailText} | ${phoneText}`
         }
         else {
@@ -31,7 +31,7 @@ const DetailSection = ({ detail, templateId, last = false }: DetailSectionProps)
     }, [detail.email, detail.phone, detailLocal.yourEmail, detailLocal.yourPhone]);
 
     return <Section title={detail.personName ? detail.personName : detailLocal.yourName} last={last}>
-        {detail.visa === undefined ? null : <Text>{detail.visa ? detail.visa : detailLocal.yourVisa}</Text>}
+        {detail.visa === null ? null : <Text>{detail.visa ? detail.visa : detailLocal.yourVisa}</Text>}
         {emailPhoneText ? <Text>{emailPhoneText}</Text> : null}
     </Section>
 }

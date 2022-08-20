@@ -1,4 +1,4 @@
-import { initialSectionIds, SectionId } from "@/data/resumeData";
+import { DocFormDataContext, SectionId } from "@/data/resumeData";
 import { SectionForm } from "../dataType";
 import {
     SortableContainer,
@@ -28,9 +28,7 @@ interface ExpandMoreProps extends IconButtonProps {
 }
 
 interface SectionFormPanelProps {
-    value: SectionForm,
-    sectionForms: SectionForm[],
-    setSectionForms: (arg: SectionForm[]) => void
+    value: SectionForm
 }
 
 const CollapseButton = styled((props: ExpandMoreProps) => {
@@ -44,23 +42,24 @@ const CollapseButton = styled((props: ExpandMoreProps) => {
     }),
 }));
 
-const getFormPanel = (id: SectionId, last: boolean) => {
-    switch (id) {
+const getFormPanel = (sectionForm: SectionForm) => {
+    switch (sectionForm.id) {
         case 'Detail':
-            return <DetailForm sectionId={id} />;
+            return <DetailForm sectionForm={sectionForm} />;
         case 'Experience':
-            return;
+            return null;
         case 'Education':
-            return;
+            return null;
         case 'Skill':
-            return;
+            return null;
         case 'Other':
-            return;
+            return null;
     }
 }
 
-const SectionFormPanel = ({ value, sectionForms, setSectionForms }: SectionFormPanelProps) => {
+const SectionFormPanel = ({ value }: SectionFormPanelProps) => {
     const langCode = useContext(LanguageContext);
+    const { sectionForms, setSectionForms } = useContext(DocFormDataContext);
     const collapseHandle = () => {
         if (!value.inUse) {
             return;
@@ -86,7 +85,7 @@ const SectionFormPanel = ({ value, sectionForms, setSectionForms }: SectionFormP
             <DragHandle />
         </div>
         <CollapsePanel collapseId={value.id} timeout="auto" unmountOnExit>
-            {value.inUse ? <DetailForm sectionId={value.id} /> : null}
+            {value.inUse ? getFormPanel(value) : null}
         </CollapsePanel>
     </div>
 }
@@ -101,16 +100,11 @@ const SortableList: React.ComponentClass<SortableContainerProps & SortableListPr
     return <div>{children}</div>;
 });
 
-interface DraggableFormAreaProps {
-    sectionForms: SectionForm[],
-    setSectionForms: (arg: SectionForm[]) => void
-}
-
-const DraggableFormArea = ({ sectionForms, setSectionForms }: DraggableFormAreaProps) => {
-
-    const onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
+const DraggableFormArea = () => {
+    const { sectionForms, setSectionForms } = useContext(DocFormDataContext);
+    function onSortEnd({ oldIndex, newIndex }: SortEnd) {
         setSectionForms(changeFormIndex(sectionForms, oldIndex, newIndex));
-    };
+    }
     const collapseState = useMemo(() => sectionForms.reduce<SectionId[]>((result, sectionForm) => {
         if (!sectionForm.isCollapse) {
             result.push(sectionForm.id);
@@ -123,8 +117,6 @@ const DraggableFormArea = ({ sectionForms, setSectionForms }: DraggableFormAreaP
                 <SortableItem key={`item-${sectionForm.id}`}
                     index={index}
                     value={sectionForm}
-                    sectionForms={sectionForms}
-                    setSectionForms={setSectionForms}
                 />
             ))}
         </SortableList>
