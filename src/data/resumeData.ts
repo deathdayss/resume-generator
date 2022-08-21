@@ -15,7 +15,7 @@ export interface Experience {
     position: string,
     period: Period,
     duration: string,
-    comments: string[]
+    descriptions: string[]
 }
 
 export interface Education {
@@ -24,7 +24,7 @@ export interface Education {
     GPA: string | null,
     period: Period,
     duration: string,
-    comments: string[]
+    descriptions: string[]
 }
 
 export interface Skill {
@@ -49,7 +49,7 @@ export interface SkillInfo {
 
 export interface OtherInfo {
     title: string,
-    comment: string
+    description: string
 }
 
 export type TemplateId = string | undefined
@@ -104,7 +104,7 @@ export const initialSectionInfos: SectionInfo[] = [
         id: 'Other',
         textData: {
             title: '',
-            comment: ''
+            description: ''
         },
         templateId: 'default'
     }

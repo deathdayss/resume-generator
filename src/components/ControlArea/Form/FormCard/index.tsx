@@ -21,7 +21,7 @@ const FormCard = ({ children, index, valueOnChange, last, hasTitle = true }: For
     const templateLocal = localization[langCode].form.template;
     return <div className={styles.FormCard} style={{
         borderBottom: last ? '0.0625rem solid rgb(220, 220, 220)' : 'none'
-    }}>
+    }} >
         <div className={styles.line}>
             <div>
                 <SelectStyle label={labelLocal.template} selectWidth='11.8rem' {...valueOnChange([index, 'templateId'])}>

@@ -9,6 +9,28 @@ export type SectionForm = {
     index: number,
 }
 
+export const sectionItemDelegate = {
+    experience: {
+        companyName: '',
+        position: '',
+        period: ['', ''],
+        duration: '',
+        descriptions: ['']
+    },
+    education: {
+        instituionName: '',
+        degree: '',
+        GPA: '',
+        period: ['', ''],
+        duration: '',
+        descriptions: ['']
+    },
+    skill: {
+        skillName: '',
+        proficiency: ''
+    }
+}
+
 const sectionFormsDelegate = [
     {
         textData: {
@@ -21,24 +43,24 @@ const sectionFormsDelegate = [
     {
         textData: {
             title: '',
-            items: []
+            items: [sectionItemDelegate.experience]
         }
     },
     {
         textData: {
             title: '',
-            items: []
+            items: [sectionItemDelegate.education]
         }
     },
     {
         textData: {
             title: '',
-            items: []
+            items: [sectionItemDelegate.skill]
         }
     },
     {
         title: '',
-        comment: ''
+        description: ''
     },
 ] as SectionForm[];
 

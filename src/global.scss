@@ -1,4 +1,8 @@
-html {
+body {
   overflow-y: scroll;
   overflow-x: hidden;
+}
+
+button {
+  text-transform: none !important;
 }

@@ -1,0 +1,21 @@
+.dragingHandler {
+    display: inline-flex;
+    align-items: center;
+    color: gray;
+    cursor: grab;
+    transition: color 0.3s;
+}
+.dragingHandler:hover {
+    color: rgb(46, 46, 46);
+}
+
+.itemDraggingHandler {
+    display: inline-block;
+    color: gray;
+    cursor: grab;
+    transition: color 0.3s;
+}
+
+.muiDraggingHandler:hover {
+    color: rgb(46, 46, 46);
+}

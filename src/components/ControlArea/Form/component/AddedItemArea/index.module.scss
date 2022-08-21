@@ -1,0 +1,32 @@
+.itemCard {
+    margin-top: 2rem;
+    border: 0.1rem solid rgb(220, 220, 220);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    position: relative;
+    background-color: white;
+    .dragingHandler {
+        position: absolute;
+        top: 0.2rem;
+        left: 0.45rem;
+    }
+    .deleteButtonLine {
+        display: flex;
+        flex-direction: row-reverse;
+    }
+    .line {
+        display: flex;
+        align-items: center;
+        height: 3.5rem;
+    }
+    .line > div:not(:last-child) {
+        margin-right: 2rem;
+    }
+    .line > div {
+        flex: 1;
+    }    
+}
+
+.itemCard > div:not(:last-child) {
+    margin-bottom: 2rem;
+}

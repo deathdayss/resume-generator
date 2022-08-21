@@ -11,17 +11,14 @@ import {
 } from 'react-sortable-hoc';
 import React, { ReactNode, useContext, useMemo, useState } from "react";
 import { CollapseAll, CollapsePanel } from "@/components/ControlArea/Collapse";
-import { changeFormIndex, changeFormPropValue } from "../../helper/helper";
+import { changeArrayIndex, changeFormPropValue } from "../../helper/helper";
 import { Checkbox, IconButton, IconButtonProps, styled } from "@mui/material";
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import DragIndicatorIcon from '@material-ui/icons/DragIndicator';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import styles from './index.module.scss';
 import localization, { LanguageContext } from "@/data/localization";
 import DetailForm from '../Form/DetailForm';
-
-const text = 'panel text'
-
-const DragHandle = SortableHandle(() => <span className={styles.dragingHandler}><DragIndicatorIcon /></span>);
+import ExperienceForm from "../Form/ExperienceForm";
+import { DragHandle } from "../Draggable";
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -47,7 +44,7 @@ const getFormPanel = (sectionForm: SectionForm) => {
         case 'Detail':
             return <DetailForm sectionForm={sectionForm} />;
         case 'Experience':
-            return null;
+            return <ExperienceForm sectionForm={sectionForm} />;
         case 'Education':
             return null;
         case 'Skill':
@@ -60,6 +57,7 @@ const getFormPanel = (sectionForm: SectionForm) => {
 const SectionFormPanel = ({ value }: SectionFormPanelProps) => {
     const langCode = useContext(LanguageContext);
     const { sectionForms, setSectionForms } = useContext(DocFormDataContext);
+    const titleLocal = localization[langCode].form.title;
     const collapseHandle = () => {
         if (!value.inUse) {
             return;
@@ -77,12 +75,12 @@ const SectionFormPanel = ({ value }: SectionFormPanelProps) => {
                 <ExpandMoreIcon />
             </CollapseButton>
             <span className={styles.panelTitle}>
-                {localization[langCode].form.title[value.id]}
+                {titleLocal[value.id.toLocaleLowerCase() as keyof typeof titleLocal]}
             </span>
             <Checkbox className={styles.inUseCheckbox} checked={value.inUse} onChange={(_e, checked) => {
                 setSectionForms(changeFormPropValue(value, sectionForms, { inUse: checked, isCollapse: !checked }));
             }} />
-            <DragHandle />
+            <DragHandle className={styles.dragingHandler} />
         </div>
         <CollapsePanel collapseId={value.id} timeout="auto" unmountOnExit>
             {getFormPanel(value)}
@@ -96,14 +94,14 @@ interface SortableListProps {
     children: ReactNode
 }
 
-const SortableList: React.ComponentClass<SortableContainerProps & SortableListProps, any> = SortableContainer(({ children }: SortableListProps) => {
+export const SortableList: React.ComponentClass<SortableContainerProps & SortableListProps, any> = SortableContainer(({ children }: SortableListProps) => {
     return <div>{children}</div>;
 });
 
 const DraggableFormArea = () => {
     const { sectionForms, setSectionForms } = useContext(DocFormDataContext);
-    function onSortEnd({ oldIndex, newIndex }: SortEnd) {
-        setSectionForms(changeFormIndex(sectionForms, oldIndex, newIndex));
+    const onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
+        setSectionForms(changeArrayIndex(sectionForms, oldIndex, newIndex));
     }
     const collapseState = useMemo(() => sectionForms.reduce<SectionId[]>((result, sectionForm) => {
         if (!sectionForm.isCollapse) {

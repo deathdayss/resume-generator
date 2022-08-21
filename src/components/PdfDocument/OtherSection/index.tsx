@@ -14,9 +14,9 @@ const OtherSection = ({ other, templateId, last = false }: OtherSectionProps) =>
     if (other === undefined) {
         return null;
     }
-    const { title, comment } = other;
+    const { title, description } = other;
     return <Section title={title ? title : localization[langCode].document.other.title} last={last}>
-        <Text>{comment ? comment : localization[langCode].document.common.yourComment}</Text>
+        <Text>{description ? description : localization[langCode].document.common.yourDescription}</Text>
     </Section>
 }
 

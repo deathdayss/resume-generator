@@ -8,13 +8,15 @@ const eng = {
     name: 'English',
     resume: 'Resume',
     resumeTitle: 'Resume-Title',
-    message: {
-        fileExtensionError: 'Incorrect File Extension',
-        fileUploadSuccess: 'Upload the .json File Successfully',
-        parseError: '.json file parsing error',
-        formatError: 'Invalid Data Structure of the .json File'
-    },
     form: {
+        message: {
+            fileExtensionError: 'Incorrect File Extension!',
+            formatError: 'Invalid Data Structure of the .json File!',
+            documentFailLoad: 'The PDF document fails to be loaded!',
+            fileUploadSuccess: 'Upload the .json File Successfully',
+            parseError: '.json file parsing error',
+            documentLoading: 'The PDF document is still loading',
+        },
         template: {
             default: 'default'
         },
@@ -25,6 +27,22 @@ const eng = {
             visa: 'Visa State',
             phone: 'Phone Number',
             email: 'Email',
+            companyName: 'Company Name',
+            position: 'Position',
+            duration: 'duration',
+            startTime: 'Start Time',
+            endTime: 'End Time',
+            description: 'Description',
+        },
+        modal: {
+            experienceDelete: 'Delete this work experience',
+            educationDelete: 'Delete this educational experience',
+            experienceAdd: 'Add a new work experience?',
+            educationAdd: 'Add a new educational experience?',
+            addDescription: 'Add a new description?',
+            deleteDescription: 'Delete this description?',
+            no: 'No',
+            yes: 'Yes',
         },
         button: {
             collapseAll: 'Collapse All',
@@ -36,14 +54,17 @@ const eng = {
             save: 'Save',
             downloadPdf: 'Download PDF',
             downloadJson: 'Download JSON',
-            uploadJson: 'Upload JSON'
+            uploadJson: 'Upload JSON',
+            add: 'Add',
+            delete: 'Delete',
+            addDescription: 'Add a Description',
         },
         title: {
-            Detail: 'Personal Detail',
-            Experience: 'Experience',
-            Education: 'Education',
-            Skill: 'Skill',
-            Other: 'Other'
+            detail: 'Personal Detail',
+            experience: 'Experience',
+            education: 'Education',
+            skill: 'Skill',
+            other: 'Other'
         }
     },
     document: {
@@ -51,7 +72,7 @@ const eng = {
             duration: '[Duration in Months or Years]',
             startDate: '[Start Date]',
             endDate: '[End Date]',
-            yourComment: '[Your Comment]'
+            yourDescription: '[Your Description]'
         },
         detail: {
             yourName: '[Your Name]',
@@ -87,13 +108,25 @@ const chi: localizationContent = {
     name: '中文',
     resume: '简历',
     resumeTitle: '简历名',
-    message: {
-        fileExtensionError: '错误的文件扩展',
-        fileUploadSuccess: '成功上传.json文件',
-        parseError: '解析.json文件错误',
-        formatError: '.json文件数据结构不正确'
-    },
     form: {
+        message: {
+            fileExtensionError: '错误的文件扩展！',
+            documentFailLoad: 'PDF文档加载错误！',
+            formatError: '.json文件数据结构不正确！',
+            fileUploadSuccess: '成功上传.json文件',
+            parseError: '解析.json文件错误',
+            documentLoading: 'PDF文档正在加载',
+        },
+        modal: {
+            experienceDelete: '删除这段工作经历？',
+            educationDelete: '删除这段教育经历？',
+            experienceAdd: '添加新的工作经历？',
+            educationAdd: '添加新的教育经历？',
+            addDescription: '添加一段新的描述？',
+            deleteDescription: '删除这个描述',
+            no: '取消',
+            yes: '确定',
+        },
         template: {
             default: '默认'
         },
@@ -103,7 +136,13 @@ const chi: localizationContent = {
             personName: '姓名',
             visa: '签证状态',
             phone: '电话',
-            email: '电子邮件'
+            email: '电子邮件',
+            companyName: '公司名称',
+            position: '职位',
+            startTime: '开始时间',
+            endTime: '结束时间',
+            duration: '持续时间',
+            description: '描述',
         },
         button: {
             collapseAll: '收起全部',
@@ -115,14 +154,17 @@ const chi: localizationContent = {
             save: '保存',
             downloadPdf: '下载 PDF',
             downloadJson: '下载 JSON',
-            uploadJson: '上传 JSON'
+            uploadJson: '上传 JSON',
+            add: '添加',
+            delete: '删除',
+            addDescription: '添加描述',
         },
         title: {
-            Detail: '个人信息',
-            Experience: '工作经历',
-            Education: '教育背景',
-            Skill: '技能',
-            Other: '其他'
+            detail: '个人信息',
+            experience: '工作经历',
+            education: '教育背景',
+            skill: '技能',
+            other: '其他'
         }
     },
     document: {
@@ -130,7 +172,7 @@ const chi: localizationContent = {
             duration: '[时长（年、月）]',
             startDate: '[开始日期]',
             endDate: '[结束日期]',
-            yourComment: '[你的评价]'
+            yourDescription: '[你的描述]'
         },
         detail: {
             yourName: '[你的名字]',

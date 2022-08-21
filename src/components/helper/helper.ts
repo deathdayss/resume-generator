@@ -21,8 +21,8 @@ export const changePropsValue = (targetObj: StringKeyObj, repalceObj: StringKeyO
     return newTargetObj;
 }
 
-export const changeFormIndex = (arr: SectionForm[], oldIndex: number, newIndex: number) => {
-    const newArr: SectionForm[] = [];
+export const changeArrayIndex = <T>(arr: T[], oldIndex: number, newIndex: number) => {
+    const newArr: T[] = [];
     const minIndex = Math.min(oldIndex, newIndex);
     const maxIndex = Math.max(oldIndex, newIndex);
     for (let i = 0; i < arr.length; ++i) {

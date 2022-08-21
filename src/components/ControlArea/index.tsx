@@ -1,6 +1,6 @@
 import { Language } from '@/data/localization';
 import styles from './index.module.scss';
-import DraggableFormArea from './DraggableFormArea';
+import DraggableFormArea from './FormArea';
 import TopButtonArea from './TopButtonArea';
 import { ResizableState } from '../PdfViewArea';
 import { UsePDFInstance } from '../helper/helper';

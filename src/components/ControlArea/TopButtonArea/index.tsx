@@ -27,9 +27,9 @@ const TopButtonArea = ({
     instanceDoc,
 }: TopButtonAreaProps) => {
     const langCode = useContext(LanguageContext);
-    const {sectionForms, setSectionForms, title} = useContext(DocFormDataContext);
+    const { sectionForms, setSectionForms, title } = useContext(DocFormDataContext);
     const buttonLocal = localization[langCode].form.button;
-    const messageLocal = localization[langCode].message;
+    const messageLocal = localization[langCode].form.message;
     const [willCollapse, setWillCollapse] = useState(true);
     const arrowStyles = useSpring({ transform: willCollapse ? 'rotate(90deg)' : 'rotate(-90deg)' });
     const [isLoading, setIsLoading] = useState(false);
@@ -55,7 +55,15 @@ const TopButtonArea = ({
         localStorage.setItem('resumeLangCode', value);
         setLangCode(value);
     }
-    const handleChange = (fileEvent: any) => {
+    const downloadPdfHanlde = () => {
+        if (instanceDoc.loading) {
+            message.loading(messageLocal.documentLoading, 2);
+        }
+        if (instanceDoc.error) {
+            message.error(messageLocal.documentFailLoad, 2);
+        }
+    }
+    const uploadHanlde = (fileEvent: any) => {
         const pathName = fileEvent.target.value;
         if (!pathName) {
             return;
@@ -118,13 +126,14 @@ const TopButtonArea = ({
                     downloadFile({ a: 1 }, title)
                 }}
             >{buttonLocal.downloadJson}</Button>
-            {instanceDoc.loading || instanceDoc.error ? null : <a href={instanceDoc.url ? instanceDoc.url : undefined} download={`${title}.pdf`}>
+            <a href={instanceDoc.loading || instanceDoc.error || !instanceDoc.url ? 'javascript:void(0)' : instanceDoc.url} download={`${title}.pdf`}>
                 <Button variant="contained" color="secondary">
                     {buttonLocal.downloadPdf}
                 </Button>
-            </a>}
+            </a>
+
             <label className={styles.inputUpload}>
-                <input type="file" onChange={handleChange} />
+                <input type="file" onChange={uploadHanlde} />
                 {isLoading ? <LoadingOutlined /> : <UploadOutlined />}
                 &nbsp;&nbsp;&nbsp;{fileName ? fileName : buttonLocal.uploadJson}
             </label>

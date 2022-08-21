@@ -28,9 +28,9 @@ const ExperienceView = ({ experience, last }: ExperienceViewProps) => {
             <Text style={docStyles.boldText}>{experience.duration ? experience.duration : commonLocal.duration}</Text>
             <Text>{`    ${periodText}`}</Text>
         </Text>
-        {experience.comments.map((comment, index) => <Text key={index}>
+        {experience.descriptions.map((description, index) => <Text key={index}>
             <Text style={docStyles.boldText}>·</Text>
-            <Text>{` ${comment ? comment : commonLocal.yourComment}`}</Text>
+            <Text>{` ${description ? description : commonLocal.yourDescription}`}</Text>
         </Text>)}
     </View>
 }
