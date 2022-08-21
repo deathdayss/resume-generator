@@ -1,7 +1,17 @@
-.formContainer {
+// .formContainer {
+    .line {
+        display: flex;
+        align-items: center;
+        height: 3.5rem;
+    }
+    .line > div:not(:last-child) {
+        margin-right: 2rem;
+    }
+    .line > div {
+        flex: 1;
+    }
+// }
 
-}
-
-.formContainer > div:not(:last-child) {
-    padding-bottom: 1rem;
-}
+// .formContainer > div:not(:last-child) {
+    // margin-bottom: 2rem;
+// }

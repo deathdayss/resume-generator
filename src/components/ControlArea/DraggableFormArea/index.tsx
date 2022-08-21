@@ -85,7 +85,7 @@ const SectionFormPanel = ({ value }: SectionFormPanelProps) => {
             <DragHandle />
         </div>
         <CollapsePanel collapseId={value.id} timeout="auto" unmountOnExit>
-            {value.inUse ? getFormPanel(value) : null}
+            {getFormPanel(value)}
         </CollapsePanel>
     </div>
 }

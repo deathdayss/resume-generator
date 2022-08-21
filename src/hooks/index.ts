@@ -9,12 +9,14 @@ export const useSectionForm = (sectionForm: SectionForm) => {
     return { index, sectionForms, setSectionForms, last: sectionForm.index === sectionForms.length - 1 };
 }
 
-type StateKey = string | number
+export type StateKey = string | number
 
-export type ValueChangePair = (keys: StateKey[]) => {
-    value: string,
-    onChange: (value: ChangeEvent<HTMLInputElement>) => void
+export interface ValueChangePair {
+    value: any,
+    onChange: (e: any) => void
 }
+
+export type ValueChangePairHook = (keys: StateKey[], valueMap?: (objValue: any) => any, onChangeMap?: (myEvent: any) => any) => ValueChangePair
 
 const changeObj = (oldObj: any, key: StateKey, value: any) => {
     if (oldObj instanceof Array) {
@@ -103,12 +105,13 @@ const getObjValue = (obj: any, keys: StateKey[]) => {
 }
 
 export const useDestructFormInput = (obj: any, setObj: (obj: any[]) => void) => {
-    return (keys: StateKey[], valueMap=(objValue: any) => objValue, onChangeMap=(myEvent: ChangeEvent<HTMLInputElement>) => myEvent.target.value) => {
+    const valueChangePairHook: ValueChangePairHook = (keys, valueMap = (objValue) => objValue, onChangeMap = (myEvent) => myEvent.target.value) => {
         return {
             value: valueMap(getObjValue(obj, keys)),
-            onChange: (e: ChangeEvent<HTMLInputElement>) => {
+            onChange: (e) => {
                 setValue(obj, setObj, keys, onChangeMap(e));
             }
         }
     }
+    return valueChangePairHook;
 }

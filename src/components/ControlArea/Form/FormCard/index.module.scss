@@ -1,6 +1,22 @@
 .FormCard {
-    padding: 1rem;
+    padding: 2rem;
     background-color: white;
     border-right: 0.0625rem solid rgb(220, 220, 220);
     border-left: 0.0625rem solid rgb(220, 220, 220);
+    .line {
+        display: flex;
+        align-items: center;
+        height: 3.5rem;
+    }
+    .line > div:not(:last-child) {
+        margin-right: 2rem;
+    }
+    .line > div {
+        flex: 1;
+        display: inline-block;
+    }
+}
+
+.FormCard > div:not(:last-child) {
+    margin-bottom: 2rem;
 }

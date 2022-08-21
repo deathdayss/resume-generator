@@ -57,6 +57,8 @@ export type SectionId = 'Detail' | 'Experience' | 'Education' | 'Skill' | 'Other
 export type SectionData = Detail | ExperienceInfo | EducationInfo | SkillInfo | OtherInfo
 export const initialSectionIds: SectionId[] = ['Detail', 'Experience', 'Education', 'Skill', 'Other']
 
+export const DetailTemplate = ['default']
+
 export interface SectionInfo {
     id: SectionId,
     textData: SectionData,
@@ -72,7 +74,7 @@ export const initialSectionInfos: SectionInfo[] = [
             phone: '',
             email: ''
         },
-        templateId: undefined
+        templateId: 'default'
     },
     {
         id: 'Experience',
@@ -80,7 +82,7 @@ export const initialSectionInfos: SectionInfo[] = [
             title: '',
             items: []
         },
-        templateId: undefined
+        templateId: 'default'
     },
     {
         id: 'Education',
@@ -88,7 +90,7 @@ export const initialSectionInfos: SectionInfo[] = [
             title: '',
             items: []
         },
-        templateId: undefined
+        templateId: 'default'
     },
     {
         id: 'Skill',
@@ -96,7 +98,7 @@ export const initialSectionInfos: SectionInfo[] = [
             title: '',
             items: []
         },
-        templateId: undefined
+        templateId: 'default'
     },
     {
         id: 'Other',
@@ -104,7 +106,7 @@ export const initialSectionInfos: SectionInfo[] = [
             title: '',
             comment: ''
         },
-        templateId: undefined
+        templateId: 'default'
     }
 ]
 
@@ -138,8 +140,8 @@ export const FormDataToDocData = (sectionForms: SectionForm[]) => {
 }
 
 export interface DocFormDataContextProps {
-    sectionForms: SectionForm[], 
-    setSectionForms: (sectionForms: SectionForm[]) => void, 
+    sectionForms: SectionForm[],
+    setSectionForms: (sectionForms: SectionForm[]) => void,
     sectionInfos: SectionInfo[],
     setSectionInfos: (sectionInfos: SectionInfo[]) => void,
     styleArgs: DocStyles,
