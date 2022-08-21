@@ -12,7 +12,7 @@ import styles from './index.module.scss';
 interface InputItemProps {
     value: number,
     keys: StateKey[],
-    getInputContent: (value: number) => JSX.Element,
+    getInputContent: (keys: StateKey[], value: number) => JSX.Element,
     deleteValueHook: DeleteValueHook,
     itemModalLabel: string,
     className: string
@@ -31,7 +31,7 @@ const InputItem = ({ value, keys, getInputContent, deleteValueHook, itemModalLab
     const animatedStyles = { ...opacityStyles, display: 'inline-flex', alignItems: 'center' }
     return <div className={className} onMouseEnter={() => setShowButtons(true)} onMouseLeave={() => setShowButtons(false)}>
         <animated.span style={animatedStyles}><DragHandle /></animated.span>
-        {getInputContent(value)}
+        {getInputContent([...keys, value], value)}
         <span className={styles.deleteIconLine} onClick={() => setOpenDialog(true)}>
             <animated.span style={animatedStyles}><DeleteIcon /></animated.span>
         </span>
@@ -67,7 +67,7 @@ interface AddedItemListProps {
     usePropsForInputObj: UsePropsForInputObj,
     insertDataTemplate: any,
     sectionForms: SectionForm[],
-    getInputContent: (item: any) => JSX.Element,
+    getInputContent: (keys: StateKey[], value: number) => JSX.Element,
     buttonLabel: string,
     listModalLabel: string,
     itemModalLabel: string
@@ -88,6 +88,7 @@ const VariableInputList = ({ keys,
     const [openDialog, setOpenDialog] = useState(false);
     const modalLocal = localization[useContext(LanguageContext)].form.modal;
     const onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
+        console.log('on sort end', oldIndex, newIndex)
         changeIndexHook(keys, oldIndex, newIndex);
     }
     const addHandle = () => {

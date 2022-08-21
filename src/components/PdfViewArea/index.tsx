@@ -67,7 +67,9 @@ const PdfViewArea = ({ src, resizableStateRef, setResizableStateRef }: PdfViewAr
                     })
                 }
             }} className={styles.resizable} disabledDirection={['Top', 'Bottom', 'Left']} >
-            <iframe width='100%' height='100%' title="resume-doc" src={src ? src : undefined} />
+            <div className={styles.pdfView}>
+                <iframe width='100%' height='100%' title="resume-doc" src={src ? src : undefined} />
+            </div>
         </Resizable >
     </div>
 }

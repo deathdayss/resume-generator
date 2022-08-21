@@ -3,7 +3,6 @@ import { useSectionForm } from '@/hooks';
 import AddedItemArea from '../component/AddedItemArea';
 import FormCard from '../FormCard';
 import { SectionFormProps } from '../type';
-import styles from './index.module.scss';
 
 const ExperienceForm = ({ sectionForm }: SectionFormProps) => {
     const { sectionForms, usePropsForInputObj, valueChangePairHook, index, last } = useSectionForm(sectionForm);

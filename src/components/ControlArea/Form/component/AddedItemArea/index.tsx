@@ -2,7 +2,7 @@ import { SectionForm, sectionItemDelegate } from "@/components/ControlArea/dataT
 import { MuiDragHandle } from "@/components/ControlArea/Draggable";
 import { PeriodTextField, TextFieldStyle } from "@/components/ModifiedUI";
 import localization, { LanguageContext } from "@/data/localization";
-import { DeleteValueHook, UsePropsForInputObj } from "@/hooks";
+import { DeleteValueHook, StateKey, UsePropsForInputObj } from "@/hooks";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { useContext, useState } from "react";
 import { SortableElementProps, SortEnd, SortableElement, SortableContainerProps, SortableContainer } from "react-sortable-hoc";
@@ -66,9 +66,22 @@ const AddedItem = ({ value, sectionForm, sectionForms, usePropsForInputObj }: Ad
     const labelLocal = localization[langCode].form.label;
     const modalLocal = localization[langCode].form.modal;
     const { valueChangePairHook, deleteValueHook } = usePropsForInputObj;
-    const getInputContent = (itemIndex: number) => {
-        return <TextFieldStyle inputStyle={{flex: 1, marginLeft: '2rem', marginRight: '2rem'}} label={`${labelLocal.description} ${itemIndex + 1}`} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'descriptions', itemIndex])} />;
+    const getInputContent = (keys: StateKey[], index: number) => {
+        return <TextFieldStyle inputStyle={{
+            flex: 1,
+            marginLeft: '2rem',
+             marginRight: '2rem', 
+            // width: '40rem'
+        }} label={`${labelLocal.description} ${index + 1}`} {...valueChangePairHook(keys)} />;
     }
+    const getVariableInputList = <VariableInputList keys={[sectionForm.index, 'textData', 'items', value, 'descriptions']}
+        usePropsForInputObj={usePropsForInputObj}
+        insertDataTemplate={''}
+        sectionForms={sectionForms}
+        getInputContent={getInputContent}
+        buttonLabel={buttonLocal.addDescription}
+        listModalLabel={modalLocal.addDescription}
+        itemModalLabel={modalLocal.deleteDescription} />
     switch (sectionForm.id) {
         case 'Experience':
             return <AddedItemCard itemIndex={value} sectionForm={sectionForm} deleteValueHook={deleteValueHook}>
@@ -80,14 +93,7 @@ const AddedItem = ({ value, sectionForm, sectionForms, usePropsForInputObj }: Ad
                     <PeriodTextField keys={[sectionForm.index, 'textData', 'items', value, 'period']} valueChangePairHook={valueChangePairHook} />
                     <TextFieldStyle label={labelLocal.duration} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'duration'])} />
                 </div>
-                <VariableInputList keys={[sectionForm.index, 'textData', 'items', value, 'descriptions']}
-                    usePropsForInputObj={usePropsForInputObj}
-                    insertDataTemplate={''}
-                    sectionForms={sectionForms}
-                    getInputContent={getInputContent}
-                    buttonLabel={buttonLocal.addDescription}
-                    listModalLabel={modalLocal.addDescription}
-                    itemModalLabel={modalLocal.deleteDescription} />
+                {getVariableInputList}
             </AddedItemCard>;
         case 'Education':
             return <div>

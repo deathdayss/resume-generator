@@ -21,8 +21,13 @@ export const changePropsValue = (targetObj: StringKeyObj, repalceObj: StringKeyO
     return newTargetObj;
 }
 
-export const changeArrayIndex = <T>(arr: T[], oldIndex: number, newIndex: number) => {
+export const changeArrayIndex = <T>(arr: T[], oldIndex: number, newIndex: number, varyIndex: boolean=false) => {
+    console.log('changeArrayIndex', arr, oldIndex, newIndex, varyIndex)
+    if (oldIndex === newIndex) {
+        return arr;
+    }
     const newArr: T[] = [];
+    console.log('arr', arr);
     const minIndex = Math.min(oldIndex, newIndex);
     const maxIndex = Math.max(oldIndex, newIndex);
     for (let i = 0; i < arr.length; ++i) {
@@ -32,19 +37,25 @@ export const changeArrayIndex = <T>(arr: T[], oldIndex: number, newIndex: number
         }
         else if (i === newIndex) {
             nextForm = arr[oldIndex];
-            nextForm = { ...nextForm, index: i };
+            if (varyIndex) {
+                nextForm = { ...nextForm, index: i };
+            }
         }
         else if (i >= minIndex) {
             nextForm = arr[oldIndex <= newIndex ? i + 1 : i - 1];
-            nextForm = { ...nextForm, index: i };
+            if (varyIndex) {
+                nextForm = { ...nextForm, index: i };
+            }
         }
-        if (nextForm) {
+        if (nextForm !== undefined) {
             newArr.push(nextForm);
         }
         else {
+            console.log('nextForm', nextForm)
             throw new Error("changeIndex undefined nextForm");
         }
     }
+    console.log('newArr', newArr);
     return newArr;
 }
 

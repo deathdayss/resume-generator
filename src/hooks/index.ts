@@ -34,7 +34,6 @@ const insertValue = (obj: any, setObj: (obj: any[]) => void, keys: StateKey[], v
         if (index === undefined) {
             newArray.push(value);
         }
-        console.log('newArray',newArray)
         return newArray;
     });
 }
@@ -70,14 +69,15 @@ const swapValue = (obj: any, setObj: (obj: any[]) => void, keys: StateKey[], i: 
     });
 }
 
-const changeIndex = (obj: any, setObj: (obj: any[]) => void, keys: StateKey[], oldIndex: number, newIndex: number) => {
-    modifyObj(obj, setObj, keys, (arr) => {
-        return changeArrayIndex(arr, oldIndex, newIndex)
+const changeIndex = (obj: any, setObj: (obj: any[]) => void, keys: StateKey[], oldIndex: number, newIndex: number, varyIndex: boolean=false) => {
+    console.log('changeIndex', obj, keys, oldIndex, newIndex, varyIndex);
+    const newObj = modifyObj(obj, setObj, keys, (arr) => {
+        return changeArrayIndex(arr, oldIndex, newIndex, varyIndex)
     })
+    console.log('newObj', newObj)
 }
 
 const setValue = (obj: any, setObj: (obj: any[]) => void, keys: StateKey[], value: any) => {
-    console.log('setValue', obj, keys, value)
     modifyObj(obj, setObj, keys, () => value);
 }
 
@@ -108,6 +108,7 @@ const modifyObj = (obj: any, setObj: (obj: any[]) => void, keys: StateKey[], mod
         newObj = changeObj(objs[i], keys[i], newObj);
     }
     setObj(newObj);
+    return newObj;
 }
 
 export const getObjValue = (obj: any, keys: StateKey[]) => {
@@ -124,7 +125,7 @@ export interface UsePropsForInputObj {
     insertValueHook: (keys: StateKey[], value: any, index?: number) => void;
     deleteValueHook: DeleteValueHook
     swapValueHook: (keys: StateKey[], i: number, j: number) => void;
-    changeIndexHook: (keys: StateKey[], oldIndex: number, newIndex: number) => void
+    changeIndexHook: (keys: StateKey[], oldIndex: number, newIndex: number, varyIndex?: boolean) => void
 }
 
 export const usePropsForInput = (obj: any, setObj: (obj: any[]) => void) => {
@@ -139,6 +140,6 @@ export const usePropsForInput = (obj: any, setObj: (obj: any[]) => void) => {
     const insertValueHook = (keys: StateKey[], value: any, index?: number) => insertValue(obj, setObj, keys, value, index);
     const deleteValueHook = (keys: StateKey[], index: number) => deleteValue(obj, setObj, keys, index);
     const swapValueHook = (keys: StateKey[], i: number, j: number) => swapValue(obj, setObj, keys, i, j);
-    const changeIndexHook = (keys: StateKey[], oldIndex: number, newIndex: number) => changeIndex(obj, setObj, keys, oldIndex, newIndex);
+    const changeIndexHook = (keys: StateKey[], oldIndex: number, newIndex: number, varyIndex: boolean=false) => changeIndex(obj, setObj, keys, oldIndex, newIndex, varyIndex);
     return { valueChangePairHook, insertValueHook, deleteValueHook, swapValueHook, changeIndexHook };
 }

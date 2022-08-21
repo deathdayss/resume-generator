@@ -17,7 +17,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import styles from './index.module.scss';
 import localization, { LanguageContext } from "@/data/localization";
 import DetailForm from '../Form/DetailForm';
-import ExperienceForm from "../Form/ExperienceForm";
+import ExperienceForm from "../Form/ItemForm";
 import { DragHandle } from "../Draggable";
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -101,7 +101,7 @@ export const SortableList: React.ComponentClass<SortableContainerProps & Sortabl
 const DraggableFormArea = () => {
     const { sectionForms, setSectionForms } = useContext(DocFormDataContext);
     const onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
-        setSectionForms(changeArrayIndex(sectionForms, oldIndex, newIndex));
+        setSectionForms(changeArrayIndex(sectionForms, oldIndex, newIndex, true));
     }
     const collapseState = useMemo(() => sectionForms.reduce<SectionId[]>((result, sectionForm) => {
         if (!sectionForm.isCollapse) {

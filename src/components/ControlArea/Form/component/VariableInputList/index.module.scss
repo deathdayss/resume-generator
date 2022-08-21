@@ -1,16 +1,16 @@
-.variableInputList {
-    .item {
-        margin-bottom: 2rem;
-        display: flex;
+.item {
+    width: 100%;
+    margin-bottom: 2rem;
+    display: flex;
+    position: relative;
+    align-items: center;
+    .deleteIconLine {
+        display: inline-flex;
         align-items: center;
-        .deleteIconLine {
-            display: inline-flex;
-            align-items: center;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-        .deleteIconLine:hover {
-            color: red;
-        }
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+    .deleteIconLine:hover {
+        color: red;
     }
 }
