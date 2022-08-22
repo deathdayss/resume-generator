@@ -126,7 +126,7 @@ const TopButtonArea = ({
                     downloadFile({ a: 1 }, title)
                 }}
             >{buttonLocal.downloadJson}</Button>
-            <a href={instanceDoc.loading || instanceDoc.error || !instanceDoc.url ? 'javascript:void(0)' : instanceDoc.url} download={`${title}.pdf`}>
+            <a href={instanceDoc.loading || instanceDoc.error || !instanceDoc.url ? undefined : instanceDoc.url} download={`${title}.pdf`}>
                 <Button variant="contained" color="secondary">
                     {buttonLocal.downloadPdf}
                 </Button>

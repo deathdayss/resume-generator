@@ -1,9 +1,11 @@
 .PdfViewContainer {
-    padding-right: 0.2rem;
     .pdfView {
         height: 99.5vh;
         top: 0;
         position: sticky;
+    }
+    .resizableSide {
+        right: -0.35rem !important;
     }
     .resizableSide:hover {
         background-color: rgb(122, 164, 255);

@@ -21,13 +21,11 @@ export const changePropsValue = (targetObj: StringKeyObj, repalceObj: StringKeyO
     return newTargetObj;
 }
 
-export const changeArrayIndex = <T>(arr: T[], oldIndex: number, newIndex: number, varyIndex: boolean=false) => {
-    console.log('changeArrayIndex', arr, oldIndex, newIndex, varyIndex)
+export const changeArrayIndex = <T>(arr: T[], oldIndex: number, newIndex: number, varyIndex: boolean = false) => {
     if (oldIndex === newIndex) {
         return arr;
     }
     const newArr: T[] = [];
-    console.log('arr', arr);
     const minIndex = Math.min(oldIndex, newIndex);
     const maxIndex = Math.max(oldIndex, newIndex);
     for (let i = 0; i < arr.length; ++i) {
@@ -51,7 +49,6 @@ export const changeArrayIndex = <T>(arr: T[], oldIndex: number, newIndex: number
             newArr.push(nextForm);
         }
         else {
-            console.log('nextForm', nextForm)
             throw new Error("changeIndex undefined nextForm");
         }
     }
@@ -111,4 +108,69 @@ export const setArrayElement = <T>(element: T, index: number, elementArray: T[],
     const newElementArray = [...elementArray];
     newElementArray[index] = element;
     setElementArray(newElementArray);
+}
+
+const validateShallowKey = (obj: any, delegate: any) => {
+    if (Object.prototype.toString.call(obj) !== Object.prototype.toString.call(delegate)) {
+        return false;
+    }
+    if (obj instanceof Object) {
+        for (const key in obj) {
+            if (!(key in delegate)) {
+                return false;
+            }
+        }
+        for (const key in delegate) {
+            if (!(key in obj)) {
+                return false;
+            }
+        }
+    }
+    else if (obj instanceof Array) {
+        for (const element of obj) {
+            if (!validateShallowKey(element, delegate[0])) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+export const validateSectionFormData = (formData: any, delegate: any) => {
+    const keyValidation = validateShallowKey(formData, delegate);
+    if (!keyValidation) {
+        return false;
+    }
+    for (const key in formData) {
+        const isValid = validateShallowKey(formData[key], delegate[key]);
+        if (!isValid) {
+            return false;
+        }
+    }
+    return true;
+}
+
+export const validateFormStyle = (formStyle: any, delegate: any) => {
+    const keyValidation = validateShallowKey(formStyle, delegate);
+    if (!keyValidation) {
+        return false;
+    }
+    for (const key in formStyle) {
+        let isValid = true;
+        if (key === 'padding') {
+            if (isNaN(formStyle[key].substring(0, formStyle[key].length - 2))) {
+                isValid = false;
+            }
+        }
+        else if (key !== 'fontFamily') {
+            if (isNaN(formStyle[key])) {
+                isValid = false;
+            }
+        }
+        isValid = validateShallowKey(formStyle[key], delegate[key]);
+        if (!isValid) {
+            return false;
+        }
+    }
+    return true;
 }

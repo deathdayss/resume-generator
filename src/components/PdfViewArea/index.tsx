@@ -47,6 +47,7 @@ const PdfViewArea = ({ src, resizableStateRef, setResizableStateRef }: PdfViewAr
             maxSize={{ width: widthRange.maxWidth }}
             size={{ width: resizableStateRef.current.width }}
             onResizeStart={(_e, _d, _realLength, nextLength) => {
+                document.getElementsByTagName('iframe')[0].style.pointerEvents = 'none';
                 setResizableStateRef({
                     useDragging: true,
                     width: nextLength as number
@@ -59,6 +60,7 @@ const PdfViewArea = ({ src, resizableStateRef, setResizableStateRef }: PdfViewAr
                 })
             }}
             onResizeEnd={() => {
+                document.getElementsByTagName('iframe')[0].style.pointerEvents = 'auto';
                 const resizableContainer = resizableContainerRef.current?.children[0];
                 if (resizableContainer) {
                     setResizableStateRef({

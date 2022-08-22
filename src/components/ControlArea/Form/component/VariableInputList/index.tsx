@@ -88,7 +88,6 @@ const VariableInputList = ({ keys,
     const [openDialog, setOpenDialog] = useState(false);
     const modalLocal = localization[useContext(LanguageContext)].form.modal;
     const onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
-        console.log('on sort end', oldIndex, newIndex)
         changeIndexHook(keys, oldIndex, newIndex);
     }
     const addHandle = () => {

@@ -70,11 +70,9 @@ const swapValue = (obj: any, setObj: (obj: any[]) => void, keys: StateKey[], i: 
 }
 
 const changeIndex = (obj: any, setObj: (obj: any[]) => void, keys: StateKey[], oldIndex: number, newIndex: number, varyIndex: boolean=false) => {
-    console.log('changeIndex', obj, keys, oldIndex, newIndex, varyIndex);
     const newObj = modifyObj(obj, setObj, keys, (arr) => {
         return changeArrayIndex(arr, oldIndex, newIndex, varyIndex)
     })
-    console.log('newObj', newObj)
 }
 
 const setValue = (obj: any, setObj: (obj: any[]) => void, keys: StateKey[], value: any) => {
