@@ -30,9 +30,14 @@ const eng = {
             companyName: 'Company Name',
             position: 'Position',
             duration: 'duration',
-            startTime: 'Start Time',
-            endTime: 'End Time',
+            startTime: 'Starting Time',
+            endTime: 'Ending Time',
             description: 'Description',
+            instituionName: 'Institution Name',
+            degree: 'Degree',
+            GPA: 'GPA',
+            skill: 'Skill',
+            skillDescription: 'Skill Description',
         },
         modal: {
             experienceDelete: 'Delete this work experience',
@@ -41,6 +46,8 @@ const eng = {
             educationAdd: 'Add a new educational experience?',
             addDescription: 'Add a new description?',
             deleteDescription: 'Delete this description?',
+            addSkill: 'Add a new skill?',
+            deleteSkill: 'Delete this skill?',
             no: 'No',
             yes: 'Yes',
         },
@@ -70,8 +77,8 @@ const eng = {
     document: {
         common: {
             duration: '[Duration in Months or Years]',
-            startDate: '[Start Date]',
-            endDate: '[End Date]',
+            startDate: '[Starting Time]',
+            endDate: '[Ending Time]',
             yourDescription: '[Your Description]'
         },
         detail: {
@@ -94,7 +101,7 @@ const eng = {
         skill: {
             title: 'Skills',
             yourSkillName: '[Your Skill]',
-            yourProficiency: '[You Proficiency]'
+            yourDescription: '[You Description]'
         },
         other: {
             title: 'Other',
@@ -123,7 +130,9 @@ const chi: localizationContent = {
             experienceAdd: '添加新的工作经历？',
             educationAdd: '添加新的教育经历？',
             addDescription: '添加一段新的描述？',
-            deleteDescription: '删除这个描述',
+            deleteDescription: '删除这个描述？',
+            addSkill: '添加新的技能？',
+            deleteSkill: '删除这个技能？',
             no: '取消',
             yes: '确定',
         },
@@ -143,6 +152,11 @@ const chi: localizationContent = {
             endTime: '结束时间',
             duration: '持续时间',
             description: '描述',
+            instituionName: '教育机构名称',
+            degree: '学位',
+            GPA: 'GPA',
+            skill: '技能',
+            skillDescription: '技能描述',
         },
         button: {
             collapseAll: '收起全部',
@@ -194,7 +208,7 @@ const chi: localizationContent = {
         skill: {
             title: '技能',
             yourSkillName: '[你的技能]',
-            yourProficiency: '[你的熟练度]'
+            yourDescription: '[你的描述]'
         },
         other: {
             title: '其他'

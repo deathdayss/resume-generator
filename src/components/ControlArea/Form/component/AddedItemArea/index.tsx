@@ -1,6 +1,6 @@
 import { SectionForm, sectionItemDelegate } from "@/components/ControlArea/dataType";
 import { MuiDragHandle } from "@/components/ControlArea/Draggable";
-import { PeriodTextField, TextFieldStyle } from "@/components/ModifiedUI";
+import { CheckTextFieldStyle, PeriodTextField, TextFieldStyle } from "@/components/ModifiedUI";
 import localization, { LanguageContext } from "@/data/localization";
 import { DeleteValueHook, StateKey, UsePropsForInputObj } from "@/hooks";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
@@ -67,12 +67,7 @@ const AddedItem = ({ value, sectionForm, sectionForms, usePropsForInputObj }: Ad
     const modalLocal = localization[langCode].form.modal;
     const { valueChangePairHook, deleteValueHook } = usePropsForInputObj;
     const getInputContent = (keys: StateKey[], index: number) => {
-        return <TextFieldStyle inputStyle={{
-            flex: 1,
-            marginLeft: '2rem',
-             marginRight: '2rem', 
-            // width: '40rem'
-        }} label={`${labelLocal.description} ${index + 1}`} {...valueChangePairHook(keys)} />;
+        return <TextFieldStyle multiline inputStyle={{ flex: 1, marginLeft: '2rem', marginRight: '2rem', }} label={`${labelLocal.description} ${index + 1}`} {...valueChangePairHook(keys)} />;
     }
     const getVariableInputList = <VariableInputList keys={[sectionForm.index, 'textData', 'items', value, 'descriptions']}
         usePropsForInputObj={usePropsForInputObj}
@@ -96,9 +91,20 @@ const AddedItem = ({ value, sectionForm, sectionForms, usePropsForInputObj }: Ad
                 {getVariableInputList}
             </AddedItemCard>;
         case 'Education':
-            return <div>
-                123
-            </div>;
+            return <AddedItemCard itemIndex={value} sectionForm={sectionForm} deleteValueHook={deleteValueHook}>
+                <div className={styles.line}>
+                    <TextFieldStyle label={labelLocal.instituionName} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'instituionName'])} />
+                    <TextFieldStyle label={labelLocal.degree} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'degree'])} />
+                </div>
+                <div className={styles.line}>
+                    <PeriodTextField keys={[sectionForm.index, 'textData', 'items', value, 'period']} valueChangePairHook={valueChangePairHook} />
+                    <TextFieldStyle label={labelLocal.duration} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'duration'])} />
+                    <CheckTextFieldStyle label={labelLocal.GPA} keys={[sectionForm.index, 'textData', 'items', value, 'GPA']} valueOnChange={valueChangePairHook} />
+                </div>
+                {getVariableInputList}
+            </AddedItemCard>;
+        case 'Skill':
+            return null;
         default:
             throw new Error('This component should not have AddedItem')
     }

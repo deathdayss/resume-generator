@@ -1,4 +1,4 @@
-import { SectionForm } from "@/components/ControlArea/dataType"
+import { SectionForm, sectionItemDelegate } from "@/components/ControlArea/dataType"
 import { DocStyles, DocStylesKey, FormStyles, FormStylesKey } from "@/components/PdfDocument/docStyles"
 import React from "react"
 
@@ -29,7 +29,7 @@ export interface Education {
 
 export interface Skill {
     skillName: string,
-    proficiency: string
+    description: string
 }
 
 export interface ExperienceInfo {
@@ -55,7 +55,6 @@ export interface OtherInfo {
 export type TemplateId = string | undefined
 export type SectionId = 'Detail' | 'Experience' | 'Education' | 'Skill' | 'Other';
 export type SectionData = Detail | ExperienceInfo | EducationInfo | SkillInfo | OtherInfo
-export const initialSectionIds: SectionId[] = ['Detail', 'Experience', 'Education', 'Skill', 'Other']
 
 export const DetailTemplate = ['default']
 
@@ -65,7 +64,7 @@ export interface SectionInfo {
     templateId: TemplateId
 }
 
-export const initialSectionInfos: SectionInfo[] = [
+export const initialSectionInfos = [
     {
         id: 'Detail',
         textData: {
@@ -80,7 +79,7 @@ export const initialSectionInfos: SectionInfo[] = [
         id: 'Experience',
         textData: {
             title: '',
-            items: []
+            items: [sectionItemDelegate.experience]
         },
         templateId: 'default'
     },
@@ -88,7 +87,7 @@ export const initialSectionInfos: SectionInfo[] = [
         id: 'Education',
         textData: {
             title: '',
-            items: []
+            items: [sectionItemDelegate.education]
         },
         templateId: 'default'
     },
@@ -96,7 +95,7 @@ export const initialSectionInfos: SectionInfo[] = [
         id: 'Skill',
         textData: {
             title: '',
-            items: []
+            items: [sectionItemDelegate.skill]
         },
         templateId: 'default'
     },
@@ -108,7 +107,7 @@ export const initialSectionInfos: SectionInfo[] = [
         },
         templateId: 'default'
     }
-]
+] as SectionInfo[]
 
 export const docDataToFormData = (sectionInfos: SectionInfo[]) => {
     const sectionForms: SectionForm[] = [];

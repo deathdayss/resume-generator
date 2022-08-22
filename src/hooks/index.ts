@@ -10,7 +10,7 @@ export const useSectionForm = (sectionForm: SectionForm) => {
     const labelLocal = localization[langCode].form.label;
     const usePropsForInputObj = usePropsForInput(sectionForms, setSectionForms);
     const { index } = sectionForm;
-    return { labelLocal, usePropsForInputObj, ...usePropsForInputObj, index, sectionForms, setSectionForms, last: sectionForm.index === sectionForms.length - 1 };
+    return { langCode, labelLocal, usePropsForInputObj, ...usePropsForInputObj, index, sectionForms, setSectionForms, last: sectionForm.index === sectionForms.length - 1 };
 }
 
 export type StateKey = string | number

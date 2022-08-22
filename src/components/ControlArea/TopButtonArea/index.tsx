@@ -116,7 +116,7 @@ const TopButtonArea = ({
             <Button className={styles.pdfViewButton} onClick={PdfViewHandle}>{isPdfViewOpen ? buttonLocal.hideView : buttonLocal.openView}</Button>
             <Button style={{ textTransform: 'none' }} onClick={inUseHandle}>{buttonLocal.useAll}</Button>
             <Select className={styles.selectLang} value={langCode} style={{ width: 120 }} onChange={selectLanguageHandle}>
-                {Object.keys(localization).map((value) => <Option value={value}>{localization[value as Language].name}</Option>)}
+                {Object.keys(localization).map((value) => <Option  key={value} value={value}>{localization[value as Language].name}</Option>)}
             </Select>
         </div>
         <div className={styles.secondLine}>

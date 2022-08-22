@@ -17,8 +17,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import styles from './index.module.scss';
 import localization, { LanguageContext } from "@/data/localization";
 import DetailForm from '../Form/DetailForm';
-import ExperienceForm from "../Form/ItemForm";
+import ItemForm from "../Form/ItemForm";
 import { DragHandle } from "../Draggable";
+import SkillForm from "../Form/SkillForm";
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -44,11 +45,11 @@ const getFormPanel = (sectionForm: SectionForm) => {
         case 'Detail':
             return <DetailForm sectionForm={sectionForm} />;
         case 'Experience':
-            return <ExperienceForm sectionForm={sectionForm} />;
+            return <ItemForm sectionForm={sectionForm} />;
         case 'Education':
-            return null;
+            return <ItemForm sectionForm={sectionForm} />;
         case 'Skill':
-            return null;
+            return <SkillForm sectionForm={sectionForm} />;
         case 'Other':
             return null;
     }

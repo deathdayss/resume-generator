@@ -1,4 +1,4 @@
-import { initialSectionIds, SectionData, SectionId, TemplateId } from "@/data/resumeData";
+import { SectionData, SectionId, TemplateId } from "@/data/resumeData";
 
 export type SectionForm = {
     id: SectionId,
@@ -27,7 +27,7 @@ export const sectionItemDelegate = {
     },
     skill: {
         skillName: '',
-        proficiency: ''
+        description: ''
     }
 }
 
@@ -63,6 +63,8 @@ const sectionFormsDelegate = [
         description: ''
     },
 ] as SectionForm[];
+
+const initialSectionIds: SectionId[] = ['Detail', 'Experience', 'Education', 'Skill', 'Other']
 
 initialSectionIds.forEach((id, index) => {
     sectionFormsDelegate[index] = { ...sectionFormsDelegate[index], id, templateId: 'default', inUse: true, isCollapse: false, index };
