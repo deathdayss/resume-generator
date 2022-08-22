@@ -8,6 +8,15 @@ import { Button, MenuItem } from '@mui/material';
 import { useContext } from 'react';
 import styles from './index.module.scss';
 
+const paddingValueMap = (value: string) => {
+    if (value.length >= 2) {
+        return value.substring(0, value.length - 2)
+    }
+    else {
+        return value;
+    }
+}
+
 const StyleControlArea = () => {
     const { formStyleArgs, setFormStyleArgs } = useContext(DocFormDataContext);
     const langCode = useContext(LanguageContext);
@@ -25,7 +34,7 @@ const StyleControlArea = () => {
                 </SelectStyle>
             </div>
             <div className={styles.line}>
-                <TextFieldStyle label={labelLocal.pagePadding} {...valueChangePairHook(['page', 'padding'], (value) => value.substring(0, value.length - 2), (myEvent) => myEvent + 'in')} />
+                <TextFieldStyle label={labelLocal.pagePadding} {...valueChangePairHook(['page', 'padding'], paddingValueMap, (myEvent) => myEvent.target.value + 'in')} />
                 <TextFieldStyle label={labelLocal.sectionGap} {...valueChangePairHook(['section', 'marginBottom'])} />
                 <TextFieldStyle label={labelLocal.sectionAddGap} {...valueChangePairHook(['sectionItem', 'marginBottom'])} />
             </div>
