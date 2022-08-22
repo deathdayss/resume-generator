@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/resume-generator/static/css/main.e474512e.css",
+    "main.js": "/resume-generator/static/js/main.031e020e.js",
+    "static/js/787.3ec2375e.chunk.js": "/resume-generator/static/js/787.3ec2375e.chunk.js",
+    "static/media/Deng-xian.ttf": "/resume-generator/static/media/Deng-xian.fca8f22854ed654a3397.ttf",
+    "static/media/Deng-xian-bold.ttf": "/resume-generator/static/media/Deng-xian-bold.a6e61545c6d2f97a4db0.ttf",
+    "static/media/Arial.ttf": "/resume-generator/static/media/Arial.5afb1f7c7464ace62524.ttf",
+    "static/media/Arial-bold.ttf": "/resume-generator/static/media/Arial-bold.64dde1b4aa064ce0c627.ttf",
+    "static/media/Times-new-roman.ttf": "/resume-generator/static/media/Times-new-roman.81560eeae7b825038bd7.ttf",
+    "static/media/Times-new-roman-bold.ttf": "/resume-generator/static/media/Times-new-roman-bold.2b73fa723068d62b5b59.ttf",
+    "index.html": "/resume-generator/index.html",
+    "main.e474512e.css.map": "/resume-generator/static/css/main.e474512e.css.map",
+    "main.031e020e.js.map": "/resume-generator/static/js/main.031e020e.js.map",
+    "787.3ec2375e.chunk.js.map": "/resume-generator/static/js/787.3ec2375e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e474512e.css",
+    "static/js/main.031e020e.js"
+  ]
+}
