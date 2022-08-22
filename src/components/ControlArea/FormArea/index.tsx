@@ -18,6 +18,7 @@ import styles from './index.module.scss';
 import localization, { LanguageContext } from "@/data/localization";
 import DetailForm from '../Form/DetailForm';
 import ItemForm from "../Form/ItemForm";
+import OtherForm from '../Form/OtherForm'
 import { DragHandle } from "../Draggable";
 import SkillForm from "../Form/SkillForm";
 
@@ -51,7 +52,9 @@ const getFormPanel = (sectionForm: SectionForm) => {
         case 'Skill':
             return <SkillForm sectionForm={sectionForm} />;
         case 'Other':
-            return null;
+            return <OtherForm sectionForm={sectionForm} />;
+        default:
+            throw new Error('No such form id');
     }
 }
 

@@ -59,8 +59,10 @@ const sectionFormsDelegate = [
         }
     },
     {
-        title: '',
-        description: ''
+        textData: {
+            title: '',
+            description: ''
+        }
     },
 ] as SectionForm[];
 

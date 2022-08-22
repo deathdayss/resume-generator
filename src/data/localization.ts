@@ -38,6 +38,7 @@ const eng = {
             GPA: 'GPA',
             skill: 'Skill',
             skillDescription: 'Skill Description',
+            otherDescription: 'Other Description'
         },
         modal: {
             experienceDelete: 'Delete this work experience',
@@ -157,6 +158,7 @@ const chi: localizationContent = {
             GPA: 'GPA',
             skill: '技能',
             skillDescription: '技能描述',
+            otherDescription: '其他描述'
         },
         button: {
             collapseAll: '收起全部',
