@@ -42,6 +42,12 @@ const Main = () => {
         }
     }, []);
     useEffect(() => {
+        if (langCode === 'chi' && !chiFonts.includes(styleArgs.page.fontFamily)) {
+            setFormStyleArgs(changePropsValue(formStyleArgs, { page: { fontFamily: 'Deng-xian' } }) as DocStyles);
+            setStylesArgs(changePropsValue(formStyleArgs, { page: { fontFamily: 'Deng-xian' } }) as DocStyles);
+        }
+    }, [langCode]);
+    useEffect(() => {
         updateDoc();
     }, [sectionInfos, styleArgs])
     return <LanguageContext.Provider value={langCode}>
@@ -49,7 +55,7 @@ const Main = () => {
             <div className={styles.main}>
                 {isPdfViewOpen ? <PdfViewArea src={instanceDoc.url} resizableStateRef={resizableStateRef} setResizableStateRef={setResizableStateRef} /> : null}
                 <div className={styles.rightFlexItem}>
-                    <ControlArea  setLangCode={setLangCode}
+                    <ControlArea setLangCode={setLangCode}
                         setResizableStateRef={setResizableStateRef}
                         setIsPdfViewOpen={setIsPdfViewOpen}
                         isPdfViewOpen={isPdfViewOpen}
