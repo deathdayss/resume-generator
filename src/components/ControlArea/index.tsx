@@ -5,6 +5,8 @@ import TopButtonArea from './TopButtonArea';
 import { ResizableState } from '../PdfViewArea';
 import { UsePDFInstance } from '../helper/helper';
 import { Form } from 'antd';
+import StyleControlArea from './StyleControlArea';
+import Footer from './Footer';
 
 interface ControlAreaProps {
     setLangCode: (arg: Language) => void
@@ -23,22 +25,21 @@ const ControlArea = ({
 }: ControlAreaProps) => {
     return (
         <div className={styles.controlContainer}>
-            <Form>
-                <div className={styles.TopButtonArea}>
-                    <TopButtonArea
-                        setLangCode={setLangCode}
-                        setResizableStateRef={setResizableStateRef}
-                        setIsPdfViewOpen={setIsPdfViewOpen}
-                        isPdfViewOpen={isPdfViewOpen}
-                        instanceDoc={instanceDoc}
-                    />
-                </div>
-                <div className={styles.formArea}>
-                    <DraggableFormArea />
-                </div>
-                <div className={styles.styleArea}>Style Area</div>
-                <div className={styles.fileArea}>File Area</div>
-            </Form>
+            <div className={styles.TopButtonArea}>
+                <TopButtonArea
+                    setLangCode={setLangCode}
+                    setResizableStateRef={setResizableStateRef}
+                    setIsPdfViewOpen={setIsPdfViewOpen}
+                    isPdfViewOpen={isPdfViewOpen}
+                    instanceDoc={instanceDoc}
+                />
+            </div>
+            <div className={styles.formArea}>
+                <DraggableFormArea />
+            </div>
+            <div className={styles.styleArea}>
+                <StyleControlArea />
+            </div>
         </div>
     )
 }

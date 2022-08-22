@@ -1,0 +1,21 @@
+.styleTitle {
+    font-size: 1.7rem;
+    padding-bottom: 1rem;
+}
+.styleBody {
+    .line {
+        display: flex;
+        align-items: center;
+        height: 3.5rem;
+    }
+    .line > div:not(:last-child) {
+        margin-right: 2rem;
+    }
+    .line > div {
+        flex: 1;
+    }    
+}
+
+.styleBody > div:not(:last-child) {
+    margin-bottom: 2rem;
+}

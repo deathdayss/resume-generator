@@ -1,11 +1,13 @@
 .main {
     display: flex;
     .leftFlexItem {
-        // flex-basis: 50%;
         min-height: 100vh;
         flex: 1;
     }
     .rightFlexItem {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
         flex: 1;
     }
 }

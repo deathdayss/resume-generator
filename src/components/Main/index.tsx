@@ -11,6 +11,7 @@ import { changePropsValue, getPdfTitle } from '@/components/helper/helper';
 import { chiFonts } from '@/fonts';
 import useStateRef from '../Resizable/hooks/useStateRef';
 import { initialSectionForms } from '../ControlArea/dataType';
+import Footer from '../ControlArea/Footer';
 
 const Main = () => {
     const [langCode, setLangCode] = useState<Language>('eng');
@@ -41,11 +42,6 @@ const Main = () => {
         }
     }, []);
     useEffect(() => {
-        if (langCode === 'chi' && !chiFonts.includes(styleArgs.page.fontFamily)) {
-            setStylesArgs(changePropsValue(styleArgs, { page: { fontFamily: 'Deng-xian' } }) as DocStyles);
-        }
-    }, [langCode]);
-    useEffect(() => {
         updateDoc();
     }, [sectionInfos, styleArgs])
     return <LanguageContext.Provider value={langCode}>
@@ -59,6 +55,7 @@ const Main = () => {
                         isPdfViewOpen={isPdfViewOpen}
                         instanceDoc={instanceDoc}
                     />
+                    <Footer />
                 </div>
             </div>
         </DocFormDataContext.Provider>

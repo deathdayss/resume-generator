@@ -128,7 +128,7 @@ export interface UsePropsForInputObj {
     changeIndexHook: (keys: StateKey[], oldIndex: number, newIndex: number, varyIndex?: boolean) => void
 }
 
-export const usePropsForInput = (obj: any, setObj: (obj: any[]) => void) => {
+export const usePropsForInput = (obj: any, setObj: (obj: any) => void) => {
     const valueChangePairHook: ValueChangePairHook = (keys, valueMap = (objValue) => objValue, onChangeMap = (myEvent) => myEvent.target.value) => {
         return {
             value: valueMap(getObjValue(obj, keys)),

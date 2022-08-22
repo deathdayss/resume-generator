@@ -1,13 +1,16 @@
 import React from "react";
 
-export type Language = 'eng' | 'chi'
-
-export const LanguageContext = React.createContext<Language>('eng')
+export type Language = 'eng' | 'chi';
+export const LanguageContext = React.createContext<Language>('eng');
+export const githubLink = 'www.baidu.com';
 
 const eng = {
     name: 'English',
     resume: 'Resume',
     resumeTitle: 'Resume-Title',
+    footer: {
+        githubAddress: 'Github Address',
+    },
     form: {
         message: {
             fileExtensionError: 'Incorrect File Extension!',
@@ -38,7 +41,14 @@ const eng = {
             GPA: 'GPA',
             skill: 'Skill',
             skillDescription: 'Skill Description',
-            otherDescription: 'Other Description'
+            otherDescription: 'Other Description',
+            pagePadding: 'Page Padding',
+            bodyFontSize: 'Body Font Size',
+            titleFontSize: 'Title Font Size',
+            titleGap: 'Title Gap',
+            fontFamily: 'Font Family',
+            sectionGap: 'Section Gap',
+            sectionAddGap: 'Section Adding Gap'
         },
         modal: {
             experienceDelete: 'Delete this work experience',
@@ -66,13 +76,15 @@ const eng = {
             add: 'Add',
             delete: 'Delete',
             addDescription: 'Add a Description',
+            defaultStyle: 'Default Style'
         },
         title: {
             detail: 'Personal Detail',
             experience: 'Experience',
             education: 'Education',
             skill: 'Skill',
-            other: 'Other'
+            other: 'Other',
+            style: 'Resume Style'
         }
     },
     document: {
@@ -116,6 +128,9 @@ const chi: localizationContent = {
     name: '中文',
     resume: '简历',
     resumeTitle: '简历名',
+    footer: {
+        githubAddress: 'Github地址',
+    },
     form: {
         message: {
             fileExtensionError: '错误的文件扩展！',
@@ -158,7 +173,14 @@ const chi: localizationContent = {
             GPA: 'GPA',
             skill: '技能',
             skillDescription: '技能描述',
-            otherDescription: '其他描述'
+            otherDescription: '其他描述',
+            pagePadding: '页面内距',
+            bodyFontSize: '内容字体',
+            titleFontSize: '标题字体',
+            titleGap: '标题距离',
+            fontFamily: '字体',
+            sectionGap: '板块间距',
+            sectionAddGap: '板块增添间距'
         },
         button: {
             collapseAll: '收起全部',
@@ -174,13 +196,15 @@ const chi: localizationContent = {
             add: '添加',
             delete: '删除',
             addDescription: '添加描述',
+            defaultStyle: '默认样式'
         },
         title: {
             detail: '个人信息',
             experience: '工作经历',
             education: '教育背景',
             skill: '技能',
-            other: '其他'
+            other: '其他',
+            style: '简历样式',
         }
     },
     document: {

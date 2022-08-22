@@ -8,7 +8,7 @@ export const initialDocStyles = {
     page: {
         padding: '0.75in',
         fontSize: '12',
-        fontFamily: fontFamily[0],
+        fontFamily: 'Arial',
     },
     section: {
         marginBottom: '15',
@@ -28,7 +28,7 @@ export const initialFormStyles = {
     page: {
         padding: '0.75in',
         fontSize: '12',
-        fontFamily: fontFamily[0],
+        fontFamily: 'Arial',
     },
     section: {
         marginBottom: '15',

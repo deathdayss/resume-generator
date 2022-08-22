@@ -1,6 +1,7 @@
 .controlContainer {
     padding: 1.5rem;
     padding-top: 0;
+    padding-bottom: 0;
 }
 
 .TopButtonArea {
@@ -11,4 +12,9 @@
     background-color: white;
     z-index: 100;
     border-bottom: 0.0625rem solid rgb(220, 220, 220);
+}
+
+.styleArea {
+    margin-top: 1rem;
+    padding-bottom: 3rem;
 }
