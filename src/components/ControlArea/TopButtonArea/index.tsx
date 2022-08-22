@@ -1,13 +1,16 @@
+import { initialFormStyles } from "@/components/PdfDocument/docStyles";
 import { ResizableState } from "@/components/PdfViewArea";
 import localization, { Language, LanguageContext } from "@/data/localization";
-import { ForwardOutlined, UploadOutlined, LoadingOutlined } from "@ant-design/icons";
+import { docDataToFormData, DocFormDataContext, formDataToDocData } from "@/data/resumeData";
+import { ForwardOutlined, LoadingOutlined, UploadOutlined } from "@ant-design/icons";
 import { Button } from "@mui/material";
-import { Select, message } from "antd";
+import { message, Select } from "antd";
 import { useContext, useState } from "react";
 import { animated, useSpring } from "react-spring";
-import { changeAllPropsValue, downloadFile, UsePDFInstance, validateJSON } from "../../helper/helper";
+import { changeAllPropsValue, downloadFile, textDataSpecialKeys, UsePDFInstance, validateFormStyle, validateJSON, validateSectionFormData } from "../../helper/helper";
 import styles from './index.module.scss';
-import { DocFormDataContext } from "@/data/resumeData";
+
+message.config({ maxCount: 1 })
 
 const { Option } = Select;
 
@@ -27,7 +30,7 @@ const TopButtonArea = ({
     instanceDoc,
 }: TopButtonAreaProps) => {
     const langCode = useContext(LanguageContext);
-    const { sectionForms, setSectionForms, title } = useContext(DocFormDataContext);
+    const { title, sectionForms, setSectionForms, styleArgs, setStylesArgs, sectionInfos, setSectionInfos, formStyleArgs, setFormStyleArgs } = useContext(DocFormDataContext);
     const buttonLocal = localization[langCode].form.button;
     const messageLocal = localization[langCode].form.message;
     const [willCollapse, setWillCollapse] = useState(true);
@@ -54,6 +57,18 @@ const TopButtonArea = ({
     const selectLanguageHandle = (value: Language) => {
         localStorage.setItem('resumeLangCode', value);
         setLangCode(value);
+    }
+    const saveHandle = () => {
+        if (
+            !validateSectionFormData(sectionForms, textDataSpecialKeys) ||
+            !validateFormStyle(formStyleArgs, initialFormStyles)
+        ) {
+            message.error(messageLocal.saveError, 2);
+            return;
+        }
+        message.success(messageLocal.saveSuccess, 2);
+        setSectionInfos(formDataToDocData(sectionForms));
+        setStylesArgs(formStyleArgs);
     }
     const downloadPdfHanlde = () => {
         if (instanceDoc.loading) {
@@ -84,7 +99,6 @@ const TopButtonArea = ({
             return;
         }
         setIsLoading(true);
-        setFileName(fileName);
         fileReader.readAsText(fileEvent.target.files[0], "UTF-8");
         fileReader.onload = e => {
             setIsLoading(false);
@@ -95,16 +109,22 @@ const TopButtonArea = ({
                 } catch (error) {
                     fileEvent.target.value = null;
                     message.error(messageLocal.parseError, 2);
-                    return;
                 }
                 if (validateJSON(jsonContent)) {
-                    console.log("e.target.result", e.target.result);
+                    const jsonSectionInfos = (jsonContent as any).sectionInfos;
+                    const jsonStyleArgs = (jsonContent as any).styleArgs;
+                    setFileName(fileName);
+                    setSectionInfos(jsonSectionInfos);
+                    setStylesArgs(jsonStyleArgs);
+                    setFormStyleArgs(jsonStyleArgs);
+                    setSectionForms(docDataToFormData(jsonSectionInfos));
+                    message.success(messageLocal.fileUploadSuccess, 2);
                 }
                 else {
+                    fileEvent.target.value = null;
                     message.error(messageLocal.formatError, 2);
                 }
             }
-            message.success(messageLocal.fileUploadSuccess, 2);
         };
     };
     return <div className={styles.buttonContainer}>
@@ -116,24 +136,23 @@ const TopButtonArea = ({
             <Button className={styles.pdfViewButton} onClick={PdfViewHandle}>{isPdfViewOpen ? buttonLocal.hideView : buttonLocal.openView}</Button>
             <Button style={{ textTransform: 'none' }} onClick={inUseHandle}>{buttonLocal.useAll}</Button>
             <Select className={styles.selectLang} value={langCode} style={{ width: 120 }} onChange={selectLanguageHandle}>
-                {Object.keys(localization).map((value) => <Option  key={value} value={value}>{localization[value as Language].name}</Option>)}
+                {Object.keys(localization).map((value) => <Option key={value} value={value}>{localization[value as Language].name}</Option>)}
             </Select>
         </div>
         <div className={styles.secondLine}>
-            <Button variant="contained" >{buttonLocal.save}</Button>
+            <Button variant="contained" onClick={saveHandle} >{buttonLocal.save}</Button>
             <Button variant="contained" color="success"
-                onClick={() => {
-                    downloadFile({ a: 1 }, title)
-                }}
+                onClick={() => downloadFile({ sectionInfos, styleArgs }, title)
+                }
             >{buttonLocal.downloadJson}</Button>
             <a href={instanceDoc.loading || instanceDoc.error || !instanceDoc.url ? undefined : instanceDoc.url} download={`${title}.pdf`}>
-                <Button variant="contained" color="secondary">
+                <Button onClick={() => downloadPdfHanlde()} variant="contained" color="secondary">
                     {buttonLocal.downloadPdf}
                 </Button>
             </a>
 
             <label className={styles.inputUpload}>
-                <input type="file" onChange={uploadHanlde} />
+                <input type="file" onChange={uploadHanlde} onClick={(e) => (e.target as any).value = ''} />
                 {isLoading ? <LoadingOutlined /> : <UploadOutlined />}
                 &nbsp;&nbsp;&nbsp;{fileName ? fileName : buttonLocal.uploadJson}
             </label>

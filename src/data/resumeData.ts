@@ -1,5 +1,5 @@
 import { SectionForm, sectionItemDelegate } from "@/components/ControlArea/dataType"
-import { DocStyles, DocStylesKey, FormStyles, FormStylesKey } from "@/components/PdfDocument/docStyles"
+import { DocStyles, DocStylesKey, FormStyles, FormStylesKey, initialDocStyles } from "@/components/PdfDocument/docStyles"
 import React from "react"
 
 export type Period = [string, string]
@@ -125,7 +125,7 @@ export const docDataToFormData = (sectionInfos: SectionInfo[]) => {
     return sectionForms;
 }
 
-export const FormDataToDocData = (sectionForms: SectionForm[]) => {
+export const formDataToDocData = (sectionForms: SectionForm[]) => {
     const sectionInfos: SectionInfo[] = []
     for (let i = 0; i < sectionForms.length; ++i) {
         const { id, textData, templateId } = sectionForms[i];

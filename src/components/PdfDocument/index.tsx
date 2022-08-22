@@ -3,7 +3,7 @@ import { Detail, docDataToFormData, DocFormDataContext, EducationInfo, Experienc
 import { Document, Page, StyleSheet } from '@react-pdf/renderer';
 import { useContext, useMemo } from 'react';
 import DetailSection from './DetailSection';
-import { DocStyles, DocStylesContext } from './docStyles';
+import { DocStyles, DocStylesContext, stableDocStyles } from './docStyles';
 import EducationSection from './EducationSection';
 import ExperienceSection from './ExperienceSection';
 import OtherSection from './OtherSection';
@@ -12,8 +12,9 @@ import SkillSection from './SkillSection';
 
 const ResumeDoc = () => {
     const { sectionInfos, styleArgs, title } = useContext(DocFormDataContext);
+    const combineStyles = useMemo(() => ({ ...styleArgs, ...stableDocStyles }), [styleArgs])
     return <Document title={title}>
-        <DocStylesContext.Provider value={styleArgs}>
+        <DocStylesContext.Provider value={combineStyles}>
             <Page size="A4" style={styleArgs.page}>
                 {sectionInfos.map((sectionInfo, index) => {
                     const last = index === sectionInfos.length - 1;

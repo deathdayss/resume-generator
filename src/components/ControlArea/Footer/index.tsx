@@ -10,7 +10,7 @@ const Footer = () => {
 
     return (
         <div className={styles.footer}>
-            <a href={projectLink}>{footerLocal.githubAddress}</a>
+            <a href={projectLink}>{footerLocal.devLink}</a>
         </div>
     )
 }

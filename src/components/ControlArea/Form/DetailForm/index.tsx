@@ -17,8 +17,8 @@ const DetailForm = ({ sectionForm }: SectionFormProps) => {
             <CheckTextFieldStyle label={labelLocal.visa} valueOnChange={valueChangePairHook} keys={[index, 'textData', 'visa']} />
         </div>
         <div className={styles.line}>
-            <CheckTextFieldStyle label={labelLocal.phone} valueOnChange={valueChangePairHook} keys={[index, 'textData', 'phone']} />
             <CheckTextFieldStyle label={labelLocal.email} valueOnChange={valueChangePairHook} keys={[index, 'textData', 'email']} />
+            <CheckTextFieldStyle label={labelLocal.phone} valueOnChange={valueChangePairHook} keys={[index, 'textData', 'phone']} />
         </div>
     </FormCard >
 }

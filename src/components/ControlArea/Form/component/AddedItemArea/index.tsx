@@ -81,12 +81,12 @@ const AddedItem = ({ value, sectionForm, sectionForms, usePropsForInputObj }: Ad
         case 'Experience':
             return <AddedItemCard itemIndex={value} sectionForm={sectionForm} deleteValueHook={deleteValueHook}>
                 <div className={styles.line}>
-                    <TextFieldStyle label={labelLocal.companyName} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'companyName'])} />
                     <TextFieldStyle label={labelLocal.position} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'position'])} />
+                    <TextFieldStyle label={labelLocal.companyName} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'companyName'])} />
                 </div>
                 <div className={styles.line}>
-                    <PeriodTextField keys={[sectionForm.index, 'textData', 'items', value, 'period']} valueChangePairHook={valueChangePairHook} />
                     <TextFieldStyle label={labelLocal.duration} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'duration'])} />
+                    <PeriodTextField keys={[sectionForm.index, 'textData', 'items', value, 'period']} valueChangePairHook={valueChangePairHook} />
                 </div>
                 {getVariableInputList}
             </AddedItemCard>;
@@ -97,9 +97,12 @@ const AddedItem = ({ value, sectionForm, sectionForms, usePropsForInputObj }: Ad
                     <TextFieldStyle label={labelLocal.degree} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'degree'])} />
                 </div>
                 <div className={styles.line}>
-                    <PeriodTextField keys={[sectionForm.index, 'textData', 'items', value, 'period']} valueChangePairHook={valueChangePairHook} />
                     <TextFieldStyle label={labelLocal.duration} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'duration'])} />
-                    <CheckTextFieldStyle label={labelLocal.GPA} keys={[sectionForm.index, 'textData', 'items', value, 'GPA']} valueOnChange={valueChangePairHook} />
+                    <PeriodTextField keys={[sectionForm.index, 'textData', 'items', value, 'period']} valueChangePairHook={valueChangePairHook} />
+                </div>
+                <div className={styles.line}>
+                    <CheckTextFieldStyle  label={labelLocal.GPA} keys={[sectionForm.index, 'textData', 'items', value, 'GPA']} valueOnChange={valueChangePairHook} />
+                    <div />
                 </div>
                 {getVariableInputList}
             </AddedItemCard>;

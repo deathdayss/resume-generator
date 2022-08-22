@@ -2,23 +2,24 @@ import React from "react";
 
 export type Language = 'eng' | 'chi';
 export const LanguageContext = React.createContext<Language>('eng');
-export const githubLink = 'www.baidu.com';
 
 const eng = {
     name: 'English',
     resume: 'Resume',
     resumeTitle: 'Resume-Title',
     footer: {
-        githubAddress: 'Github Address',
+        devLink: 'Github Repository',
     },
     form: {
         message: {
-            fileExtensionError: 'Incorrect File Extension!',
-            formatError: 'Invalid Data Structure of the .json File!',
+            fileExtensionError: 'Fail to upload: Incorrect File Extension!',
+            formatError: 'Fail to upload: Invalid Data Structure of the .json File!',
             documentFailLoad: 'The PDF document fails to be loaded!',
-            fileUploadSuccess: 'Upload the .json File Successfully',
-            parseError: '.json file parsing error',
+            fileUploadSuccess: 'Upload the .json File Successfully!',
+            parseError: 'Fail to upload: .json file parsing error!',
             documentLoading: 'The PDF document is still loading',
+            saveError: 'Fail to save: invalid data format!',
+            saveSuccess: 'Successfully save the data!'
         },
         template: {
             default: 'default'
@@ -45,7 +46,7 @@ const eng = {
             pagePadding: 'Page Padding',
             bodyFontSize: 'Body Font Size',
             titleFontSize: 'Title Font Size',
-            titleGap: 'Title Gap',
+            titleGap: 'Title Bottom Margin',
             fontFamily: 'Font Family',
             sectionGap: 'Section Gap',
             sectionAddGap: 'Section Adding Gap'
@@ -129,16 +130,18 @@ const chi: localizationContent = {
     resume: '简历',
     resumeTitle: '简历名',
     footer: {
-        githubAddress: 'Github地址',
+        devLink: 'Github代码库',
     },
     form: {
         message: {
-            fileExtensionError: '错误的文件扩展！',
+            fileExtensionError: '上传失败：错误的文件扩展！',
             documentFailLoad: 'PDF文档加载错误！',
-            formatError: '.json文件数据结构不正确！',
+            formatError: '上传失败：.json文件数据结构不正确！',
             fileUploadSuccess: '成功上传.json文件',
-            parseError: '解析.json文件错误',
+            parseError: '上传失败：解析.json文件错误！',
             documentLoading: 'PDF文档正在加载',
+            saveError: '保存失败: 数据格式错误！',
+            saveSuccess: '成功保存数据！'
         },
         modal: {
             experienceDelete: '删除这段工作经历？',
@@ -177,7 +180,7 @@ const chi: localizationContent = {
             pagePadding: '页面内距',
             bodyFontSize: '内容字体',
             titleFontSize: '标题字体',
-            titleGap: '标题距离',
+            titleGap: '标题下边距',
             fontFamily: '字体',
             sectionGap: '板块间距',
             sectionAddGap: '板块增添间距'

@@ -71,7 +71,7 @@ export const CheckTextFieldStyle = (props: CheckTextFieldStyleProps) => {
     const { valueOnChange, keys, className, width, style, ...leftProps } = props;
     const inputValueOnChange = valueOnChange(keys);
     const { value, onChange } = valueOnChange(keys, (value: string) => {
-        if (value === undefined) {
+        if (value === null) {
             return false;
         }
         return true;
@@ -80,7 +80,7 @@ export const CheckTextFieldStyle = (props: CheckTextFieldStyleProps) => {
             if (e.target.checked) {
                 return '';
             }
-            return undefined;
+            return null;
         });
     return <div className={className} style={{
         width: width,

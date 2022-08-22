@@ -1,5 +1,4 @@
 import React from "react";
-import fontFamily from "@/fonts";
 
 type FontWeight = 'normal' | 'bold'
 
@@ -17,13 +16,16 @@ export const initialDocStyles = {
         fontSize: '17',
         marginBottom: '5'
     },
-    boldText: {
-        fontWeight
-    },
     sectionItem: {
         marginBottom: '10',
     }
 };
+
+export const stableDocStyles = {
+    boldText: {
+        fontWeight
+    },
+}
 export const initialFormStyles = {
     page: {
         padding: '0.75in',
@@ -48,4 +50,7 @@ export type DocStylesKey = keyof DocStyles;
 export type FormStyles = typeof initialFormStyles;
 export type FormStylesKey = keyof FormStyles;
 
-export const DocStylesContext = React.createContext(initialDocStyles);
+export type StableStyles = typeof stableDocStyles;
+export type CombineStyles = DocStyles & StableStyles;
+
+export const DocStylesContext = React.createContext<CombineStyles>({} as CombineStyles);
