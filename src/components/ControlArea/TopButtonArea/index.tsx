@@ -1,7 +1,7 @@
 import { initialFormStyles } from "@/components/PdfDocument/docStyles";
 import { ResizableState } from "@/components/PdfViewArea";
 import localization, { Language, LanguageContext } from "@/data/localization";
-import { docDataToFormData, DocFormDataContext, formDataToDocData } from "@/data/resumeData";
+import { docDataToFormData, DocFormDataContext, formDataToDocData } from "@/data/docData";
 import { ForwardOutlined, LoadingOutlined, UploadOutlined } from "@ant-design/icons";
 import { Button } from "@mui/material";
 import { message, Select } from "antd";

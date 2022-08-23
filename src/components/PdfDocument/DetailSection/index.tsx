@@ -1,5 +1,5 @@
 import localization, { LanguageContext } from "@/data/localization";
-import { Detail } from "@/data/resumeData"
+import { Detail } from "@/data/docData"
 import { Text } from "@react-pdf/renderer";
 import { useContext, useMemo } from "react";
 import { SectionProps } from "../common/type";

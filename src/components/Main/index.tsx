@@ -1,17 +1,17 @@
-import styles from './index.module.scss';
-import PdfViewArea from '../PdfViewArea';
-import ControlArea from '../ControlArea'
-import ResumeDoc from '../PdfDocument';
-import { DocFormDataContext, initialSectionInfos } from '@/data/resumeData';
+import { changePropsValue, getPdfTitle } from '@/components/helper/helper';
+import { DocFormDataContext, initialSectionInfos } from '@/data/docData';
+import { Language, LanguageContext } from '@/data/localization';
+import { chiFonts } from '@/fonts';
 import { usePDF } from '@react-pdf/renderer';
 import { useEffect, useMemo, useState } from 'react';
-import { Language, LanguageContext } from '@/data/localization';
-import { DocStyles, initialDocStyles, initialFormStyles } from '../PdfDocument/docStyles';
-import { changePropsValue, getPdfTitle } from '@/components/helper/helper';
-import { chiFonts } from '@/fonts';
-import useStateRef from '../Resizable/hooks/useStateRef';
-import { initialSectionForms } from '../ControlArea/dataType';
+import { initialSectionForms } from '../../data/formData';
+import ControlArea from '../ControlArea';
 import Footer from '../ControlArea/Footer';
+import ResumeDoc from '../PdfDocument';
+import { DocStyles, initialDocStyles, initialFormStyles } from '../PdfDocument/docStyles';
+import PdfViewArea from '../PdfViewArea';
+import useStateRef from '../Resizable/hooks/useStateRef';
+import styles from './index.module.scss';
 
 const Main = () => {
     const [langCode, setLangCode] = useState<Language>('eng');

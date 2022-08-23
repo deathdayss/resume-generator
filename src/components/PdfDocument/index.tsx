@@ -1,10 +1,9 @@
-import { LanguageContext } from '@/data/localization';
-import { Detail, docDataToFormData, DocFormDataContext, EducationInfo, ExperienceInfo, OtherInfo, SectionInfo, SkillInfo } from '@/data/resumeData';
+import { Detail, DocFormDataContext, EducationInfo, ExperienceInfo, OtherInfo, SkillInfo } from '@/data/docData';
 import { specialFonts } from '@/fonts';
-import { Document, Font, Page, StyleSheet } from '@react-pdf/renderer';
+import { Document, Page } from '@react-pdf/renderer';
 import { useContext, useMemo } from 'react';
 import DetailSection from './DetailSection';
-import { BoldText, DocStyles, DocStylesContext, stableDocStyles } from './docStyles';
+import { DocStylesContext, stableDocStyles } from './docStyles';
 import EducationSection from './EducationSection';
 import ExperienceSection from './ExperienceSection';
 import OtherSection from './OtherSection';

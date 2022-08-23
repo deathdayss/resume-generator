@@ -1,15 +1,13 @@
-import { SectionForm } from '@/components/ControlArea/dataType';
-import { DragHandle, DragHandleDnd } from '@/components/ControlArea/Draggable';
+import { DragHandleDnd } from '@/components/ControlArea/Draggable';
+import { SectionForm } from '@/data/formData';
 import localization, { LanguageContext } from '@/data/localization';
 import { DeleteValueHook, getObjValue, StateKey, UsePropsForInputObj } from '@/hooks';
-import { Button, DialogTitle, Dialog, DialogActions } from '@mui/material';
-import { useContext, useState } from 'react';
-import { SortableContainerProps, SortableContainer, SortEnd, SortableElementProps, SortableElement } from 'react-sortable-hoc';
-import { animated, useSpring } from 'react-spring';
+import { DragDropContext, Draggable, DragStart, Droppable, DropResult } from '@hello-pangea/dnd';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { DragDropContext, Droppable, Draggable, OnDragEndResponder, DropResult, DroppableProvided, DragStart } from '@hello-pangea/dnd';
+import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
+import { useContext, useState } from 'react';
+import { animated, useSpring } from 'react-spring';
 import styles from './index.module.scss';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 
 interface InputItemProps {
     value: number,
@@ -58,10 +56,6 @@ const InputItem = ({ value, draggingId, keys, getInputContent, deleteValueHook, 
             }
         </Draggable >
     )
-}
-
-interface SortableListProps {
-    children: React.ReactNode
 }
 
 interface AddedItemListProps {

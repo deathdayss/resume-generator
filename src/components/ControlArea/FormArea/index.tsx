@@ -1,26 +1,23 @@
-import { DocFormDataContext, SectionId } from "@/data/resumeData";
-import { SectionForm } from "../dataType";
+import { CollapseAll, CollapsePanel } from "@/components/ControlArea/Collapse";
+import { DocFormDataContext, SectionId } from "@/data/docData";
+import localization, { LanguageContext } from "@/data/localization";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Checkbox, IconButton, IconButtonProps, styled } from "@mui/material";
+import React, { ReactNode, useContext, useMemo } from "react";
 import {
     SortableContainer,
     SortableContainerProps,
     SortableElement,
-    SortableElementProps,
-    SortableHandle,
-    SortEnd,
-    SortEvent,
+    SortableElementProps, SortEnd
 } from 'react-sortable-hoc';
-import React, { ReactNode, useContext, useMemo, useState } from "react";
-import { CollapseAll, CollapsePanel } from "@/components/ControlArea/Collapse";
+import { SectionForm } from "../../../data/formData";
 import { changeArrayIndex, changeFormPropValue } from "../../helper/helper";
-import { Checkbox, IconButton, IconButtonProps, styled } from "@mui/material";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import styles from './index.module.scss';
-import localization, { LanguageContext } from "@/data/localization";
+import { DragHandle } from "../Draggable";
 import DetailForm from '../Form/DetailForm';
 import ItemForm from "../Form/ItemForm";
-import OtherForm from '../Form/OtherForm'
-import { DragHandle } from "../Draggable";
+import OtherForm from '../Form/OtherForm';
 import SkillForm from "../Form/SkillForm";
+import styles from './index.module.scss';
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;

@@ -1,8 +1,8 @@
-import { SectionForm } from "@/components/ControlArea/dataType";
-import { changeArrayIndex, setArrayElement } from "@/components/helper/helper";
+import { changeArrayIndex } from "@/components/helper/helper";
+import { DocFormDataContext } from "@/data/docData";
+import { SectionForm } from "@/data/formData";
 import localization, { LanguageContext } from "@/data/localization";
-import { DocFormDataContext } from "@/data/resumeData";
-import { ChangeEvent, FormEventHandler, useContext, useMemo } from "react";
+import { useContext } from "react";
 
 export const useSectionForm = (sectionForm: SectionForm) => {
     const { sectionForms, setSectionForms } = useContext(DocFormDataContext);
@@ -70,7 +70,7 @@ const swapValue = (obj: any, setObj: (obj: any[]) => void, keys: StateKey[], i: 
 }
 
 const changeIndex = (obj: any, setObj: (obj: any[]) => void, keys: StateKey[], oldIndex: number, newIndex: number, varyIndex: boolean=false) => {
-    const newObj = modifyObj(obj, setObj, keys, (arr) => {
+    modifyObj(obj, setObj, keys, (arr) => {
         return changeArrayIndex(arr, oldIndex, newIndex, varyIndex)
     })
 }

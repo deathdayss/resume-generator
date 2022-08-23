@@ -1,5 +1,5 @@
 import { Text } from '@react-pdf/renderer';
-import { SkillInfo } from "@/data/resumeData"
+import { SkillInfo } from "@/data/docData"
 import Section from '../components/Section';
 import localization, { LanguageContext } from '@/data/localization';
 import { useContext } from 'react';

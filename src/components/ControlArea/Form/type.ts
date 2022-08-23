@@ -1,5 +1,5 @@
-import { SectionId } from "@/data/resumeData";
-import { SectionForm } from "../dataType";
+import { SectionId } from "@/data/docData";
+import { SectionForm } from "../../../data/formData";
 
 export interface SectionFormProps {
     sectionForm: SectionForm

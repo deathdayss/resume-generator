@@ -1,5 +1,5 @@
 import localization, { LanguageContext } from '@/data/localization';
-import { Experience, ExperienceInfo } from '@/data/resumeData';
+import { Experience, ExperienceInfo } from '@/data/docData';
 import { Text, View } from '@react-pdf/renderer'
 import { useContext, useMemo } from 'react';
 import { getPeriodText } from '../common/helper';

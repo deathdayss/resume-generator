@@ -1,9 +1,8 @@
 import { SelectStyle, TextFieldStyle } from '@/components/ModifiedUI';
+import { DetailTemplate } from '@/data/docData';
 import localization, { LanguageContext } from '@/data/localization';
-import { DetailTemplate } from '@/data/resumeData';
 import { ValueChangePairHook } from '@/hooks';
 import { MenuItem } from '@mui/material';
-import { Form, Input } from 'antd';
 import { useContext } from 'react';
 import styles from './index.module.scss';
 

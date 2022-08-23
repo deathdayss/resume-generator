@@ -1,4 +1,4 @@
-import { SectionData, SectionId, TemplateId } from "@/data/resumeData";
+import { SectionData, SectionId, TemplateId } from "@/data/docData";
 
 export type SectionForm = {
     id: SectionId,

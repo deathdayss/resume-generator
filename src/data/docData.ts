@@ -1,5 +1,5 @@
-import { SectionForm, sectionItemDelegate } from "@/components/ControlArea/dataType"
-import { DocStyles, DocStylesKey, FormStyles, FormStylesKey, initialDocStyles } from "@/components/PdfDocument/docStyles"
+import { SectionForm, sectionItemDelegate } from "@/data/formData"
+import { DocStyles, FormStyles } from "@/components/PdfDocument/docStyles"
 import React from "react"
 
 export type Period = [string, string]

@@ -1,9 +1,9 @@
+import { OtherInfo } from "@/data/docData";
 import localization, { LanguageContext } from "@/data/localization";
-import { OtherInfo } from "@/data/resumeData"
-import { Link, Text } from "@react-pdf/renderer";
+import { Text } from "@react-pdf/renderer";
 import { useContext } from "react";
 import { SectionProps } from "../common/type";
-import Section from "../components/Section"
+import Section from "../components/Section";
 import TextLink from "../components/TextLink";
 
 interface OtherSectionProps extends SectionProps {

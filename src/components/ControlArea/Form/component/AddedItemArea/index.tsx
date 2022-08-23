@@ -1,11 +1,11 @@
-import { SectionForm, sectionItemDelegate } from "@/components/ControlArea/dataType";
 import { MuiDragHandle } from "@/components/ControlArea/Draggable";
 import { CheckTextFieldStyle, PeriodTextField, TextFieldStyle } from "@/components/ModifiedUI";
+import { SectionForm, sectionItemDelegate } from "@/data/formData";
 import localization, { LanguageContext } from "@/data/localization";
 import { DeleteValueHook, StateKey, UsePropsForInputObj } from "@/hooks";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
 import { useContext, useState } from "react";
-import { SortableElementProps, SortEnd, SortableElement, SortableContainerProps, SortableContainer } from "react-sortable-hoc";
+import { SortableContainer, SortableContainerProps, SortableElement, SortableElementProps, SortEnd } from "react-sortable-hoc";
 import { animated, useSpring } from "react-spring";
 import VariableInputList from "../VariableInputList";
 import styles from './index.module.scss';

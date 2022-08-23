@@ -1,5 +1,5 @@
 import localization, { Language } from "@/data/localization";
-import { Period } from "@/data/resumeData";
+import { Period } from "@/data/docData";
 
 export const getPeriodText = (langCode: Language, period: Period) => {
     const commonLocal = localization[langCode].document.common;

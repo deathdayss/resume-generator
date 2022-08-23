@@ -1,7 +1,7 @@
 import localization, { Language } from "@/data/localization";
-import { Detail, initialSectionInfos, SectionInfo } from "@/data/resumeData";
+import { Detail, initialSectionInfos, SectionInfo } from "@/data/docData";
 import globalFontFamily from "@/fonts";
-import { initialSectionForms, SectionForm } from "../ControlArea/dataType";
+import { initialSectionForms, SectionForm } from "../../data/formData";
 import { initialFormStyles } from "../PdfDocument/docStyles";
 
 export interface UsePDFInstance {

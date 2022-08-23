@@ -1,7 +1,7 @@
 import { SelectStyle, TextFieldStyle } from '@/components/ModifiedUI';
 import { initialFormStyles } from '@/components/PdfDocument/docStyles';
 import localization, { LanguageContext } from '@/data/localization';
-import { DocFormDataContext } from '@/data/resumeData';
+import { DocFormDataContext } from '@/data/docData';
 import globalFontFamily from '@/fonts';
 import { usePropsForInput } from '@/hooks';
 import { Button, MenuItem } from '@mui/material';

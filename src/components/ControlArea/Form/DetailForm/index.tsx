@@ -1,16 +1,13 @@
+import { CheckTextFieldStyle, TextFieldStyle } from "@/components/ModifiedUI";
+import { useSectionForm } from "@/hooks";
 import FormCard from "../FormCard";
 import { SectionFormProps } from "../type";
-import { useContext, useState } from "react";
-import { usePropsForInput, useSectionForm } from "@/hooks";
-import localization, { LanguageContext } from "@/data/localization";
 import styles from './index.module.scss';
-import { inputClasses, inputLabelClasses, styled, TextField } from "@mui/material";
-import { CheckTextFieldStyle, TextFieldLabel, TextFieldStyle } from "@/components/ModifiedUI";
 
 
 const DetailForm = ({ sectionForm }: SectionFormProps) => {
     const { labelLocal, valueChangePairHook, index, last } = useSectionForm(sectionForm);
-
+     
     return <FormCard last={last} hasTitle={false} index={index} valueOnChange={valueChangePairHook}>
         <div className={styles.line}>
             <TextFieldStyle label={labelLocal.personName} {...valueChangePairHook([index, 'textData', 'personName'])} />
