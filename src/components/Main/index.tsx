@@ -43,8 +43,8 @@ const Main = () => {
     }, []);
     useEffect(() => {
         if (langCode === 'chi' && !chiFonts.includes(styleArgs.page.fontFamily)) {
-            setFormStyleArgs(changePropsValue(formStyleArgs, { page: { fontFamily: 'Deng-xian' } }) as DocStyles);
-            setStylesArgs(changePropsValue(formStyleArgs, { page: { fontFamily: 'Deng-xian' } }) as DocStyles);
+            setFormStyleArgs(changePropsValue(formStyleArgs, { page: { fontFamily: 'Alibaba-PuHuTi' } }) as DocStyles);
+            setStylesArgs(changePropsValue(formStyleArgs, { page: { fontFamily: 'Alibaba-PuHuTi' } }) as DocStyles);
         }
     }, [langCode]);
     useEffect(() => {

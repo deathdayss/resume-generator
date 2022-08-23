@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Resizable from '../Resizable';
 import styles from './index.module.scss';
 
@@ -20,6 +20,12 @@ interface PdfViewAreaProps {
 const PdfViewArea = ({ src, resizableStateRef, setResizableStateRef }: PdfViewAreaProps) => {
     const [widthRange, setWidthRange] = useState({ minWidth: window.innerWidth / 4, maxWidth: window.innerWidth * 3 / 4 });
     const resizableContainerRef = useRef<HTMLDivElement>(null);
+    const iframeRef = useRef<HTMLIFrameElement>(null);
+    const setIframePointerEvent = useCallback((state: string) => {
+        if (iframeRef && iframeRef.current) {
+            iframeRef.current.style.pointerEvents = state;
+        }
+    }, []);
     useEffect(() => {
         const windowResizeHanlde = () => {
             const minWidth = window.innerWidth / 4;
@@ -35,9 +41,15 @@ const PdfViewArea = ({ src, resizableStateRef, setResizableStateRef }: PdfViewAr
                 })
             }
         }
+        const mouseDownHandle = () => setIframePointerEvent('none');
+        const mouseUpHandle = () => setIframePointerEvent('auto');
         window.addEventListener('resize', windowResizeHanlde);
+        window.addEventListener('mousedown', mouseDownHandle);
+        window.addEventListener('mouseup', mouseUpHandle);
         return () => {
             window.removeEventListener('resize', windowResizeHanlde);
+            window.removeEventListener('mousedown', mouseDownHandle);
+            window.removeEventListener('mouseup', mouseUpHandle);
         }
     }, []);
     return <div ref={resizableContainerRef} className={styles.PdfViewContainer}>
@@ -47,7 +59,7 @@ const PdfViewArea = ({ src, resizableStateRef, setResizableStateRef }: PdfViewAr
             maxSize={{ width: widthRange.maxWidth }}
             size={{ width: resizableStateRef.current.width }}
             onResizeStart={(_e, _d, _realLength, nextLength) => {
-                document.getElementsByTagName('iframe')[0].style.pointerEvents = 'none';
+                setIframePointerEvent('none');
                 setResizableStateRef({
                     useDragging: true,
                     width: nextLength as number
@@ -60,7 +72,7 @@ const PdfViewArea = ({ src, resizableStateRef, setResizableStateRef }: PdfViewAr
                 })
             }}
             onResizeEnd={() => {
-                document.getElementsByTagName('iframe')[0].style.pointerEvents = 'auto';
+                setIframePointerEvent('auto');
                 const resizableContainer = resizableContainerRef.current?.children[0];
                 if (resizableContainer) {
                     setResizableStateRef({
@@ -69,7 +81,7 @@ const PdfViewArea = ({ src, resizableStateRef, setResizableStateRef }: PdfViewAr
                     })
                 }
             }} className={styles.resizable} disabledDirection={['Top', 'Bottom', 'Left']} >
-            <div className={styles.pdfView}>
+            <div ref={iframeRef} className={styles.pdfView}>
                 <iframe width='100%' height='100%' title="resume-doc" src={src ? src : undefined} />
             </div>
         </Resizable >

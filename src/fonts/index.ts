@@ -1,36 +1,34 @@
 import { Font } from "@react-pdf/renderer";
-import Arial from './Arial.ttf';
-import ArialBold from './Arial-bold.ttf';
-import TimesNewRoman from './Times-new-roman.ttf';
-import TimesNewRomanBold from './Times-new-roman-bold.ttf';
-import DengdXian from './Deng-xian.ttf';
-import DengXianBold from './Deng-xian-bold.ttf';
+import Bulter from './Butler.otf';
+import BulterBold from './Butler-bold.otf'
+import AlibabaPuHuTi from './Alibaba-PuHuiTi.ttf';
+import AlibabaPuHuTiBold from './Alibaba-PuHuiTi-bold.ttf';
 
 Font.register({
-    family: 'Arial',
+    family: 'Bulter',
     fonts: [
-        { src: Arial },
-        { src: ArialBold, fontWeight: 'bold' }
+        { src: Bulter },
+        { src: BulterBold, fontWeight: 'bold' }
     ]
 })
 
+
 Font.register({
-    family: 'Deng-xian',
+    family: 'Alibaba-PuHuTi',
     fonts: [
-        { src: DengdXian },
-        { src: DengXianBold, fontWeight: 'bold' }
+        { src: AlibabaPuHuTi },
+        { src: AlibabaPuHuTiBold, fontWeight: 'bold' }
     ]
 })
 
-Font.register({
-    family: 'Times-new-roman',
-    fonts: [
-        { src: TimesNewRoman },
-        { src: TimesNewRomanBold, fontWeight: 'bold' }
-    ]
-})
+export const chiFonts = ['Alibaba-PuHuT'];
+export const specialFonts = ['Courier', 'Helvetica', 'Times-Roman']
+const globalFontFamily = {
+    'Helvetica': 'Helvetica',
+    'Times-Roman': 'Times Roman',
+    'Bulter': 'Bulter',
+    'Courier': 'Courier',
+    'Alibaba-PuHuTi': '阿里巴巴普惠体',
+}
 
-export const chiFonts = ['Deng-xian'];
-const fontFamily = { 'Arial': 'Arial', 'Deng-xian': '等线', 'Times-new-roman': 'Times New Roman'}
-
-export default fontFamily;
+export default globalFontFamily;

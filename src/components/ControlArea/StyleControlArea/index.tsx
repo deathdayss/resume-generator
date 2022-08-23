@@ -2,7 +2,7 @@ import { SelectStyle, TextFieldStyle } from '@/components/ModifiedUI';
 import { initialFormStyles } from '@/components/PdfDocument/docStyles';
 import localization, { LanguageContext } from '@/data/localization';
 import { DocFormDataContext } from '@/data/resumeData';
-import fontFamily from '@/fonts';
+import globalFontFamily from '@/fonts';
 import { usePropsForInput } from '@/hooks';
 import { Button, MenuItem } from '@mui/material';
 import { useContext } from 'react';
@@ -30,7 +30,7 @@ const StyleControlArea = () => {
                 <TextFieldStyle label={labelLocal.bodyFontSize} {...valueChangePairHook(['page', 'fontSize'])} />
                 <TextFieldStyle label={labelLocal.titleFontSize} {...valueChangePairHook(['title', 'fontSize'])} />
                 <SelectStyle label={labelLocal.fontFamily} selectWidth='11.8rem' {...valueChangePairHook(['page', 'fontFamily'])}>
-                    {Object.keys(fontFamily).map((key) => <MenuItem key={key} value={key} > {fontFamily[key as keyof typeof fontFamily]}</MenuItem>)}
+                    {Object.keys(globalFontFamily).map((key) => <MenuItem key={key} value={key} > {globalFontFamily[key as keyof typeof globalFontFamily]}</MenuItem>)}
                 </SelectStyle>
             </div>
             <div className={styles.line}>

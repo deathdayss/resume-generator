@@ -1,9 +1,10 @@
 import { LanguageContext } from '@/data/localization';
 import { Detail, docDataToFormData, DocFormDataContext, EducationInfo, ExperienceInfo, OtherInfo, SectionInfo, SkillInfo } from '@/data/resumeData';
-import { Document, Page, StyleSheet } from '@react-pdf/renderer';
+import { specialFonts } from '@/fonts';
+import { Document, Font, Page, StyleSheet } from '@react-pdf/renderer';
 import { useContext, useMemo } from 'react';
 import DetailSection from './DetailSection';
-import { DocStyles, DocStylesContext, stableDocStyles } from './docStyles';
+import { BoldText, DocStyles, DocStylesContext, stableDocStyles } from './docStyles';
 import EducationSection from './EducationSection';
 import ExperienceSection from './ExperienceSection';
 import OtherSection from './OtherSection';
@@ -12,7 +13,17 @@ import SkillSection from './SkillSection';
 
 const ResumeDoc = () => {
     const { sectionInfos, styleArgs, title } = useContext(DocFormDataContext);
-    const combineStyles = useMemo(() => ({ ...styleArgs, ...stableDocStyles }), [styleArgs])
+    const combineStyles = useMemo(() => {
+        let boldText: any = { fontWeight: 'bold' };
+        let currentFontFamily = styleArgs.page.fontFamily;
+        if (specialFonts.includes(currentFontFamily)) {
+            if (currentFontFamily === 'Times-Roman') {
+                currentFontFamily = currentFontFamily.replace(/-\w*/g, '');
+            }
+            boldText = { fontFamily: currentFontFamily + '-Bold' }
+        }
+        return { ...styleArgs, ...stableDocStyles, boldText }
+    }, [styleArgs])
     return <Document title={title}>
         <DocStylesContext.Provider value={combineStyles}>
             <Page size="A4" style={styleArgs.page}>

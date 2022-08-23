@@ -1,5 +1,6 @@
 import localization, { Language } from "@/data/localization";
 import { Detail, initialSectionInfos, SectionInfo } from "@/data/resumeData";
+import globalFontFamily from "@/fonts";
 import { initialSectionForms, SectionForm } from "../ControlArea/dataType";
 import { initialFormStyles } from "../PdfDocument/docStyles";
 
@@ -247,7 +248,12 @@ export const validateFormStyle = (formStyle: any, delegate: any) => {
                     isValid = false;
                 }
             }
-            else if (key !== 'fontFamily' && typeof formStyle[key] === 'string') {
+            else if (key === 'fontFamily') {
+                if (!(formStyle[key] in globalFontFamily)) {
+                    isValid = false;
+                }
+            }
+            else if (typeof formStyle[key] === 'string') {
                 if (isNaN(formStyle[key])) {
                     isValid = false;
                 }
