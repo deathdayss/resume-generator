@@ -1,3 +1,10 @@
+.dragingHandlerPos {
+    display: inline-flex;
+    align-items: center;
+    cursor: grab;
+}
+
+
 .dragingHandler {
     display: inline-flex;
     align-items: center;
@@ -16,6 +23,6 @@
     transition: color 0.3s;
 }
 
-.muiDraggingHandler:hover {
+.itemDraggingHandler:hover {
     color: rgb(46, 46, 46);
 }

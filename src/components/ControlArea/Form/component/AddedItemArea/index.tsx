@@ -69,7 +69,7 @@ const AddedItem = ({ value, sectionForm, sectionForms, usePropsForInputObj }: Ad
     const getInputContent = (keys: StateKey[], index: number) => {
         return <TextFieldStyle multiline inputStyle={{ flex: 1, marginLeft: '2rem', marginRight: '2rem', }} label={`${labelLocal.description} ${index + 1}`} {...valueChangePairHook(keys)} />;
     }
-    const getVariableInputList = <VariableInputList keys={[sectionForm.index, 'textData', 'items', value, 'descriptions']}
+    const getVariableInputList = <VariableInputList formId={sectionForm.id} keys={[sectionForm.index, 'textData', 'items', value, 'descriptions']}
         usePropsForInputObj={usePropsForInputObj}
         insertDataTemplate={''}
         sectionForms={sectionForms}

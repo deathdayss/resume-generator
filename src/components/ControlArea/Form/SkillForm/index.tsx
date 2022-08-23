@@ -18,7 +18,7 @@ const SkillForm = ({ sectionForm }: SectionFormProps) => {
     }
     return (
         <FormCard last={last} index={index} valueOnChange={valueChangePairHook}>
-            <VariableInputList keys={[sectionForm.index, 'textData', 'items']}
+            <VariableInputList formId={sectionForm.id} keys={[sectionForm.index, 'textData', 'items']}
                 usePropsForInputObj={usePropsForInputObj}
                 insertDataTemplate={{ skillName: '', description: '' }}
                 sectionForms={sectionForms}

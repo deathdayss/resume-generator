@@ -1,5 +1,5 @@
 import { SectionForm } from '@/components/ControlArea/dataType';
-import { DragHandle } from '@/components/ControlArea/Draggable';
+import { DragHandle, DragHandleDnd } from '@/components/ControlArea/Draggable';
 import localization, { LanguageContext } from '@/data/localization';
 import { DeleteValueHook, getObjValue, StateKey, UsePropsForInputObj } from '@/hooks';
 import { Button, DialogTitle, Dialog, DialogActions } from '@mui/material';
@@ -7,10 +7,13 @@ import { useContext, useState } from 'react';
 import { SortableContainerProps, SortableContainer, SortEnd, SortableElementProps, SortableElement } from 'react-sortable-hoc';
 import { animated, useSpring } from 'react-spring';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { DragDropContext, Droppable, Draggable, OnDragEndResponder, DropResult, DroppableProvided, DragStart } from '@hello-pangea/dnd';
 import styles from './index.module.scss';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 
 interface InputItemProps {
     value: number,
+    draggingId: number | null,
     keys: StateKey[],
     getInputContent: (keys: StateKey[], value: number) => JSX.Element,
     deleteValueHook: DeleteValueHook,
@@ -18,51 +21,51 @@ interface InputItemProps {
     className: string
 }
 
-const InputItem = ({ value, keys, getInputContent, deleteValueHook, itemModalLabel, className }: InputItemProps) => {
+const InputItem = ({ value, draggingId, keys, getInputContent, deleteValueHook, itemModalLabel, className }: InputItemProps) => {
     const langCode = useContext(LanguageContext);
     const modalLocal = localization[langCode].form.modal;
     const [openDialog, setOpenDialog] = useState(false);
     const [showButtons, setShowButtons] = useState(false);
-    const opacityStyles = useSpring({ opacity: showButtons ? 1 : 0, config: { duration: 150 } });
+    const opacityStyles = useSpring({ opacity: showButtons || draggingId === value ? 1 : 0, config: { duration: 150 } });
     const handleDeletion = () => {
         setOpenDialog(false);
         deleteValueHook(keys, value);
     }
     const animatedStyles = { ...opacityStyles, display: 'inline-flex', alignItems: 'center' }
-    return <div className={className} onMouseEnter={() => setShowButtons(true)} onMouseLeave={() => setShowButtons(false)}>
-        <animated.span style={animatedStyles}><DragHandle /></animated.span>
-        {getInputContent([...keys, value], value)}
-        <span className={styles.deleteIconLine} onClick={() => setOpenDialog(true)}>
-            <animated.span style={animatedStyles}><DeleteIcon /></animated.span>
-        </span>
-        <Dialog
-            open={openDialog}
-            onClose={() => setOpenDialog(false)}
-        >
-            <DialogTitle>
-                {itemModalLabel}
-            </DialogTitle>
-            <DialogActions>
-                <Button onClick={() => setOpenDialog(false)} variant='outlined'>{modalLocal.no}</Button>
-                <Button onClick={handleDeletion} variant='contained' color="error">
-                    {modalLocal.yes}
-                </Button>
-            </DialogActions>
-        </Dialog>
-    </div >
+    return (
+        <Draggable draggableId={String(value)} index={value}>
+            {(provider) => (<div className={className} onMouseEnter={() => setShowButtons(true)} onMouseLeave={() => setShowButtons(false)} ref={provider.innerRef} {...provider.draggableProps}>
+                <animated.span style={animatedStyles}><DragHandleDnd isDragging={draggingId === value} {...provider.dragHandleProps} /> </animated.span>
+                {getInputContent([...keys, value], value)}
+                <span className={styles.deleteIconLine} onClick={() => setOpenDialog(true)}>
+                    <animated.span style={animatedStyles}><DeleteIcon /></animated.span>
+                </span>
+                <Dialog
+                    open={openDialog}
+                    onClose={() => setOpenDialog(false)}
+                >
+                    <DialogTitle>
+                        {itemModalLabel}
+                    </DialogTitle>
+                    <DialogActions>
+                        <Button onClick={() => setOpenDialog(false)} variant='outlined'>{modalLocal.no}</Button>
+                        <Button onClick={handleDeletion} variant='contained' color="error">
+                            {modalLocal.yes}
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </div >)
+            }
+        </Draggable >
+    )
 }
-
-const SortableItem: React.ComponentClass<SortableElementProps & InputItemProps, any> = SortableElement(InputItem);
 
 interface SortableListProps {
     children: React.ReactNode
 }
 
-const SortableList: React.ComponentClass<SortableContainerProps & SortableListProps, any> = SortableContainer(({ children }: SortableListProps) => {
-    return <div>{children}</div>;
-});
-
 interface AddedItemListProps {
+    formId: string,
     keys: StateKey[],
     usePropsForInputObj: UsePropsForInputObj,
     insertDataTemplate: any,
@@ -74,7 +77,9 @@ interface AddedItemListProps {
     className?: string,
     itemClassName?: string,
 }
-const VariableInputList = ({ keys,
+const VariableInputList = ({
+    formId,
+    keys,
     usePropsForInputObj,
     insertDataTemplate,
     sectionForms,
@@ -87,23 +92,38 @@ const VariableInputList = ({ keys,
     const { changeIndexHook, insertValueHook, deleteValueHook } = usePropsForInputObj
     const [openDialog, setOpenDialog] = useState(false);
     const modalLocal = localization[useContext(LanguageContext)].form.modal;
-    const onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
-        changeIndexHook(keys, oldIndex, newIndex);
+    const [draggingId, setDraggingId] = useState<number | null>(null);
+    const onDragStart = ({ draggableId }: DragStart) => {
+        setDraggingId(Number(draggableId))
+    };
+    const onDragEnd = ({ draggableId, destination }: DropResult) => {
+        setDraggingId(null);
+        if (destination) {
+            changeIndexHook(keys, Number(draggableId), destination.index);
+        }
     }
     const addHandle = () => {
         setOpenDialog(false);
         insertValueHook(keys, insertDataTemplate);
     }
     return <div className={className}>
-        <SortableList onSortEnd={onSortEnd} useDragHandle>
-            {(getObjValue(sectionForms, keys) as any[]).map((_value, index) => <SortableItem key={index} index={index}
-                value={index}
-                keys={keys}
-                getInputContent={getInputContent}
-                deleteValueHook={deleteValueHook}
-                itemModalLabel={itemModalLabel}
-                className={itemClassName} />)}
-        </SortableList>
+        <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
+            <Droppable droppableId={formId}>
+                {(provider) => (
+                    <div ref={provider.innerRef} {...provider.droppableProps}>
+                        {(getObjValue(sectionForms, keys) as any[]).map((_value, index) => <InputItem key={index}
+                            value={index}
+                            draggingId={draggingId}
+                            keys={keys}
+                            getInputContent={getInputContent}
+                            deleteValueHook={deleteValueHook}
+                            itemModalLabel={itemModalLabel}
+                            className={itemClassName} />)}
+                        {provider.placeholder}
+                    </div>
+                )}
+            </Droppable>
+        </DragDropContext>
         <Button onClick={() => setOpenDialog(true)} variant='outlined'>{buttonLabel}</Button>
         <Dialog open={openDialog}
             onClose={() => setOpenDialog(false)}
