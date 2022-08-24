@@ -126,7 +126,6 @@ const validateShallowKey = (obj: any, delegate: any) => {
     if (obj instanceof Array) {
         for (const element of obj) {
             if (!validateShallowKey(element, delegate[0])) {
-                console.log('3rd if')
                 return false;
             }
         }
@@ -134,13 +133,11 @@ const validateShallowKey = (obj: any, delegate: any) => {
     else if (obj instanceof Object) {
         for (const key in obj) {
             if (!(key in delegate)) {
-                console.log('1st if', key, obj, delegate)
                 return false;
             }
         }
         for (const key in delegate) {
             if (!(key in obj)) {
-                console.log('2nd if')
                 return false;
             }
         }
@@ -156,7 +153,6 @@ const validateObj = (obj: any, delegate: any, spectialKey: any = {}) => {
     if (obj instanceof Array) {
         for (const element of obj) {
             if (!validateObj(element, delegate[0], spectialKey)) {
-                console.log('invalid Array', element, obj, delegate[0])
                 return false;
             }
         }
@@ -166,13 +162,11 @@ const validateObj = (obj: any, delegate: any, spectialKey: any = {}) => {
             if (key in spectialKey) {
                 const typeStr = Object.prototype.toString.call(obj[key]);
                 if (typeStr.substring(8, typeStr.length - 1).toLocaleLowerCase() === spectialKey[key]) {
-                    console.log('continue key', key)
                     continue;
                 }
             }
             const isValid = validateObj(obj[key], delegate[key], spectialKey);
             if (!isValid) {
-                console.log('invalid Object', key, obj, delegate)
                 return false;
             }
         }
@@ -207,7 +201,6 @@ const validateSectionInfoData = (sectionInfos: SectionInfo[], spectialKey: any =
 
 
 export const validateSectionFormData = (sectionForms: SectionForm[], spectialKey: any = {}) => {
-    console.log('validateSectionInfoData', sectionForms, spectialKey);
     if (sectionForms.length !== initialSectionForms.length) {
         return false;
     }
@@ -235,6 +228,13 @@ export const validateSectionFormData = (sectionForms: SectionForm[], spectialKey
     return true;
 }
 
+const checkValidNumber = (value: any) => {
+    if (typeof value === 'string' && !isNaN(Number(value)) && value[0] !== '+' && value[0] !== '-' && value[0] !== '.') {
+        return true;
+    }
+    return false;
+}
+
 export const validateFormStyle = (formStyle: any, delegate: any) => {
     const keyValidation = validateShallowKey(formStyle, delegate);
     if (!keyValidation) {
@@ -244,7 +244,7 @@ export const validateFormStyle = (formStyle: any, delegate: any) => {
         for (const key in formStyle) {
             let isValid = true;
             if (key === 'padding' && typeof formStyle[key] === 'string') {
-                if (isNaN(formStyle[key].substring(0, formStyle[key].length - 2))) {
+                if (checkValidNumber(formStyle[key].substring(0, formStyle[key].length - 2))) {
                     isValid = false;
                 }
             }
@@ -254,9 +254,12 @@ export const validateFormStyle = (formStyle: any, delegate: any) => {
                 }
             }
             else if (typeof formStyle[key] === 'string') {
-                if (isNaN(formStyle[key])) {
+                if (checkValidNumber(formStyle[key])) {
                     isValid = false;
                 }
+            }
+            if (!isValid) {
+                return false;
             }
             isValid = validateFormStyle(formStyle[key], delegate[key]);
             if (!isValid) {

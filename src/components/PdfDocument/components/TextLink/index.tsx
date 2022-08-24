@@ -36,7 +36,6 @@ const TextLink = ({ text }: TextLinkProps) => {
                 validText += text[i];
             }
             else if (spaceReg.test(text[i]) || i === text.length - 1) {
-                console.log('link index', startLink, i, text[startLink], text[i]);
                 let linkText = text.substring(startLink, i);
                 if (i === text.length - 1) {
                     linkText = text.substring(startLink, i + 1);
@@ -50,7 +49,6 @@ const TextLink = ({ text }: TextLinkProps) => {
         if (validText && addLast) {
             renderGroup.push(validText);
         }
-        console.log('renderGroup',renderGroup)
         return renderGroup;
     }, [text]);
     return <>{textToLink.map((jsx, index) => <Text key={index}>{jsx}</Text>)}</>
