@@ -18,7 +18,7 @@ interface PdfViewAreaProps {
 }
 
 const PdfViewArea = ({ src, resizableStateRef, setResizableStateRef }: PdfViewAreaProps) => {
-    const [widthRange, setWidthRange] = useState({ minWidth: window.innerWidth / 4, maxWidth: window.innerWidth * 3 / 4 });
+    const [widthRange, setWidthRange] = useState({ minWidth: window.innerWidth / 4, maxWidth: window.innerWidth * 0.65 });
     const resizableContainerRef = useRef<HTMLDivElement>(null);
     const iframeRef = useRef<HTMLIFrameElement>(null);
     const setIframePointerEvent = useCallback((state: string) => {
@@ -29,7 +29,7 @@ const PdfViewArea = ({ src, resizableStateRef, setResizableStateRef }: PdfViewAr
     useEffect(() => {
         const windowResizeHanlde = () => {
             const minWidth = window.innerWidth / 4;
-            const maxWidth = minWidth * 3;
+            const maxWidth = window.innerWidth * 0.65;
             setWidthRange({ minWidth, maxWidth });
             const resizableContainer = resizableContainerRef.current?.children[0];
             if (resizableContainer) {
