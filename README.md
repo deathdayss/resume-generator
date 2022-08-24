@@ -6,3 +6,5 @@ This resume generator tool could help you build your own resume width several fe
 2. **Download PDF**: Download your resume pdf based on the information you provide.
 3. **Download JSON**: Download a .json file to store the information you provide.
 4. **Upload JSON**: Upload a .json file to retrieve the stored information to fill the forms.
+
+App Address: https://deathdayss.github.io/resume-generator/
