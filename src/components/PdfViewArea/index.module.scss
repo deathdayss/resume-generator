@@ -1,5 +1,6 @@
 .PdfViewContainer {
     .pdfView {
+        user-select: none;
         height: 99.5vh;
         top: 0;
         position: sticky;
