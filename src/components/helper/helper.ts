@@ -244,7 +244,7 @@ export const validateFormStyle = (formStyle: any, delegate: any) => {
         for (const key in formStyle) {
             let isValid = true;
             if (key === 'padding' && typeof formStyle[key] === 'string') {
-                if (checkValidNumber(formStyle[key].substring(0, formStyle[key].length - 2))) {
+                if (!checkValidNumber(formStyle[key].substring(0, formStyle[key].length - 2))) {
                     isValid = false;
                 }
             }
@@ -254,7 +254,7 @@ export const validateFormStyle = (formStyle: any, delegate: any) => {
                 }
             }
             else if (typeof formStyle[key] === 'string') {
-                if (checkValidNumber(formStyle[key])) {
+                if (!checkValidNumber(formStyle[key])) {
                     isValid = false;
                 }
             }
