@@ -1,23 +1,20 @@
+import { PdfViewOpen, resizableState } from '@/data/mobData';
+import { observer } from 'mobx-react-lite';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import Resizable from '../Resizable';
+import Resizable, { ResizableProps } from '../Resizable';
 import styles from './index.module.scss';
-
-export interface ResizableState {
-    useDragging: boolean,
-    width: number
-}
-
-export interface ResizableStateRef {
-    current: ResizableState
-}
 
 interface PdfViewAreaProps {
     src: string | null
-    resizableStateRef: ResizableStateRef,
-    setResizableStateRef: (arg: ResizableState) => void
 }
 
-const PdfViewArea = ({ src, resizableStateRef, setResizableStateRef }: PdfViewAreaProps) => {
+type GetSizeProps = {
+    getWidth: () => number;
+} & ResizableProps
+
+const GetSize = observer(({ getWidth, ...leftProps }: GetSizeProps) => <Resizable size={{ width: getWidth() }} {...leftProps} />)
+
+const PdfViewArea = ({ src }: PdfViewAreaProps) => {
     const [widthRange, setWidthRange] = useState({ minWidth: window.innerWidth / 4, maxWidth: window.innerWidth * 0.65 });
     const resizableContainerRef = useRef<HTMLDivElement>(null);
     const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -35,10 +32,7 @@ const PdfViewArea = ({ src, resizableStateRef, setResizableStateRef }: PdfViewAr
             if (resizableContainer) {
                 let containerWidth = Math.max(resizableContainer.clientWidth, minWidth);
                 containerWidth = Math.min(resizableContainer.clientWidth, maxWidth);
-                setResizableStateRef({
-                    useDragging: resizableStateRef.current.useDragging,
-                    width: containerWidth
-                })
+                resizableState.setWidth = containerWidth;
             }
         }
         const mouseDownHandle = () => setIframePointerEvent('none');
@@ -52,40 +46,35 @@ const PdfViewArea = ({ src, resizableStateRef, setResizableStateRef }: PdfViewAr
             window.removeEventListener('mouseup', mouseUpHandle);
         }
     }, []);
+    if (!PdfViewOpen.state) {
+        return null;
+    }
     return <div ref={resizableContainerRef} className={styles.PdfViewContainer}>
-        <Resizable
+        <GetSize
             sideClassName={styles.resizableSide}
             minSize={{ width: widthRange.minWidth }}
             maxSize={{ width: widthRange.maxWidth }}
-            size={{ width: resizableStateRef.current.width }}
+            getWidth={() => resizableState.width}
             onResizeStart={(_e, _d, _realLength, nextLength) => {
                 setIframePointerEvent('none');
-                setResizableStateRef({
-                    useDragging: true,
-                    width: nextLength as number
-                })
+                resizableState.setUseDragging = true;
+                resizableState.setWidth = Number(nextLength);
             }}
             onResize={(_e, _d, _realLength, nextLength) => {
-                setResizableStateRef({
-                    useDragging: resizableStateRef.current.useDragging,
-                    width: nextLength as number
-                })
+                resizableState.setWidth = Number(nextLength);
             }}
             onResizeEnd={() => {
                 setIframePointerEvent('auto');
                 const resizableContainer = resizableContainerRef.current?.children[0];
                 if (resizableContainer) {
-                    setResizableStateRef({
-                        useDragging: resizableStateRef.current.useDragging,
-                        width: resizableContainer.clientWidth
-                    })
+                    resizableState.setWidth = resizableContainer.clientWidth;
                 }
             }} className={styles.resizable} disabledDirection={['Top', 'Bottom', 'Left']} >
             <div ref={iframeRef} className={styles.pdfView}>
                 <iframe width='100%' height='100%' title="resume-doc" src={src ? src : undefined} />
             </div>
-        </Resizable >
+        </GetSize >
     </div>
 }
 
-export default PdfViewArea;
+export default observer(PdfViewArea);

@@ -1,7 +1,25 @@
+import { makeAutoObservable } from "mobx";
 import React from "react";
 
 export type Language = 'eng' | 'chi';
 export const LanguageContext = React.createContext<Language>('eng');
+class LanguageChanger {
+    langCode: Language = 'eng';
+
+    constructor() {
+        makeAutoObservable(this);
+    }
+
+    set setLangCode(langCode: Language) {
+        this.langCode = langCode;
+    }
+
+    get getLanCode() {
+        return this.langCode;
+    }
+}
+
+export const languageChanger = new LanguageChanger();
 
 const eng = {
     name: 'English',

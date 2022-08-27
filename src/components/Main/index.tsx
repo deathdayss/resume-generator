@@ -3,6 +3,8 @@ import { DocFormDataContext, initialSectionInfos } from '@/data/docData';
 import { Language, LanguageContext } from '@/data/localization';
 import { chiFonts } from '@/fonts';
 import { usePDF } from '@react-pdf/renderer';
+import { makeAutoObservable } from 'mobx';
+import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo, useState } from 'react';
 import { initialSectionForms } from '../../data/formData';
 import ControlArea from '../ControlArea';
@@ -12,6 +14,32 @@ import { DocStyles, initialDocStyles, initialFormStyles } from '../PdfDocument/d
 import PdfViewArea from '../PdfViewArea';
 import useStateRef from '../Resizable/hooks/useStateRef';
 import styles from './index.module.scss';
+
+class ArrayTest {
+    k = [{ a: { text: 'first' } }, { a: { text: 'second' } }]
+
+    constructor() {
+        makeAutoObservable(this);
+    }
+
+    changeFisrt() {
+        this.k[0].a.text += '0';
+    }
+
+    changeSecond() {
+        this.k[1].a.text += '0';
+    }
+}
+
+const array = new ArrayTest();
+
+const Test0 = observer(() => {
+    console.log('render Test0')
+    return <div>
+        <button onClick={() => array.changeFisrt()}>change first</button>
+        <div>{array.k[1].a.text}</div>
+    </div>
+})
 
 const Main = () => {
     const [langCode, setLangCode] = useState<Language>('eng');
@@ -30,11 +58,6 @@ const Main = () => {
             </DocFormDataContext.Provider>
         </LanguageContext.Provider>,
     });
-    const [isPdfViewOpen, setIsPdfViewOpen] = useState(true);
-    const [resizableStateRef, setResizableStateRef] = useStateRef({
-        useDragging: true,
-        width: (window.innerWidth - 20) / 2
-    });
     useEffect(() => {
         const storeLangCode = localStorage.getItem('resumeLangCode');
         if (storeLangCode) {
@@ -49,16 +72,15 @@ const Main = () => {
     }, [langCode]);
     useEffect(() => {
         updateDoc();
-    }, [sectionInfos, styleArgs])
+    }, [sectionInfos, styleArgs]);
+    console.log('render Main')
     return <LanguageContext.Provider value={langCode}>
         <DocFormDataContext.Provider value={DocFormDataContextValue}>
+            <Test0 />
             <div className={styles.main}>
-                {isPdfViewOpen ? <PdfViewArea src={instanceDoc.url} resizableStateRef={resizableStateRef} setResizableStateRef={setResizableStateRef} /> : null}
+                <PdfViewArea src={instanceDoc.url} />
                 <div className={styles.rightFlexItem}>
                     <ControlArea setLangCode={setLangCode}
-                        setResizableStateRef={setResizableStateRef}
-                        setIsPdfViewOpen={setIsPdfViewOpen}
-                        isPdfViewOpen={isPdfViewOpen}
                         instanceDoc={instanceDoc}
                     />
                     <Footer />

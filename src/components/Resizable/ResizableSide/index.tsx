@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite';
 import React, { CSSProperties, MutableRefObject, useContext, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import useStateRef from '../hooks/useStateRef';
@@ -235,4 +236,4 @@ const ResizableSide = ({
   );
 };
 
-export default ResizableSide;
+export default observer(ResizableSide);

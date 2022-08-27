@@ -1,5 +1,4 @@
 import { initialFormStyles } from "@/components/PdfDocument/docStyles";
-import { ResizableState } from "@/components/PdfViewArea";
 import localization, { Language, LanguageContext } from "@/data/localization";
 import { docDataToFormData, DocFormDataContext, formDataToDocData } from "@/data/docData";
 import { ForwardOutlined, LoadingOutlined, UploadOutlined } from "@ant-design/icons";
@@ -9,6 +8,8 @@ import { useContext, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import { changeAllPropsValue, downloadFile, textDataSpecialKeys, UsePDFInstance, validateFormStyle, validateJSON, validateSectionFormData } from "../../helper/helper";
 import styles from './index.module.scss';
+import { PdfViewOpen, resizableState } from "@/data/mobData";
+import { observer } from "mobx-react-lite";
 
 message.config({ maxCount: 1 })
 
@@ -16,19 +17,22 @@ const { Option } = Select;
 
 interface TopButtonAreaProps {
     setLangCode: (arg: Language) => void
-    setResizableStateRef: (arg: ResizableState) => void,
-    setIsPdfViewOpen: (isPdfViewOpen: boolean) => void,
-    isPdfViewOpen: boolean,
     instanceDoc: UsePDFInstance,
 }
 
+type PdfButtonProps = {
+    showState: () => boolean;
+    hideView: string,
+    openView: string
+} & any
+
+const PdfButton = observer(({ showState, hideView, openView, ...leftProps }: PdfButtonProps) => <Button {...leftProps}>{showState() ? hideView : openView}</Button>)
+
 const TopButtonArea = ({
     setLangCode,
-    setResizableStateRef,
-    setIsPdfViewOpen,
-    isPdfViewOpen,
     instanceDoc,
 }: TopButtonAreaProps) => {
+    console.log('render TopButtonArea');
     const langCode = useContext(LanguageContext);
     const { title, sectionForms, setSectionForms, styleArgs, setStylesArgs, sectionInfos, setSectionInfos, formStyleArgs, setFormStyleArgs } = useContext(DocFormDataContext);
     const buttonLocal = localization[langCode].form.button;
@@ -42,13 +46,11 @@ const TopButtonArea = ({
         setSectionForms(changeAllPropsValue(sectionForms, { isCollapse: willCollapse }, (sectionForm) => sectionForm.inUse));
     }
     const PdfViewHandle = () => {
-        setIsPdfViewOpen(!isPdfViewOpen);
+        PdfViewOpen.toggleState();
     }
     const layoutHandle = () => {
-        setResizableStateRef({
-            useDragging: false,
-            width: (window.innerWidth - 20) / 2
-        })
+        resizableState.setUseDragging = false;
+        resizableState.setWidth = (window.innerWidth - 20) / 2;
     }
     const inUseHandle = () => {
         setWillCollapse(true);
@@ -133,7 +135,7 @@ const TopButtonArea = ({
                 <animated.span style={{ marginRight: '0.4rem', ...arrowStyles }}> <ForwardOutlined /></animated.span>
                 {willCollapse ? buttonLocal.collapseAll : buttonLocal.expandAll}</Button>
             <Button className={styles.layoutButton} onClick={layoutHandle} >{buttonLocal.defaultLayout}</Button>
-            <Button className={styles.pdfViewButton} onClick={PdfViewHandle}>{isPdfViewOpen ? buttonLocal.hideView : buttonLocal.openView}</Button>
+            <PdfButton showState={() => PdfViewOpen.state} hideView={buttonLocal.hideView} openView={buttonLocal.openView} className={styles.pdfViewButton} onClick={PdfViewHandle} />
             <Button style={{ textTransform: 'none' }} onClick={inUseHandle}>{buttonLocal.useAll}</Button>
             <Select className={styles.selectLang} value={langCode} style={{ width: 120 }} onChange={selectLanguageHandle}>
                 {Object.keys(localization).map((value) => <Option key={value} value={value}>{localization[value as Language].name}</Option>)}

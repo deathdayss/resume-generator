@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite';
 import React, { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
 
 import ResizableSide from './ResizableSide';
@@ -16,7 +17,7 @@ interface Size {
   height?: number;
 }
 
-interface ResizableProps {
+export interface ResizableProps {
   className?: string;
   sideClassName?: string
   defaultSize?: Size;
@@ -107,4 +108,4 @@ const Resizable = ({
   );
 };
 
-export default Resizable;
+export default observer(Resizable);
