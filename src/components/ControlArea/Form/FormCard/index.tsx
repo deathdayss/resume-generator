@@ -1,6 +1,6 @@
 import { SelectStyle, TextFieldStyle } from '@/components/ModifiedUI';
 import { DetailTemplate } from '@/data/docData';
-import localization, { LanguageContext } from '@/data/localization';
+import localization, { languageManager } from '@/data/localization';
 import { ValueChangePairHook } from '@/hooks';
 import { MenuItem } from '@mui/material';
 import { useContext } from 'react';
@@ -15,7 +15,7 @@ interface FormCardProps {
 }
 
 const FormCard = ({ children, index, valueOnChange, last, hasTitle = true }: FormCardProps) => {
-    const langCode = useContext(LanguageContext);
+    const { langCode } = languageManager;
     const labelLocal = localization[langCode].form.label;
     const templateLocal = localization[langCode].form.template;
     return <div className={styles.FormCard} style={{

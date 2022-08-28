@@ -1,25 +1,32 @@
-import { makeAutoObservable } from "mobx";
-import React from "react";
+import { docStylesManager } from "@/components/PdfDocument/docStyles";
+import { chiFonts } from "@/fonts";
+import { makeAutoObservable, reaction } from "mobx";
 
 export type Language = 'eng' | 'chi';
-export const LanguageContext = React.createContext<Language>('eng');
-class LanguageChanger {
+// export const LanguageContext = React.createContext<Language>('eng');
+class LanguageManager {
     langCode: Language = 'eng';
 
     constructor() {
         makeAutoObservable(this);
+        const storeLangCode = localStorage.getItem('resumeLangCode');
+        if (storeLangCode) {
+            this.langCode = storeLangCode as Language;
+        }
     }
 
     set setLangCode(langCode: Language) {
         this.langCode = langCode;
     }
-
-    get getLanCode() {
-        return this.langCode;
-    }
 }
 
-export const languageChanger = new LanguageChanger();
+export const languageManager = new LanguageManager();
+
+reaction(() => languageManager.langCode, langCode => {
+    // if (langCode === 'chi' && !chiFonts.includes(docStyles.styles.page.fontFamily)) {
+    //     // TODO: set language
+    // }
+})
 
 const eng = {
     name: 'English',

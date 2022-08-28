@@ -1,4 +1,4 @@
-import localization, { LanguageContext } from "@/data/localization";
+import localization, { languageManager } from "@/data/localization";
 import { Detail } from "@/data/docData"
 import { Text } from "@react-pdf/renderer";
 import { useContext, useMemo } from "react";
@@ -10,9 +10,9 @@ interface DetailSectionProps extends SectionProps {
 }
 
 const DetailSection = ({ detail, templateId, last = false }: DetailSectionProps) => {
-    const langCode = useContext(LanguageContext);
+    // const langCode = useContext(LanguageContext);
 
-    const detailLocal = localization[langCode].document.detail;
+    const detailLocal = localization[languageManager.langCode].document.detail;
     const emailPhoneText = useMemo(() => {
         const emailText = detail.email ? detail.email : detailLocal.yourEmail;
         const phoneText = detail.phone ? detail.phone : detailLocal.yourPhone;

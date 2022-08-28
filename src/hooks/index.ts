@@ -1,16 +1,16 @@
 import { changeArrayIndex } from "@/components/helper/helper";
-import { DocFormDataContext } from "@/data/docData";
+// import { DocFormDataContext } from "@/data/docData";
 import { SectionForm } from "@/data/formData";
-import localization, { LanguageContext } from "@/data/localization";
+import localization, { languageManager } from "@/data/localization";
 import { useContext } from "react";
 
 export const useSectionForm = (sectionForm: SectionForm) => {
-    const { sectionForms, setSectionForms } = useContext(DocFormDataContext);
-    const langCode = useContext(LanguageContext);
-    const labelLocal = localization[langCode].form.label;
-    const usePropsForInputObj = usePropsForInput(sectionForms, setSectionForms);
+    // const { sectionForms, setSectionForms } = useContext(DocFormDataContext);
+    // const langCode = useContext(LanguageContext);
+    const labelLocal = localization[languageManager.langCode].form.label;
+    // const usePropsForInputObj = usePropsForInput(sectionForms, setSectionForms);
     const { index } = sectionForm;
-    return { langCode, labelLocal, usePropsForInputObj, ...usePropsForInputObj, index, sectionForms, setSectionForms, last: sectionForm.index === sectionForms.length - 1 };
+    // return { langCode, labelLocal, usePropsForInputObj, ...usePropsForInputObj, index, sectionForms, setSectionForms, last: sectionForm.index === sectionForms.length - 1 };
 }
 
 export type StateKey = string | number

@@ -1,9 +1,9 @@
 import localization, { Language } from "@/data/localization";
-import { Detail, initialSectionInfos, SectionInfo } from "@/data/docData";
+// import { Detail, initialSectionInfos, SectionInfo } from "@/data/docData";
 import globalFontFamily from "@/fonts";
+import { uniqueId } from "lodash";
 import { initialSectionForms, SectionForm } from "../../data/formData";
-import { initialFormStyles } from "../PdfDocument/docStyles";
-
+// import { initialFormStyles } from "../PdfDocument/docStyles";
 export interface UsePDFInstance {
     loading: boolean;
     blob: Blob | null;
@@ -91,27 +91,27 @@ export const downloadFile = (jsonFile: object, fileName: string) => {
 
 export const textDataSpecialKeys = { visa: 'null', phone: 'null', email: 'null', GPA: 'null' }
 
-export const validateJSON = (jsonContent: any) => {
-    if (!jsonContent.sectionInfos
-        || !jsonContent.styleArgs
-        || !validateFormStyle(jsonContent.styleArgs, initialFormStyles)
-        || !validateSectionInfoData(jsonContent.sectionInfos, textDataSpecialKeys)
-    ) {
-        return false;
-    }
-    return true;
-}
+// export const validateJSON = (jsonContent: any) => {
+//     if (!jsonContent.sectionInfos
+//         || !jsonContent.styleArgs
+//         || !validateFormStyle(jsonContent.styleArgs, initialFormStyles)
+//         || !validateSectionInfoData(jsonContent.sectionInfos, textDataSpecialKeys)
+//     ) {
+//         return false;
+//     }
+//     return true;
+// }
 
-export const getPdfTitle = (sectionInfos: SectionInfo[], langCode: Language) => {
-    let title = localization[langCode].resumeTitle;
-    for (const sectionInfo of sectionInfos) {
-        if (sectionInfo.id === 'Detail' && (sectionInfo.textData as Detail).personName) {
-            title = `${(sectionInfo.textData as Detail).personName}-${localization[langCode].resume}`
-        }
-    }
-    title = title.replaceAll(' ', '-');
-    return title;
-}
+// export const getPdfTitle = (sectionInfos: SectionInfo[], langCode: Language) => {
+//     let title = localization[langCode].resumeTitle;
+//     for (const sectionInfo of sectionInfos) {
+//         if (sectionInfo.id === 'Detail' && (sectionInfo.textData as Detail).personName) {
+//             title = `${(sectionInfo.textData as Detail).personName}-${localization[langCode].resume}`
+//         }
+//     }
+//     title = title.replaceAll(' ', '-');
+//     return title;
+// }
 
 export const setArrayElement = <T>(element: T, index: number, elementArray: T[], setElementArray: (arg: T[]) => void) => {
     const newElementArray = [...elementArray];
@@ -174,30 +174,30 @@ const validateObj = (obj: any, delegate: any, spectialKey: any = {}) => {
     return true;
 }
 
-const validateSectionInfoData = (sectionInfos: SectionInfo[], spectialKey: any = {}) => {
-    let copyInitial = [...initialSectionInfos]
-    for (const sectionInfo of sectionInfos) {
-        let findId = false;
-        for (let i = 0; i < copyInitial.length; ++i) {
-            if (sectionInfo.id === copyInitial[i].id) {
-                if (findId) {
-                    return false;
-                }
-                const isValid = validateObj(sectionInfo, copyInitial[i], spectialKey);
-                if (!isValid) {
-                    return false;
-                }
-                copyInitial.splice(i, 1);
-                findId = true;
-                --i;
-            }
-        }
-        if (!findId) {
-            return false;
-        }
-    }
-    return true;
-}
+// const validateSectionInfoData = (sectionInfos: SectionInfo[], spectialKey: any = {}) => {
+//     let copyInitial = [...initialSectionInfos]
+//     for (const sectionInfo of sectionInfos) {
+//         let findId = false;
+//         for (let i = 0; i < copyInitial.length; ++i) {
+//             if (sectionInfo.id === copyInitial[i].id) {
+//                 if (findId) {
+//                     return false;
+//                 }
+//                 const isValid = validateObj(sectionInfo, copyInitial[i], spectialKey);
+//                 if (!isValid) {
+//                     return false;
+//                 }
+//                 copyInitial.splice(i, 1);
+//                 findId = true;
+//                 --i;
+//             }
+//         }
+//         if (!findId) {
+//             return false;
+//         }
+//     }
+//     return true;
+// }
 
 
 export const validateSectionFormData = (sectionForms: SectionForm[], spectialKey: any = {}) => {
@@ -268,4 +268,8 @@ export const validateFormStyle = (formStyle: any, delegate: any) => {
         }
     }
     return true;
+}
+
+export const produceItemWithId = (prefix: string, itemProps: any) => {
+    return { id: uniqueId(prefix), ...itemProps }
 }

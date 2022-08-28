@@ -14,22 +14,23 @@ const ControlArea = ({
     setLangCode,
     instanceDoc,
 }: ControlAreaProps) => {
-    return (
-        <div className={styles.controlContainer}>
-            <div className={styles.TopButtonArea}>
-                <TopButtonArea
-                    setLangCode={setLangCode}
-                    instanceDoc={instanceDoc}
-                />
-            </div>
-            <div className={styles.formArea}>
-                <DraggableFormArea />
-            </div>
-            <div className={styles.styleArea}>
-                <StyleControlArea />
-            </div>
-        </div>
-    )
+    // return (
+    //     <div className={styles.controlContainer}>
+    //         <div className={styles.TopButtonArea}>
+    //             <TopButtonArea
+    //                 setLangCode={setLangCode}
+    //                 instanceDoc={instanceDoc}
+    //             />
+    //         </div>
+    //         <div className={styles.formArea}>
+    //             <DraggableFormArea />
+    //         </div>
+    //         <div className={styles.styleArea}>
+    //             <StyleControlArea />
+    //         </div>
+    //     </div>
+    // )
+    return null;
 }
 
 export default ControlArea;

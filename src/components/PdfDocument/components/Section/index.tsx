@@ -1,7 +1,7 @@
 import { Text, View } from '@react-pdf/renderer';
 import React, { useContext } from 'react';
 import { LastProps } from '../../common/type';
-import { DocStylesContext } from '../../docStyles';
+// import { DocStylesContext } from '../../docStyles';
 interface SectionProps extends LastProps {
     children: React.ReactNode,
     title: string,
@@ -9,11 +9,12 @@ interface SectionProps extends LastProps {
 }
 
 const Section = ({ children, title, last = false }: SectionProps) => {
-    const docStyles = useContext(DocStylesContext);
-    return < View style={last ? [] : docStyles.section} >
-        <Text style={docStyles.title}>{title}</Text>
-        {children}
-    </View >
+    // const docStyles = useContext(DocStylesContext);
+    // return < View style={last ? [] : docStyles.section} >
+    //     <Text style={docStyles.title}>{title}</Text>
+    //     {children}
+    // </View >
+    return null;
 }
 
 export default Section;

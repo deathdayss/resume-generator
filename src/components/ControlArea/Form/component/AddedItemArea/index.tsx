@@ -1,7 +1,7 @@
 import { MuiDragHandle } from "@/components/ControlArea/Draggable";
 import { CheckTextFieldStyle, PeriodTextField, TextFieldStyle } from "@/components/ModifiedUI";
 import { SectionForm, sectionItemDelegate } from "@/data/formData";
-import localization, { LanguageContext } from "@/data/localization";
+import localization, { languageManager } from "@/data/localization";
 import { DeleteValueHook, StateKey, UsePropsForInputObj } from "@/hooks";
 import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
 import { useContext, useState } from "react";
@@ -19,7 +19,7 @@ interface AddedItemContainerProps {
 }
 
 const AddedItemCard = ({ itemIndex, sectionForm, deleteValueHook, children, className = styles.itemCard }: AddedItemContainerProps) => {
-    const langCode = useContext(LanguageContext);
+    const { langCode } = languageManager;
     const modalLocal = localization[langCode].form.modal;
     const [openDialog, setOpenDialog] = useState(false);
     const [showButtons, setShowButtons] = useState(false);
@@ -61,7 +61,7 @@ interface AddedItemProps {
 }
 
 const AddedItem = ({ value, sectionForm, sectionForms, usePropsForInputObj }: AddedItemProps) => {
-    const langCode = useContext(LanguageContext);
+    const { langCode } = languageManager;
     const buttonLocal = localization[langCode].form.button;
     const labelLocal = localization[langCode].form.label;
     const modalLocal = localization[langCode].form.modal;
@@ -131,7 +131,7 @@ const SortableList: React.ComponentClass<SortableContainerProps & SortableListPr
 });
 
 const AddedItemArea = ({ sectionForm, sectionForms, usePropsForInputObj, className }: AddedItemAreaProps) => {
-    const langCode = useContext(LanguageContext);
+    const { langCode } = languageManager;
     const buttonLocal = localization[langCode].form.button;
     const modalLocal = localization[langCode].form.modal;
     const { changeIndexHook, insertValueHook } = usePropsForInputObj
@@ -143,31 +143,32 @@ const AddedItemArea = ({ sectionForm, sectionForms, usePropsForInputObj, classNa
         setOpenDialog(false);
         insertValueHook([sectionForm.index, 'textData', 'items'], sectionItemDelegate[sectionForm.id.toLowerCase() as keyof typeof sectionItemDelegate], 0)
     }
-    return <div className={className}>
-        <Button onClick={() => setOpenDialog(true)} variant='outlined'>{buttonLocal.add}</Button>
-        <SortableList onSortEnd={onSortEnd} useDragHandle>
-            {'items' in sectionForm.textData ? sectionForm.textData.items.map((_value, index) => <SortableItem key={index} index={index}
-                value={index}
-                sectionForm={sectionForm}
-                sectionForms={sectionForms}
-                usePropsForInputObj={usePropsForInputObj} />) : null}
-        </SortableList>
-        <Dialog open={openDialog}
-            onClose={() => setOpenDialog(false)}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-        >
-            <DialogTitle id="alert-dialog-title">
-                {modalLocal[`${sectionForm.id.toLowerCase()}Add` as keyof typeof modalLocal]}
-            </DialogTitle>
-            <DialogActions>
-                <Button onClick={() => setOpenDialog(false)} variant='outlined'>{modalLocal.no}</Button>
-                <Button onClick={addHandle} variant='contained'>
-                    {modalLocal.yes}
-                </Button>
-            </DialogActions>
-        </Dialog>
-    </div >
+    // return <div className={className}>
+    //     <Button onClick={() => setOpenDialog(true)} variant='outlined'>{buttonLocal.add}</Button>
+    //     <SortableList onSortEnd={onSortEnd} useDragHandle>
+    //         {'items' in sectionForm.textData ? sectionForm.textData.items.map((_value, index) => <SortableItem key={index} index={index}
+    //             value={index}
+    //             sectionForm={sectionForm}
+    //             sectionForms={sectionForms}
+    //             usePropsForInputObj={usePropsForInputObj} />) : null}
+    //     </SortableList>
+    //     <Dialog open={openDialog}
+    //         onClose={() => setOpenDialog(false)}
+    //         aria-labelledby="alert-dialog-title"
+    //         aria-describedby="alert-dialog-description"
+    //     >
+    //         <DialogTitle id="alert-dialog-title">
+    //             {modalLocal[`${sectionForm.id.toLowerCase()}Add` as keyof typeof modalLocal]}
+    //         </DialogTitle>
+    //         <DialogActions>
+    //             <Button onClick={() => setOpenDialog(false)} variant='outlined'>{modalLocal.no}</Button>
+    //             <Button onClick={addHandle} variant='contained'>
+    //                 {modalLocal.yes}
+    //             </Button>
+    //         </DialogActions>
+    //     </Dialog>
+    // </div >
+    return null;
 }
 
 export default AddedItemArea;

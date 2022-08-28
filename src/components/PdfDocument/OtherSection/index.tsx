@@ -1,5 +1,5 @@
-import { OtherInfo } from "@/data/docData";
-import localization, { LanguageContext } from "@/data/localization";
+// import { OtherInfo } from "@/data/docData";
+import localization, { languageManager } from "@/data/localization";
 import { Text } from "@react-pdf/renderer";
 import { useContext } from "react";
 import { SectionProps } from "../common/type";
@@ -7,18 +7,21 @@ import Section from "../components/Section";
 import TextLink from "../components/TextLink";
 
 interface OtherSectionProps extends SectionProps {
-    other: OtherInfo | undefined
+    // other: OtherInfo | undefined
 }
 
-const OtherSection = ({ other, templateId, last = false }: OtherSectionProps) => {
-    const langCode = useContext(LanguageContext);
-    if (other === undefined) {
-        return null;
-    }
-    const { title, description } = other;
-    return <Section title={title ? title : localization[langCode].document.other.title} last={last}>
-        <Text>{description ? <TextLink text={description} /> : localization[langCode].document.common.yourDescription}</Text>
-    </Section>
+const OtherSection = ({
+    //  other
+    templateId, last = false }: OtherSectionProps) => {
+    // const langCode = useContext(LanguageContext);
+    // if (other === undefined) {
+    //     return null;
+    // }
+    // const { title, description } = other;
+    // return <Section title={title ? title : localization[langCode].document.other.title} last={last}>
+    //     <Text>{description ? <TextLink text={description} /> : localization[langCode].document.common.yourDescription}</Text>
+    // </Section>
+    return null;
 }
 
 export default OtherSection;

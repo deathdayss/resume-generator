@@ -1,6 +1,6 @@
 import { DragHandleDnd } from '@/components/ControlArea/Draggable';
 import { SectionForm } from '@/data/formData';
-import localization, { LanguageContext } from '@/data/localization';
+import localization, { languageManager } from '@/data/localization';
 import { DeleteValueHook, getObjValue, StateKey, UsePropsForInputObj } from '@/hooks';
 import { DragDropContext, Draggable, DragStart, Droppable, DropResult } from '@hello-pangea/dnd';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -20,8 +20,8 @@ interface InputItemProps {
 }
 
 const InputItem = ({ value, draggingId, keys, getInputContent, deleteValueHook, itemModalLabel, className }: InputItemProps) => {
-    const langCode = useContext(LanguageContext);
-    const modalLocal = localization[langCode].form.modal;
+    // const langCode = useContext(LanguageContext);
+    const modalLocal = localization[languageManager.langCode].form.modal;
     const [openDialog, setOpenDialog] = useState(false);
     const [showButtons, setShowButtons] = useState(false);
     const opacityStyles = useSpring({ opacity: showButtons || draggingId === value ? 1 : 0, config: { duration: 150 } });
@@ -85,7 +85,7 @@ const VariableInputList = ({
     itemClassName = styles.item }: AddedItemListProps) => {
     const { changeIndexHook, insertValueHook, deleteValueHook } = usePropsForInputObj
     const [openDialog, setOpenDialog] = useState(false);
-    const modalLocal = localization[useContext(LanguageContext)].form.modal;
+    const modalLocal = localization[languageManager.langCode].form.modal;
     const [draggingId, setDraggingId] = useState<number | null>(null);
     const onDragStart = ({ draggableId }: DragStart) => {
         setDraggingId(Number(draggableId))
