@@ -2,6 +2,7 @@ import localization, { languageManager } from "@/data/localization";
 import { StateKey, ValueChangePair, ValueChangePairHook } from "@/hooks";
 import styled from "@emotion/styled";
 import { Checkbox, checkboxClasses, FormControlLabel, inputClasses, inputLabelClasses, Select, SelectProps, TextField, TextFieldProps } from "@mui/material";
+import { observer } from "mobx-react-lite";
 import { useContext } from "react";
 
 export const TextFieldLabel = styled(TextField)(`
@@ -13,36 +14,57 @@ export const TextFieldLabel = styled(TextField)(`
 
 type TextFieldStyleProps = {
     inputClassName?: string,
-    inputWidth?: string
+    inputWidth?: string,
     inputStyle?: object,
+    getValue?: () => string,
+    onValueChange?: (e: string) => void,
+    getValidation?: (() => boolean)[],
+    errorText?: string[],
 } & TextFieldProps
 
-export const TextFieldStyle = ({ inputWidth, inputClassName, inputStyle, variant, fullWidth, ...leftProps }: TextFieldStyleProps) => {
+export const TextFieldStyle = observer(({ inputWidth, inputClassName, inputStyle, variant, fullWidth, getValue, onValueChange, getValidation, errorText, ...leftProps }: TextFieldStyleProps) => {
+    let errorIndex = -1;
+    if (getValidation) {
+        for (let i = 0; i < getValidation.length; ++i) {
+            const validationResult = getValidation[i]();
+            if (!validationResult) {
+                errorIndex = i;
+                break;
+            }
+        }
+    }
     return <div className={inputClassName} style={{
         width: inputWidth,
         display: 'inline-block',
         ...inputStyle
     }}>
-        <TextFieldLabel {...leftProps} fullWidth={fullWidth === undefined ? true : fullWidth} variant={variant ? variant : 'filled'} />
+        <TextFieldLabel {...leftProps}
+            value={getValue ? getValue() : undefined}
+            error={errorIndex >= 0}
+            helperText={errorIndex >= 0 && errorText ? errorText[errorIndex] : undefined}
+            onChange={onValueChange ? (e) => {
+                onValueChange(e.target.value)
+            } : undefined}
+            fullWidth={fullWidth === undefined ? true : fullWidth} variant={variant ? variant : 'filled'} />
     </div>
-}
+})
 
-type SelectStyleProps = TextFieldProps & {
+type SelectStyleProps = {
     selectClassName?: string,
     selectWidth?: string,
     selectStyle?: object,
-}
+} & TextFieldStyleProps
 
-export const SelectStyle = (props: SelectStyleProps) => {
+export const SelectStyle = observer((props: SelectStyleProps) => {
     const { selectWidth, selectClassName, selectStyle, variant, fullWidth, ...leftProps } = props;
     return <div className={selectClassName} style={{
         width: selectWidth,
         display: 'inline-block',
         ...selectStyle
     }}>
-        <TextFieldLabel {...leftProps} select fullWidth={fullWidth === undefined ? true : fullWidth} variant={variant ? variant : 'filled'} />
+        <TextFieldStyle {...leftProps} inputWidth={'100%'} select fullWidth={fullWidth === undefined ? true : fullWidth} variant={variant ? variant : 'filled'} />
     </div>
-}
+})
 
 type PeriodTextFieldProps = {
     keys: StateKey[],

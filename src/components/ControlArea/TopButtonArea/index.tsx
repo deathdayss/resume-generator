@@ -10,14 +10,16 @@ import { animated, useSpring } from "react-spring";
 import styles from './index.module.scss';
 import { PdfViewOpen, resizableState } from "@/data/mobData";
 import { observer } from "mobx-react-lite";
+import { UsePDFInstance } from "@/components/helper/helper";
+import { sectionForms } from "@/data/formData";
+import { sectionInfos } from "@/data/docData";
 
 message.config({ maxCount: 1 })
 
 const { Option } = Select;
 
 interface TopButtonAreaProps {
-    setLangCode: (arg: Language) => void
-    // instanceDoc: UsePDFInstance,
+    instanceDoc: UsePDFInstance,
 }
 
 type PdfButtonProps = {
@@ -29,37 +31,34 @@ type PdfButtonProps = {
 const PdfButton = observer(({ showState, hideView, openView, ...leftProps }: PdfButtonProps) => <Button {...leftProps}>{showState() ? hideView : openView}</Button>)
 
 const TopButtonArea = ({
-    setLangCode,
-    // instanceDoc,
+    instanceDoc,
 }: TopButtonAreaProps) => {
-    // console.log('render TopButtonArea');
-    // const langCode = useContext(LanguageContext);
-    // const { title, sectionForms, setSectionForms, styleArgs, setStylesArgs, sectionInfos, setSectionInfos, formStyleArgs, setFormStyleArgs } = useContext(DocFormDataContext);
-    // const buttonLocal = localization[langCode].form.button;
-    // const messageLocal = localization[langCode].form.message;
-    // const [willCollapse, setWillCollapse] = useState(true);
-    // const arrowStyles = useSpring({ transform: willCollapse ? 'rotate(90deg)' : 'rotate(-90deg)' });
-    // const [isLoading, setIsLoading] = useState(false);
-    // const [fileName, setFileName] = useState('');
-    // const collapseAllHandle = () => {
-    //     setWillCollapse(!willCollapse)
-    //     setSectionForms(changeAllPropsValue(sectionForms, { isCollapse: willCollapse }, (sectionForm) => sectionForm.inUse));
-    // }
-    // const PdfViewHandle = () => {
-    //     PdfViewOpen.toggleState();
-    // }
-    // const layoutHandle = () => {
-    //     resizableState.setUseDragging = false;
-    //     resizableState.setWidth = (window.innerWidth - 20) / 2;
-    // }
-    // const inUseHandle = () => {
-    //     setWillCollapse(true);
-    //     setSectionForms(changeAllPropsValue(sectionForms, { isCollapse: false, inUse: true }));
-    // }
-    // const selectLanguageHandle = (value: Language) => {
-    //     localStorage.setItem('resumeLangCode', value);
-    //     setLangCode(value);
-    // }
+    console.log('render TopButtonArea');
+    const buttonLocal = localization[languageManager.langCode].form.button;
+    const messageLocal = localization[languageManager.langCode].form.message;
+    const [willCollapse, setWillCollapse] = useState(true);
+    const arrowStyles = useSpring({ transform: willCollapse ? 'rotate(90deg)' : 'rotate(-90deg)' });
+    const [isLoading, setIsLoading] = useState(false);
+    const [fileName, setFileName] = useState('');
+    const collapseAllHandle = () => {
+        setWillCollapse(!willCollapse);
+        sectionForms.setAllIsCollapse(willCollapse);
+    }
+    const PdfViewHandle = () => {
+        PdfViewOpen.toggleState();
+    }
+    const layoutHandle = () => {
+        resizableState.setUseDragging = false;
+        resizableState.setWidth = (window.innerWidth - 20) / 2;
+    }
+    const inUseHandle = () => {
+        setWillCollapse(true);
+        sectionForms.setAllInUse(true);
+        sectionForms.setAllIsCollapse(false);
+    }
+    const selectLanguageHandle = (value: Language) => {
+        languageManager.setLangCode(value);
+    }
     // const saveHandle = () => {
     //     if (
     //         !validateSectionFormData(sectionForms, textDataSpecialKeys) ||
@@ -72,14 +71,14 @@ const TopButtonArea = ({
     //     setSectionInfos(formDataToDocData(sectionForms));
     //     setStylesArgs(formStyleArgs);
     // }
-    // const downloadPdfHanlde = () => {
-    //     if (instanceDoc.loading) {
-    //         message.loading(messageLocal.documentLoading, 2);
-    //     }
-    //     if (instanceDoc.error) {
-    //         message.error(messageLocal.documentFailLoad, 2);
-    //     }
-    // }
+    const downloadPdfHanlde = () => {
+        if (instanceDoc.loading) {
+            message.loading(messageLocal.documentLoading, 2);
+        }
+        if (instanceDoc.error) {
+            message.error(messageLocal.documentFailLoad, 2);
+        }
+    }
     // const uploadHanlde = (fileEvent: any) => {
     //     const pathName = fileEvent.target.value;
     //     if (!pathName) {
@@ -129,38 +128,38 @@ const TopButtonArea = ({
     //         }
     //     };
     // };
-    // return <div className={styles.buttonContainer}>
-    //     <div className={styles.firstLine}>
-    //         <Button variant="contained" onClick={collapseAllHandle} className={styles.CollapseButton} >
-    //             <animated.span style={{ marginRight: '0.4rem', ...arrowStyles }}> <ForwardOutlined /></animated.span>
-    //             {willCollapse ? buttonLocal.collapseAll : buttonLocal.expandAll}</Button>
-    //         <Button className={styles.layoutButton} onClick={layoutHandle} >{buttonLocal.defaultLayout}</Button>
-    //         <PdfButton showState={() => PdfViewOpen.state} hideView={buttonLocal.hideView} openView={buttonLocal.openView} className={styles.pdfViewButton} onClick={PdfViewHandle} />
-    //         <Button style={{ textTransform: 'none' }} onClick={inUseHandle}>{buttonLocal.useAll}</Button>
-    //         <Select className={styles.selectLang} value={langCode} style={{ width: 120 }} onChange={selectLanguageHandle}>
-    //             {Object.keys(localization).map((value) => <Option key={value} value={value}>{localization[value as Language].name}</Option>)}
-    //         </Select>
-    //     </div>
-    //     <div className={styles.secondLine}>
-    //         <Button variant="contained" onClick={saveHandle} >{buttonLocal.save}</Button>
-    //         <Button variant="contained" color="success"
-    //             onClick={() => downloadFile({ sectionInfos, styleArgs }, title)
-    //             }
-    //         >{buttonLocal.downloadJson}</Button>
-    //         <a href={instanceDoc.loading || instanceDoc.error || !instanceDoc.url ? undefined : instanceDoc.url} download={`${title}.pdf`}>
-    //             <Button onClick={() => downloadPdfHanlde()} variant="contained" color="secondary">
-    //                 {buttonLocal.downloadPdf}
-    //             </Button>
-    //         </a>
+    return <div className={styles.buttonContainer}>
+        <div className={styles.firstLine}>
+            <Button variant="contained" onClick={collapseAllHandle} className={styles.CollapseButton} >
+                <animated.span style={{ marginRight: '0.4rem', ...arrowStyles }}> <ForwardOutlined /></animated.span>
+                {willCollapse ? buttonLocal.collapseAll : buttonLocal.expandAll}</Button>
+            <Button className={styles.layoutButton} onClick={layoutHandle} >{buttonLocal.defaultLayout}</Button>
+            <PdfButton showState={() => PdfViewOpen.state} hideView={buttonLocal.hideView} openView={buttonLocal.openView} className={styles.pdfViewButton} onClick={PdfViewHandle} />
+            <Button style={{ textTransform: 'none' }} onClick={inUseHandle}>{buttonLocal.useAll}</Button>
+            <Select className={styles.selectLang} value={languageManager.langCode} style={{ width: 120 }} onChange={selectLanguageHandle}>
+                {Object.keys(localization).map((value) => <Option key={value} value={value}>{localization[value as Language].name}</Option>)}
+            </Select>
+        </div>
+        <div className={styles.secondLine}>
+            {/* <Button variant="contained" onClick={saveHandle} >{buttonLocal.save}</Button>
+            <Button variant="contained" color="success"
+                onClick={() => downloadFile({ sectionInfos, styleArgs }, title)
+                }
+            >{buttonLocal.downloadJson}</Button> */}
+            <a href={instanceDoc.loading || instanceDoc.error || !instanceDoc.url ? undefined : instanceDoc.url} download={`${sectionInfos.title}.pdf`}>
+                <Button onClick={() => downloadPdfHanlde()} variant="contained" color="secondary">
+                    {buttonLocal.downloadPdf}
+                </Button>
+            </a>
 
-    //         <label className={styles.inputUpload}>
-    //             <input type="file" onChange={uploadHanlde} onClick={(e) => (e.target as any).value = ''} />
-    //             {isLoading ? <LoadingOutlined /> : <UploadOutlined />}
-    //             &nbsp;&nbsp;&nbsp;{fileName ? fileName : buttonLocal.uploadJson}
-    //         </label>
-    //     </div>
-    // </div >
-    return null;
+            <label className={styles.inputUpload}>
+                {/* <input type="file" onChange={uploadHanlde} onClick={(e) => (e.target as any).value = ''} />
+                {isLoading ? <LoadingOutlined /> : <UploadOutlined />}
+                &nbsp;&nbsp;&nbsp;{fileName ? fileName : buttonLocal.uploadJson} */}
+            </label>
+        </div>
+    </div >
+    // return null;
 }
 
-export default TopButtonArea;
+export default observer(TopButtonArea);

@@ -1,5 +1,4 @@
 import { TextFieldStyle } from "@/components/ModifiedUI";
-import { useSectionForm } from "@/hooks";
 import FormCard from "../FormCard";
 import { SectionFormProps } from "../type";
 

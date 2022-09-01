@@ -63,7 +63,7 @@ interface AddedItemListProps {
     keys: StateKey[],
     usePropsForInputObj: UsePropsForInputObj,
     insertDataTemplate: any,
-    sectionForms: SectionForm[],
+    // sectionForms: SectionForm[],
     getInputContent: (keys: StateKey[], value: number) => JSX.Element,
     buttonLabel: string,
     listModalLabel: string,
@@ -76,7 +76,7 @@ const VariableInputList = ({
     keys,
     usePropsForInputObj,
     insertDataTemplate,
-    sectionForms,
+    // sectionForms,
     getInputContent,
     buttonLabel,
     listModalLabel,
@@ -105,7 +105,7 @@ const VariableInputList = ({
             <Droppable droppableId={formId}>
                 {(provider) => (
                     <div ref={provider.innerRef} {...provider.droppableProps}>
-                        {(getObjValue(sectionForms, keys) as any[]).map((_value, index) => <InputItem key={index}
+                        {/* {(getObjValue(sectionForms, keys) as any[]).map((_value, index) => <InputItem key={index}
                             value={index}
                             draggingId={draggingId}
                             keys={keys}
@@ -113,7 +113,7 @@ const VariableInputList = ({
                             deleteValueHook={deleteValueHook}
                             itemModalLabel={itemModalLabel}
                             className={itemClassName} />)}
-                        {provider.placeholder}
+                        {provider.placeholder} */}
                     </div>
                 )}
             </Droppable>

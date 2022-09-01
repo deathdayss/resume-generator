@@ -1,6 +1,7 @@
 import { MuiDragHandle } from "@/components/ControlArea/Draggable";
 import { CheckTextFieldStyle, PeriodTextField, TextFieldStyle } from "@/components/ModifiedUI";
-import { SectionForm, sectionItemDelegate } from "@/data/formData";
+import { SectionData } from "@/data/docData";
+import { SectionForm } from "@/data/formData";
 import localization, { languageManager } from "@/data/localization";
 import { DeleteValueHook, StateKey, UsePropsForInputObj } from "@/hooks";
 import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
@@ -12,7 +13,7 @@ import styles from './index.module.scss';
 
 interface AddedItemContainerProps {
     itemIndex: number,
-    sectionForm: SectionForm,
+    sectionForm: SectionForm<SectionData>,
     deleteValueHook: DeleteValueHook,
     children: React.ReactNode,
     className?: string,
@@ -26,7 +27,7 @@ const AddedItemCard = ({ itemIndex, sectionForm, deleteValueHook, children, clas
     const opacityStyles = useSpring({ opacity: showButtons ? 1 : 0, config: { duration: 150 } });
     const handleDeletion = () => {
         setOpenDialog(false);
-        deleteValueHook([sectionForm.index, 'textData', 'items'], itemIndex);
+        // deleteValueHook([sectionForm.index, 'textData', 'items'], itemIndex);
     }
     return <div className={className} onMouseEnter={() => setShowButtons(true)} onMouseLeave={() => setShowButtons(false)} >
         <animated.span style={opacityStyles}><MuiDragHandle className={styles.dragingHandler} /></animated.span>
@@ -55,12 +56,14 @@ const AddedItemCard = ({ itemIndex, sectionForm, deleteValueHook, children, clas
 
 interface AddedItemProps {
     value: number,
-    sectionForm: SectionForm,
-    sectionForms: SectionForm[],
+    // sectionForm: SectionForm,
+    // sectionForms: SectionForm[],
     usePropsForInputObj: UsePropsForInputObj
 }
 
-const AddedItem = ({ value, sectionForm, sectionForms, usePropsForInputObj }: AddedItemProps) => {
+const AddedItem = ({ value, 
+    // sectionForm, sectionForms, 
+    usePropsForInputObj }: AddedItemProps) => {
     const { langCode } = languageManager;
     const buttonLocal = localization[langCode].form.button;
     const labelLocal = localization[langCode].form.label;
@@ -69,55 +72,56 @@ const AddedItem = ({ value, sectionForm, sectionForms, usePropsForInputObj }: Ad
     const getInputContent = (keys: StateKey[], index: number) => {
         return <TextFieldStyle multiline inputStyle={{ flex: 1, marginLeft: '2rem', marginRight: '2rem', }} label={`${labelLocal.description} ${index + 1}`} {...valueChangePairHook(keys)} />;
     }
-    const getVariableInputList = <VariableInputList formId={sectionForm.id} keys={[sectionForm.index, 'textData', 'items', value, 'descriptions']}
-        usePropsForInputObj={usePropsForInputObj}
-        insertDataTemplate={''}
-        sectionForms={sectionForms}
-        getInputContent={getInputContent}
-        buttonLabel={buttonLocal.addDescription}
-        listModalLabel={modalLocal.addDescription}
-        itemModalLabel={modalLocal.deleteDescription} />
-    switch (sectionForm.id) {
-        case 'Experience':
-            return <AddedItemCard itemIndex={value} sectionForm={sectionForm} deleteValueHook={deleteValueHook}>
-                <div className={styles.line}>
-                    <TextFieldStyle label={labelLocal.position} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'position'])} />
-                    <TextFieldStyle label={labelLocal.companyName} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'companyName'])} />
-                </div>
-                <div className={styles.line}>
-                    <TextFieldStyle label={labelLocal.duration} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'duration'])} />
-                    <PeriodTextField keys={[sectionForm.index, 'textData', 'items', value, 'period']} valueChangePairHook={valueChangePairHook} />
-                </div>
-                {getVariableInputList}
-            </AddedItemCard>;
-        case 'Education':
-            return <AddedItemCard itemIndex={value} sectionForm={sectionForm} deleteValueHook={deleteValueHook}>
-                <div className={styles.line}>
-                    <TextFieldStyle label={labelLocal.instituionName} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'instituionName'])} />
-                    <TextFieldStyle label={labelLocal.degree} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'degree'])} />
-                </div>
-                <div className={styles.line}>
-                    <TextFieldStyle label={labelLocal.duration} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'duration'])} />
-                    <PeriodTextField keys={[sectionForm.index, 'textData', 'items', value, 'period']} valueChangePairHook={valueChangePairHook} />
-                </div>
-                <div className={styles.line}>
-                    <CheckTextFieldStyle  label={labelLocal.GPA} keys={[sectionForm.index, 'textData', 'items', value, 'GPA']} valueOnChange={valueChangePairHook} />
-                    <div />
-                </div>
-                {getVariableInputList}
-            </AddedItemCard>;
-        case 'Skill':
-            return null;
-        default:
-            throw new Error('This component should not have AddedItem')
-    }
+    // const getVariableInputList = <VariableInputList formId={sectionForm.id} keys={[sectionForm.index, 'textData', 'items', value, 'descriptions']}
+    //     usePropsForInputObj={usePropsForInputObj}
+    //     insertDataTemplate={''}
+    //     sectionForms={sectionForms}
+    //     getInputContent={getInputContent}
+    //     buttonLabel={buttonLocal.addDescription}
+    //     listModalLabel={modalLocal.addDescription}
+    //     itemModalLabel={modalLocal.deleteDescription} />
+    // switch (sectionForm.id) {
+    //     case 'Experience':
+    //         return <AddedItemCard itemIndex={value} sectionForm={sectionForm} deleteValueHook={deleteValueHook}>
+    //             <div className={styles.line}>
+    //                 <TextFieldStyle label={labelLocal.position} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'position'])} />
+    //                 <TextFieldStyle label={labelLocal.companyName} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'companyName'])} />
+    //             </div>
+    //             <div className={styles.line}>
+    //                 <TextFieldStyle label={labelLocal.duration} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'duration'])} />
+    //                 <PeriodTextField keys={[sectionForm.index, 'textData', 'items', value, 'period']} valueChangePairHook={valueChangePairHook} />
+    //             </div>
+    //             {getVariableInputList}
+    //         </AddedItemCard>;
+    //     case 'Education':
+    //         return <AddedItemCard itemIndex={value} sectionForm={sectionForm} deleteValueHook={deleteValueHook}>
+    //             <div className={styles.line}>
+    //                 <TextFieldStyle label={labelLocal.instituionName} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'instituionName'])} />
+    //                 <TextFieldStyle label={labelLocal.degree} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'degree'])} />
+    //             </div>
+    //             <div className={styles.line}>
+    //                 <TextFieldStyle label={labelLocal.duration} {...valueChangePairHook([sectionForm.index, 'textData', 'items', value, 'duration'])} />
+    //                 <PeriodTextField keys={[sectionForm.index, 'textData', 'items', value, 'period']} valueChangePairHook={valueChangePairHook} />
+    //             </div>
+    //             <div className={styles.line}>
+    //                 <CheckTextFieldStyle label={labelLocal.GPA} keys={[sectionForm.index, 'textData', 'items', value, 'GPA']} valueOnChange={valueChangePairHook} />
+    //                 <div />
+    //             </div>
+    //             {getVariableInputList}
+    //         </AddedItemCard>;
+    //     case 'Skill':
+    //         return null;
+    //     default:
+    //         throw new Error('This component should not have AddedItem')
+    // }
+    return null;
 }
 
 const SortableItem: React.ComponentClass<SortableElementProps & AddedItemProps, any> = SortableElement(AddedItem);
 
 interface AddedItemAreaProps {
-    sectionForm: SectionForm,
-    sectionForms: SectionForm[],
+    // sectionForm: SectionForm,
+    // sectionForms: SectionForm[],
     usePropsForInputObj: UsePropsForInputObj,
     className?: string
 }
@@ -130,19 +134,21 @@ const SortableList: React.ComponentClass<SortableContainerProps & SortableListPr
     return <div>{children}</div>;
 });
 
-const AddedItemArea = ({ sectionForm, sectionForms, usePropsForInputObj, className }: AddedItemAreaProps) => {
+const AddedItemArea = ({ 
+    // sectionForm, sectionForms,
+     usePropsForInputObj, className }: AddedItemAreaProps) => {
     const { langCode } = languageManager;
     const buttonLocal = localization[langCode].form.button;
     const modalLocal = localization[langCode].form.modal;
     const { changeIndexHook, insertValueHook } = usePropsForInputObj
     const [openDialog, setOpenDialog] = useState(false);
-    const onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
-        changeIndexHook([sectionForm.index, 'textData', 'items'], oldIndex, newIndex);
-    }
-    const addHandle = () => {
-        setOpenDialog(false);
-        insertValueHook([sectionForm.index, 'textData', 'items'], sectionItemDelegate[sectionForm.id.toLowerCase() as keyof typeof sectionItemDelegate], 0)
-    }
+    // const onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
+    //     changeIndexHook([sectionForm.index, 'textData', 'items'], oldIndex, newIndex);
+    // }
+    // const addHandle = () => {
+    //     setOpenDialog(false);
+    //     insertValueHook([sectionForm.index, 'textData', 'items'], sectionItemDelegate[sectionForm.id.toLowerCase() as keyof typeof sectionItemDelegate], 0)
+    // }
     // return <div className={className}>
     //     <Button onClick={() => setOpenDialog(true)} variant='outlined'>{buttonLocal.add}</Button>
     //     <SortableList onSortEnd={onSortEnd} useDragHandle>

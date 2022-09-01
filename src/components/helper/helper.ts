@@ -1,8 +1,9 @@
-import localization, { Language } from "@/data/localization";
+import { Period } from "@/data/docData";
+import localization, { Language, languageManager } from "@/data/localization";
 // import { Detail, initialSectionInfos, SectionInfo } from "@/data/docData";
 import globalFontFamily from "@/fonts";
 import { uniqueId } from "lodash";
-import { initialSectionForms, SectionForm } from "../../data/formData";
+// import { initialSectionForms, SectionForm } from "../../data/formData";
 // import { initialFormStyles } from "../PdfDocument/docStyles";
 export interface UsePDFInstance {
     loading: boolean;
@@ -57,23 +58,23 @@ export const changeArrayIndex = <T>(arr: T[], oldIndex: number, newIndex: number
     return newArr;
 }
 
-export const changeAllPropsValue = (sectionForms: SectionForm[], valueObj: object, condition?: (sectionForm: SectionForm) => boolean) => {
-    let newSectionForms = [];
-    for (const form of sectionForms) {
-        let addForm = form;
-        if (!condition || condition(form)) {
-            addForm = { ...form, ...valueObj }
-        }
-        newSectionForms.push(addForm);
-    }
-    return newSectionForms;
-}
+// export const changeAllPropsValue = (sectionForms: SectionForm[], valueObj: object, condition?: (sectionForm: SectionForm) => boolean) => {
+//     let newSectionForms = [];
+//     for (const form of sectionForms) {
+//         let addForm = form;
+//         if (!condition || condition(form)) {
+//             addForm = { ...form, ...valueObj }
+//         }
+//         newSectionForms.push(addForm);
+//     }
+//     return newSectionForms;
+// }
 
-export const changeFormPropValue = (sectionForm: SectionForm, sectionForms: SectionForm[], valueObj: object) => {
-    const newSectionForms = [...sectionForms];
-    newSectionForms[sectionForm.index] = { ...sectionForm, ...valueObj };
-    return newSectionForms;
-}
+// export const changeFormPropValue = (sectionForm: SectionForm, sectionForms: SectionForm[], valueObj: object) => {
+//     const newSectionForms = [...sectionForms];
+//     newSectionForms[sectionForm.index] = { ...sectionForm, ...valueObj };
+//     return newSectionForms;
+// }
 
 export const downloadFile = (jsonFile: object, fileName: string) => {
     const json = JSON.stringify(jsonFile, null, 2);
@@ -200,36 +201,36 @@ const validateObj = (obj: any, delegate: any, spectialKey: any = {}) => {
 // }
 
 
-export const validateSectionFormData = (sectionForms: SectionForm[], spectialKey: any = {}) => {
-    if (sectionForms.length !== initialSectionForms.length) {
-        return false;
-    }
-    sectionForms = [...sectionForms]
-    for (const sectionForm of initialSectionForms) {
-        let findId = false;
-        for (let i = 0; i < sectionForms.length; ++i) {
-            if (sectionForm.id === sectionForms[i].id) {
-                if (findId) {
-                    return false;
-                }
-                const isValid = validateObj(sectionForms[i], sectionForm, spectialKey);
-                if (!isValid) {
-                    return false;
-                }
-                sectionForms.splice(i, 1);
-                findId = true;
-                --i;
-            }
-        }
-        if (!findId) {
-            return false;
-        }
-    }
-    return true;
-}
+// export const validateSectionFormData = (sectionForms: SectionForm[], spectialKey: any = {}) => {
+//     if (sectionForms.length !== initialSectionForms.length) {
+//         return false;
+//     }
+//     sectionForms = [...sectionForms]
+//     for (const sectionForm of initialSectionForms) {
+//         let findId = false;
+//         for (let i = 0; i < sectionForms.length; ++i) {
+//             if (sectionForm.id === sectionForms[i].id) {
+//                 if (findId) {
+//                     return false;
+//                 }
+//                 const isValid = validateObj(sectionForms[i], sectionForm, spectialKey);
+//                 if (!isValid) {
+//                     return false;
+//                 }
+//                 sectionForms.splice(i, 1);
+//                 findId = true;
+//                 --i;
+//             }
+//         }
+//         if (!findId) {
+//             return false;
+//         }
+//     }
+//     return true;
+// }
 
-const checkValidNumber = (value: any) => {
-    if (typeof value === 'string' && !isNaN(Number(value)) && value[0] !== '+' && value[0] !== '-' && value[0] !== '.') {
+export const checkValidNumber = (value: any) => {
+    if (typeof value === 'string' && value !== '' && !isNaN(Number(value)) && value[0] !== '+' && value[0] !== '-' && value[0] !== '.') {
         return true;
     }
     return false;
@@ -270,6 +271,19 @@ export const validateFormStyle = (formStyle: any, delegate: any) => {
     return true;
 }
 
-export const produceItemWithId = (prefix: string, itemProps: any) => {
+export const produceItemWithId = (itemProps: any, prefix = 'id-') => {
     return { id: uniqueId(prefix), ...itemProps }
+}
+
+export const getPeriodText = (period: Period) => {
+    const commonLocal = localization[languageManager.langCode].document.common;
+    let startDate = commonLocal.startDate;
+    let endDate = commonLocal.endDate;
+    if (period[0]) {
+        startDate = period[0];
+    }
+    if (period[1]) {
+        endDate = period[1];
+    }
+    return `${startDate} - ${endDate}`;
 }

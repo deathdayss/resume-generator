@@ -1,20 +1,13 @@
-// import { changePropsValue, getPdfTitle } from '@/components/helper/helper';
-// import { DocFormDataContext, initialSectionInfos } from '@/data/docData';
-import { SectionData } from '@/data/docData';
-import { Language, languageManager } from '@/data/localization';
-import { chiFonts } from '@/fonts';
+import { sectionInfos } from '@/data/docData';
 import { usePDF } from '@react-pdf/renderer';
-import { action, autorun, makeAutoObservable, makeObservable, observable, reaction } from 'mobx';
+import { action, autorun, computed, makeAutoObservable, makeObservable, observable, reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import { useEffect, useMemo, useState } from 'react';
-import { initialSectionForms } from '../../data/formData';
+import { useEffect } from 'react';
+import { docStylesManager } from '../../data/docStyles';
 import ControlArea from '../ControlArea';
 import Footer from '../ControlArea/Footer';
 import PdfDocument from '../PdfDocument';
-import { docStylesManager, DocStyles, initialStylesData } from '../PdfDocument/docStyles';
-// import { DocStyles, initialDocStyles, initialFormStyles } from '../PdfDocument/docStyles';
 import PdfViewArea from '../PdfViewArea';
-import useStateRef from '../Resizable/hooks/useStateRef';
 import styles from './index.module.scss';
 
 class ArrayElement {
@@ -34,6 +27,22 @@ class ArrayElement {
 }
 
 const myArr = [{ a: { text: 'second' } }, { a: { text: 'second' } }];
+
+class Timer {
+    count;
+    constructor() {
+        makeObservable(this);
+        this.count = 0;
+    }
+
+    @action
+    addTime() {
+        console.log('addTime()')
+        this.count++;
+    }
+}
+
+const timer = new Timer();
 
 class ArrayTest {
     @observable k = myArr;
@@ -69,6 +78,12 @@ class ArrayTest {
         this.k[0] = this.k[1];
         this.k[1] = first;
     }
+
+    @computed
+    get time() {
+        console.log('re compute in getTime()')
+        return timer.count;
+    }
 }
 
 const array = new ArrayTest();
@@ -76,16 +91,14 @@ const array = new ArrayTest();
 const Test0 = observer(() => {
     console.log('render Test0')
     useEffect(() => {
-        // reaction(() => docStyles.docStyles, () => {
-        //     console.log('docStyles docStyles change')
-        // })
         autorun(() => {
             console.log(docStylesManager.docStyles);
             console.log('autorun on docStyles.docStyles')
         })
     }, [])
     return <div>
-        <button onClick={() => docStylesManager.setPadding('padding')}>change first</button>
+        <button onClick={() => timer.addTime()}>change first</button>
+        <div>{array.time}</div>
         {/* <div>{(array.k[0] as ArrayElement).text2}</div> */}
         <div>{JSON.stringify(docStylesManager.docStyles)}</div>
         {/* {array.k.map((elem, index) => <div>array element</div>)} */}
@@ -93,42 +106,31 @@ const Test0 = observer(() => {
 })
 
 const Main = () => {
-    // const [langCode, setLangCode] = useState<Language>('eng');
-    // const [sectionInfos, setSectionInfos] = useState(initialSectionInfos);
-    // const [sectionForms, setSectionForms] = useState(initialSectionForms)
-    // const [styleArgs, setStylesArgs] = useState(initialDocStyles);
-    // const [formStyleArgs, setFormStyleArgs] = useState(initialFormStyles);
-    // const title = useMemo(() => getPdfTitle(sectionInfos, langCode), [langCode, sectionInfos]);
-    // const DocFormDataContextValue = useMemo(() => ({
-    //     sectionForms, setSectionForms, sectionInfos, setSectionInfos, styleArgs, setStylesArgs, formStyleArgs, setFormStyleArgs, title
-    // }), [formStyleArgs, sectionForms, sectionInfos, styleArgs, title])
     const [instanceDoc, updateDoc] = usePDF({
         document: <PdfDocument />
     });
-    // useEffect(() => {
-    //     const storeLangCode = localStorage.getItem('resumeLangCode');
-    //     if (storeLangCode) {
-    //         setLangCode(storeLangCode as Language);
-    //     }
-    // }, []);
-    // useEffect(() => {
-    //     if (langCode === 'chi' && !chiFonts.includes(styleArgs.page.fontFamily)) {
-    //         setFormStyleArgs(changePropsValue(formStyleArgs, { page: { fontFamily: 'Alibaba-PuHuTi' } }) as DocStyles);
-    //         setStylesArgs(changePropsValue(formStyleArgs, { page: { fontFamily: 'Alibaba-PuHuTi' } }) as DocStyles);
-    //     }
-    // }, [langCode]);
-    // useEffect(() => {
-    //     updateDoc();
-    // }, [sectionInfos, styleArgs]);
-    // console.log('render Main')
+    useEffect(() => {
+        const sectionInfosDispose = reaction(() => sectionInfos.arr, () => {
+            console.log('sectionInfosDispose')
+            updateDoc();
+        });
+        const docStylesDispose = reaction(() => docStylesManager.docStyles, () => {
+            console.log('docStylesDispose')
+            updateDoc();
+        })
+        return () => {
+            sectionInfosDispose();
+            docStylesDispose();
+        }
+    }, [])
     return (
         <div className={styles.main}>
-            <Test0 />
+            {/* <Test0 /> */}
             <PdfViewArea src={instanceDoc.url} />
-            {/* <div className={styles.rightFlexItem}>
+            <div className={styles.rightFlexItem}>
                 <ControlArea instanceDoc={instanceDoc} />
                 <Footer />
-            </div> */}
+            </div>
         </div>
     )
 }

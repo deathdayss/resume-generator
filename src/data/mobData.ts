@@ -1,3 +1,4 @@
+import { produceItemWithId } from "@/components/helper/helper";
 import { action, makeAutoObservable, makeObservable, observable } from "mobx";
 
 class ResizableState {
@@ -45,7 +46,7 @@ export class MobArray<T> {
     }
 
     @action
-    changeIndexFromTo(oldIndex: number, newIndex: number) {
+    changeIndexFromTo = (oldIndex: number, newIndex: number) => {
         if (oldIndex === newIndex) {
             return;
         }
@@ -74,8 +75,23 @@ export class MobArray<T> {
     }
 
     @action
-    delete(index: number) {
+    delete = (index: number) => {
         this.arr.splice(index, 1);
+    }
+}
+
+export class MobIdArray<T> extends MobArray<T & { id: string }> {
+    @observable prefix
+
+    constructor(arr: T[] = [], prefix = 'id-') {
+        for (const obj of arr) {
+            if ((obj as any).id === undefined) {
+                (obj as any).id = produceItemWithId(obj, prefix);
+            }
+        }
+        super(arr as (T & { id: string })[]);
+        this.prefix = prefix;
+        makeObservable(this);
     }
 }
 

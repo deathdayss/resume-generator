@@ -1,4 +1,6 @@
+import { docStylesManager } from '@/data/docStyles';
 import { Text, View } from '@react-pdf/renderer';
+import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { LastProps } from '../../common/type';
 // import { DocStylesContext } from '../../docStyles';
@@ -9,12 +11,11 @@ interface SectionProps extends LastProps {
 }
 
 const Section = ({ children, title, last = false }: SectionProps) => {
-    // const docStyles = useContext(DocStylesContext);
-    // return < View style={last ? [] : docStyles.section} >
-    //     <Text style={docStyles.title}>{title}</Text>
-    //     {children}
-    // </View >
+    return < View style={last ? [] : docStylesManager.docStyles.section} >
+        <Text style={docStylesManager.docStyles.title}>{title}</Text>
+        {children}
+    </View >
     return null;
 }
 
-export default Section;
+export default observer(Section);

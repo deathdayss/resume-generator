@@ -1,32 +1,28 @@
-import { docStylesManager } from "@/components/PdfDocument/docStyles";
+import { docStylesManager } from "@/data/docStyles";
 import { chiFonts } from "@/fonts";
-import { makeAutoObservable, reaction } from "mobx";
+import { action, makeAutoObservable, makeObservable, observable, reaction } from "mobx";
 
 export type Language = 'eng' | 'chi';
 // export const LanguageContext = React.createContext<Language>('eng');
 class LanguageManager {
-    langCode: Language = 'eng';
+    @observable langCode: Language = 'eng';
 
     constructor() {
-        makeAutoObservable(this);
+        makeObservable(this);
         const storeLangCode = localStorage.getItem('resumeLangCode');
         if (storeLangCode) {
             this.langCode = storeLangCode as Language;
         }
     }
 
-    set setLangCode(langCode: Language) {
+    @action
+    setLangCode = (langCode: Language) => {
+        localStorage.setItem('resumeLangCode', langCode);
         this.langCode = langCode;
     }
 }
 
 export const languageManager = new LanguageManager();
-
-reaction(() => languageManager.langCode, langCode => {
-    // if (langCode === 'chi' && !chiFonts.includes(docStyles.styles.page.fontFamily)) {
-    //     // TODO: set language
-    // }
-})
 
 const eng = {
     name: 'English',
@@ -48,6 +44,9 @@ const eng = {
         },
         template: {
             default: 'default'
+        },
+        error: {
+            numericError: 'Need to input a numeric value'
         },
         label: {
             title: 'Section Title',
@@ -182,6 +181,9 @@ const chi: localizationContent = {
         },
         template: {
             default: '默认'
+        },
+        error: {
+            numericError: '需要输入数字'
         },
         label: {
             title: '板块名称',

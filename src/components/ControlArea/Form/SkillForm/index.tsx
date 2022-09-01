@@ -1,6 +1,6 @@
 import { TextFieldStyle } from "@/components/ModifiedUI";
 import localization from "@/data/localization";
-import { StateKey, useSectionForm } from "@/hooks";
+import { StateKey } from "@/hooks";
 import VariableInputList from "../component/VariableInputList";
 import FormCard from "../FormCard";
 import { SectionFormProps } from "../type";

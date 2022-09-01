@@ -1,4 +1,6 @@
 import { CollapseAll, CollapsePanel } from "@/components/ControlArea/Collapse";
+import { SectionData } from "@/data/docData";
+import { SectionForm } from "@/data/formData";
 // import { DocFormDataContext, SectionId } from "@/data/docData";
 import localization, { languageManager } from "@/data/localization";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -10,8 +12,8 @@ import {
     SortableElement,
     SortableElementProps, SortEnd
 } from 'react-sortable-hoc';
-import { SectionForm } from "../../../data/formData";
-import { changeArrayIndex, changeFormPropValue } from "../../helper/helper";
+// import { SectionForm } from "../../../data/formData";
+// import { changeArrayIndex, changeFormPropValue } from "../../helper/helper";
 import { DragHandle } from "../Draggable";
 import DetailForm from '../Form/DetailForm';
 import ItemForm from "../Form/ItemForm";
@@ -24,7 +26,7 @@ interface ExpandMoreProps extends IconButtonProps {
 }
 
 interface SectionFormPanelProps {
-    value: SectionForm
+    value: SectionForm<SectionData>
 }
 
 const CollapseButton = styled((props: ExpandMoreProps) => {
@@ -38,22 +40,22 @@ const CollapseButton = styled((props: ExpandMoreProps) => {
     }),
 }));
 
-const getFormPanel = (sectionForm: SectionForm) => {
-    switch (sectionForm.id) {
-        case 'Detail':
-            return <DetailForm sectionForm={sectionForm} />;
-        case 'Experience':
-            return <ItemForm sectionForm={sectionForm} />;
-        case 'Education':
-            return <ItemForm sectionForm={sectionForm} />;
-        case 'Skill':
-            return <SkillForm sectionForm={sectionForm} />;
-        case 'Other':
-            return <OtherForm sectionForm={sectionForm} />;
-        default:
-            throw new Error('No such form id');
-    }
-}
+// const getFormPanel = (sectionForm: SectionForm) => {
+//     switch (sectionForm.id) {
+//         case 'Detail':
+//             return <DetailForm sectionForm={sectionForm} />;
+//         case 'Experience':
+//             return <ItemForm sectionForm={sectionForm} />;
+//         case 'Education':
+//             return <ItemForm sectionForm={sectionForm} />;
+//         case 'Skill':
+//             return <SkillForm sectionForm={sectionForm} />;
+//         case 'Other':
+//             return <OtherForm sectionForm={sectionForm} />;
+//         default:
+//             throw new Error('No such form id');
+//     }
+// }
 
 const SectionFormPanel = ({ value }: SectionFormPanelProps) => {
     // const langCode = useContext(LanguageContext);

@@ -1,5 +1,4 @@
 import { CheckTextFieldStyle, TextFieldStyle } from '@/components/ModifiedUI';
-import { useSectionForm } from '@/hooks';
 import AddedItemArea from '../component/AddedItemArea';
 import FormCard from '../FormCard';
 import { SectionFormProps } from '../type';

@@ -1,60 +1,59 @@
-import { SectionForm, sectionItemDelegate } from "@/data/formData"
-// import { DocStyles, FormStyles } from "@/components/PdfDocument/docStyles"
 import React from "react"
-import { action, computed, makeAutoObservable, makeObservable, observable } from "mobx"
-import { MobArray } from "./mobData"
+import { action, autorun, computed, makeAutoObservable, makeObservable, observable } from "mobx"
+import { MobArray, MobIdArray } from "./mobData"
 import { produceItemWithId } from "@/components/helper/helper"
+import localization, { languageManager } from "./localization"
 
 export const textDataTemplate = {
     Detail: {
-        default: {
+        default: () => ({
             personName: '',
             visa: '',
             phone: '',
             email: ''
-        }
+        })
     },
     Experience: {
-        default: {
+        default: () => ({
             title: '',
-            items: [{
+            items: new MobIdArray([{
                 companyName: '',
                 position: '',
                 duration: '',
                 period: ['', ''] as Period,
-                descriptions: [''],
-            }]
-        }
+                descriptions: new MobIdArray([{ description: '' }], 'exp-descrip-'),
+            }], 'exp-item-')
+        })
     },
     Education: {
-        default: {
+        default: () => ({
             title: '',
-            items: [{
+            items: new MobIdArray([{
                 instituionName: '',
                 degree: '',
                 period: ['', ''] as Period,
                 duration: '',
                 GPA: '',
-                descriptions: [''],
-            }]
+                descriptions: new MobIdArray([{ description: '' }], 'edu-descrip-'),
+            }], 'edu-item-')
 
-        }
+        })
     },
     Skill: {
-        default: {
+        default: () => ({
             title: '',
-            items: [{
+            items: new MobIdArray([{
                 skillName: '',
                 description: ''
-            }]
+            }], 'skill-item-')
 
-        }
+        })
     },
     Other: {
-        default: {
+        default: () => ({
             title: '',
             description: ''
-        }
+        })
     }
 }
 
@@ -75,7 +74,7 @@ export interface Experience {
     position: string,
     period: Period,
     duration: string,
-    descriptions: string[]
+    descriptions: MobIdArray<{ description: string }>
 }
 
 export interface Education {
@@ -84,7 +83,7 @@ export interface Education {
     GPA: string | null,
     period: Period,
     duration: string,
-    descriptions: string[]
+    descriptions: MobIdArray<{ description: string }>
 }
 
 export interface Skill {
@@ -93,7 +92,7 @@ export interface Skill {
 }
 
 export interface ItemsData<T extends SectionItem> extends TitleData {
-    items: T[]
+    items: MobIdArray<T>
 }
 
 export interface ExperienceInfo extends ItemsData<Experience> { }
@@ -109,19 +108,19 @@ export interface Other extends TitleData {
 export type TemplateId = string
 export type SectionId = 'Detail' | 'Experience' | 'Education' | 'Skill' | 'Other';
 export type SectionData = Detail | TitleData
-export type SectionItem = (Experience | Education | Skill) & { id?: string }
+export type SectionItem = Experience | Education | Skill
 
 export const DetailTemplate = ['default']
 
-class SectionInfo<T extends SectionData> {
-    id: SectionId
-    textData: T
-    templateId = 'default'
+export class SectionInfo<T extends SectionData> {
+    @observable id: SectionId
+    @observable textData: T
+    @observable templateId = 'default'
 
     constructor(id: SectionId, textData: T) {
         this.id = id
         this.textData = textData;
-        makeAutoObservable(this);
+        makeObservable(this);
     }
 }
 
@@ -138,19 +137,14 @@ class SectionInfoTitle<T extends TitleData> extends SectionInfo<T> {
 }
 
 class SectionDetail extends SectionInfo<Detail> {
-    constructor() {
-        super('Detail', {
-            personName: '',
-            visa: '',
-            phone: '',
-            email: ''
-        })
+    constructor(textData = textDataTemplate.Detail.default()) {
+        super('Detail', textData)
     }
 }
 
 class SectionOther extends SectionInfoTitle<Other> {
-    constructor() {
-        super('Other', textDataTemplate.Other.default)
+    constructor(textData = textDataTemplate.Other.default()) {
+        super('Other', textData)
     }
 }
 
@@ -168,24 +162,49 @@ class SectionInfoItems<F extends SectionItem, T extends ItemsData<F>> extends Se
 }
 
 class SectionExperience extends SectionInfoItems<Experience, ExperienceInfo> {
-    constructor() {
-        super('Experience', textDataTemplate.Experience.default);
+    constructor(textData = textDataTemplate.Experience.default()) {
+        super('Experience', textData);
     }
 }
 
 class SectionEducation extends SectionInfoItems<Education, EducationInfo> {
-    constructor() {
-        super('Education', textDataTemplate.Education.default);
+    constructor(textData = textDataTemplate.Education.default()) {
+        super('Education', textData);
     }
 }
 
 class SectionSkill extends SectionInfoItems<Skill, SkillInfo> {
-    constructor() {
-        super('Skill', textDataTemplate.Skill.default);
+    constructor(textData = textDataTemplate.Skill.default()) {
+        super('Skill', textData);
     }
 }
 
-export const initialSectionInfos = new MobArray([new SectionDetail(), new SectionExperience(), new SectionEducation(), new SectionSkill(), new SectionOther()]);
+class SectionInfos extends MobArray<SectionInfo<SectionData>> {
+    title = ''
+
+    constructor(arr: SectionInfo<SectionData>[]) {
+        super(arr);
+        makeObservable(this);
+        this.title = localization[languageManager.langCode].resumeTitle;
+    }
+
+    @action
+    setTitle = (title: string) => {
+        this.title = title;
+    }
+}
+
+export const sectionInfos = new SectionInfos([new SectionDetail(), new SectionExperience(), new SectionEducation(), new SectionSkill(), new SectionOther()]);
+
+autorun(() => {
+    let title = localization[languageManager.langCode].resumeTitle;
+    for (const sectionInfo of sectionInfos.arr) {
+        if (sectionInfo.id === 'Detail' && (sectionInfo.textData as Detail).personName) {
+            title = `${(sectionInfo.textData as Detail).personName}-${localization[languageManager.langCode].resume}`
+        }
+    }
+    sectionInfos.setTitle(title.replaceAll(' ', '-'));
+})
 
 // export const docDataToFormData = (sectionInfos: SectionInfo[]) => {
 //     const sectionForms: SectionForm[] = [];
