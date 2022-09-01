@@ -107,23 +107,9 @@ const Test0 = observer(() => {
 })
 
 const Main = () => {
-    const [instanceDoc, updateDoc] = usePDF({
+    const [instanceDoc] = usePDF({
         document: <PdfDocument />
     });
-    // useEffect(() => {
-    //     const sectionInfosDispose = reaction(() => sectionInfos.arr, () => {
-    //         console.log('sectionInfosDispose')
-    //         updateDoc();
-    //     });
-    //     const docStylesDispose = reaction(() => docStylesManager.docStyles, () => {
-    //         console.log('docStylesDispose')
-    //         updateDoc();
-    //     })
-    //     return () => {
-    //         sectionInfosDispose();
-    //         docStylesDispose();
-    //     }
-    // }, [])
     return (
         <div className={styles.main}>
             {/* <Test0 /> */}

@@ -76,6 +76,7 @@ export class FormDetail extends SectionForm<Detail> {
 export class FormOther extends SectionFormTitle<Other> {
     constructor(textData = textDataTemplate.Other.default()) {
         super('Other', textData)
+        makeObservable(this);
     }
 
     @action

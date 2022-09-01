@@ -1,6 +1,7 @@
 import { TextFieldStyle } from "@/components/ModifiedUI";
 import { FormOther } from "@/data/formData";
 import localization, { languageManager } from "@/data/localization";
+import { observer } from "mobx-react-lite";
 import FormCard from "../FormCard";
 
 interface OtherFormProps {
@@ -20,4 +21,4 @@ const OtherForm = ({ sectionForm }: OtherFormProps) => {
     )
 }
 
-export default OtherForm;
+export default observer(OtherForm);

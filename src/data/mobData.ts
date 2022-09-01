@@ -89,7 +89,7 @@ export class MobIdArray<T> extends MobArray<T & { id: string }> {
         const trueTemplateItem = templateItem === undefined ? cloneDeep(arr[0]) : templateItem;
         for (const obj of arr) {
             if ((obj as any).id === undefined) {
-                (obj as any).id = produceItemWithId(obj, prefix);
+                (obj as any).id = uniqueId(prefix);
             }
         }
         super(arr as (T & { id: string })[]);
@@ -99,7 +99,7 @@ export class MobIdArray<T> extends MobArray<T & { id: string }> {
     }
 
     @action
-    produceItem() {
+    produceItem = () => {
         this.arr.push(produceItemWithId(cloneDeep(this.templateItem), this.prefix))
     }
 }

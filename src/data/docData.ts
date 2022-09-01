@@ -1,4 +1,4 @@
-import { action, autorun, computed, makeObservable, observable } from "mobx"
+import { action, autorun, computed, makeAutoObservable, makeObservable, observable } from "mobx"
 import { MobArray, MobIdArray } from "./mobData"
 import localization, { languageManager } from "./localization"
 
@@ -160,7 +160,7 @@ class SectionInfoItems<F extends SectionItem, T extends ItemsData<F>> extends Se
 
     @computed
     get items() {
-        return this.textData.items;
+        return this.textData.items.arr;
     }
 }
 

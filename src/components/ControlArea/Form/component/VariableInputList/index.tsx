@@ -5,36 +5,38 @@ import { DeleteValueHook, getObjValue, StateKey, UsePropsForInputObj } from '@/h
 import { DragDropContext, Draggable, DragStart, Droppable, DropResult } from '@hello-pangea/dnd';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
+import { observer } from 'mobx-react-lite';
 import { useContext, useState } from 'react';
 import { animated, useSpring } from 'react-spring';
 import styles from './index.module.scss';
 
+type Item = { id: string } & any
+
 interface InputItemProps {
-    value: number,
-    draggingId: number | null,
-    keys: StateKey[],
-    getInputContent: (keys: StateKey[], value: number) => JSX.Element,
-    deleteValueHook: DeleteValueHook,
+    value: Item,
+    index: number,
+    draggingId: string | null,
+    getInputContent: (item: Item, index: number) => JSX.Element,
+    deleteByIndex: (index: number) => void,
     itemModalLabel: string,
     className: string
 }
 
-const InputItem = ({ value, draggingId, keys, getInputContent, deleteValueHook, itemModalLabel, className }: InputItemProps) => {
-    // const langCode = useContext(LanguageContext);
+const InputItem = ({ value, index, draggingId, getInputContent, deleteByIndex, itemModalLabel, className }: InputItemProps) => {
     const modalLocal = localization[languageManager.langCode].form.modal;
     const [openDialog, setOpenDialog] = useState(false);
     const [showButtons, setShowButtons] = useState(false);
-    const opacityStyles = useSpring({ opacity: showButtons || draggingId === value ? 1 : 0, config: { duration: 150 } });
+    const opacityStyles = useSpring({ opacity: showButtons || draggingId === value.id ? 1 : 0, config: { duration: 150 } });
     const handleDeletion = () => {
         setOpenDialog(false);
-        deleteValueHook(keys, value);
+        deleteByIndex(index);
     }
     const animatedStyles = { ...opacityStyles, display: 'inline-flex', alignItems: 'center' }
     return (
-        <Draggable draggableId={String(value)} index={value}>
+        <Draggable draggableId={value.id} index={index}>
             {(provider) => (<div className={className} onMouseEnter={() => setShowButtons(true)} onMouseLeave={() => setShowButtons(false)} ref={provider.innerRef} {...provider.draggableProps}>
-                <animated.span style={animatedStyles}><DragHandleDnd isDragging={draggingId === value} {...provider.dragHandleProps} /> </animated.span>
-                {getInputContent([...keys, value], value)}
+                <animated.span style={animatedStyles}><DragHandleDnd isDragging={draggingId === value.id} {...provider.dragHandleProps} /> </animated.span>
+                {getInputContent(value, index)}
                 <span className={styles.deleteIconLine} onClick={() => setOpenDialog(true)}>
                     <animated.span style={animatedStyles}><DeleteIcon /></animated.span>
                 </span>
@@ -58,13 +60,13 @@ const InputItem = ({ value, draggingId, keys, getInputContent, deleteValueHook, 
     )
 }
 
-interface AddedItemListProps {
-    formId: string,
-    keys: StateKey[],
-    usePropsForInputObj: UsePropsForInputObj,
-    insertDataTemplate: any,
-    // sectionForms: SectionForm[],
-    getInputContent: (keys: StateKey[], value: number) => JSX.Element,
+interface VariableInputListProps {
+    id: string,
+    items: Item[],
+    addData: () => void,
+    changeIndexFromTo: (oldIndex: number, newIndex: number) => void,
+    deleteByIndex: (index: number) => void,
+    getInputContent: (item: Item, index: number) => JSX.Element,
     buttonLabel: string,
     listModalLabel: string,
     itemModalLabel: string
@@ -72,48 +74,52 @@ interface AddedItemListProps {
     itemClassName?: string,
 }
 const VariableInputList = ({
-    formId,
-    keys,
-    usePropsForInputObj,
-    insertDataTemplate,
-    // sectionForms,
+    id,
+    items,
+    addData,
+    changeIndexFromTo,
+    deleteByIndex,
     getInputContent,
     buttonLabel,
     listModalLabel,
     itemModalLabel,
     className = styles.variableInputList,
-    itemClassName = styles.item }: AddedItemListProps) => {
-    const { changeIndexHook, insertValueHook, deleteValueHook } = usePropsForInputObj
+    itemClassName = styles.item }: VariableInputListProps) => {
     const [openDialog, setOpenDialog] = useState(false);
     const modalLocal = localization[languageManager.langCode].form.modal;
-    const [draggingId, setDraggingId] = useState<number | null>(null);
+    const [draggingId, setDraggingId] = useState<string | null>(null);
     const onDragStart = ({ draggableId }: DragStart) => {
-        setDraggingId(Number(draggableId))
+        setDraggingId(draggableId);
     };
     const onDragEnd = ({ draggableId, destination }: DropResult) => {
         setDraggingId(null);
         if (destination) {
-            changeIndexHook(keys, Number(draggableId), destination.index);
+            for (let i = 0; i < items.length; ++i) {
+                if (items[i].id === draggableId) {
+                    changeIndexFromTo(i, destination.index);
+                    break;
+                }
+            }
         }
     }
     const addHandle = () => {
         setOpenDialog(false);
-        insertValueHook(keys, insertDataTemplate);
+        addData();
     }
     return <div className={className}>
         <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
-            <Droppable droppableId={formId}>
+            <Droppable droppableId={id}>
                 {(provider) => (
                     <div ref={provider.innerRef} {...provider.droppableProps}>
-                        {/* {(getObjValue(sectionForms, keys) as any[]).map((_value, index) => <InputItem key={index}
-                            value={index}
+                        {items.map((value, index) => <InputItem key={value.id}
+                            index={index}
+                            value={value}
                             draggingId={draggingId}
-                            keys={keys}
                             getInputContent={getInputContent}
-                            deleteValueHook={deleteValueHook}
+                            deleteByIndex={deleteByIndex}
                             itemModalLabel={itemModalLabel}
                             className={itemClassName} />)}
-                        {provider.placeholder} */}
+                        {provider.placeholder}
                     </div>
                 )}
             </Droppable>
