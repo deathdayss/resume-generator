@@ -1,39 +1,44 @@
+import { getIndexById } from '@/components/helper/helper';
 import { SelectStyle, TextFieldStyle } from '@/components/ModifiedUI';
-import { DetailTemplate } from '@/data/docData';
+import { DetailTemplate, SectionData } from '@/data/docData';
+import { SectionForm, sectionForms, SectionFormTitle } from '@/data/formData';
 import localization, { languageManager } from '@/data/localization';
 import { ValueChangePairHook } from '@/hooks';
 import { MenuItem } from '@mui/material';
-import { useContext } from 'react';
+import { observer } from 'mobx-react-lite';
+import { ReactNode, useContext } from 'react';
 import styles from './index.module.scss';
 
 interface FormCardProps {
-    children: React.ReactNode,
-    index: number,
-    valueOnChange: ValueChangePairHook
-    last: boolean,
-    hasTitle?: boolean,
+    children: ReactNode;
+    sectionForm: SectionForm<SectionData>;
 }
 
-const FormCard = ({ children, index, valueOnChange, last, hasTitle = true }: FormCardProps) => {
-    const { langCode } = languageManager;
-    const labelLocal = localization[langCode].form.label;
-    const templateLocal = localization[langCode].form.template;
+const FormCard = ({ children, sectionForm }: FormCardProps) => {
+    const labelLocal = localization[languageManager.langCode].form.label;
+    const templateLocal = localization[languageManager.langCode].form.template;
+    const myIndex = getIndexById(sectionForms.arr, sectionForm.id);
     return <div className={styles.FormCard} style={{
-        borderBottom: last ? '0.0625rem solid rgb(220, 220, 220)' : 'none'
+        borderBottom: myIndex === sectionForms.arr.length - 1 ? '0.0625rem solid rgb(220, 220, 220)' : 'none'
     }} >
         <div className={styles.line}>
-            <div>
-                <SelectStyle label={labelLocal.template} selectWidth='11.8rem' {...valueOnChange([index, 'templateId'])}>
-                    {DetailTemplate.map((key) => <MenuItem key={key} value={key}>
-                        {templateLocal[key as keyof typeof templateLocal]}
-                    </MenuItem>)}
+            <SelectStyle label={labelLocal.template}
+                inputWidth='11.8rem'
+                getValue={() => sectionForm.templateId}
+                onValueChange={sectionForm.setTemplateId}
+            >
+                {DetailTemplate.map((key) => <MenuItem key={key} value={key}>
+                    {templateLocal[key as keyof typeof templateLocal]}
+                </MenuItem>)}
 
-                </SelectStyle>
-            </div>
-            {hasTitle ? <TextFieldStyle label={labelLocal.title} {...valueOnChange([index, 'textData', 'title'])} /> : null}
+            </SelectStyle>
+            {sectionForm instanceof SectionFormTitle ? <TextFieldStyle label={labelLocal.title}
+                getValue={() => sectionForm.title}
+                onValueChange={sectionForm.setTitle}
+            /> : null}
         </div>
         {children}
     </div>
 }
 
-export default FormCard;
+export default observer(FormCard);

@@ -23,7 +23,6 @@ const PdfViewArea = ({ src }: PdfViewAreaProps) => {
             iframeRef.current.style.pointerEvents = state;
         }
     }, []);
-    console.log('render pdfViewArea')
     useEffect(() => {
         const windowResizeHanlde = () => {
             const minWidth = window.innerWidth / 4;

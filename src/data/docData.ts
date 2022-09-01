@@ -1,7 +1,5 @@
-import React from "react"
-import { action, autorun, computed, makeAutoObservable, makeObservable, observable } from "mobx"
+import { action, autorun, computed, makeObservable, observable } from "mobx"
 import { MobArray, MobIdArray } from "./mobData"
-import { produceItemWithId } from "@/components/helper/helper"
 import localization, { languageManager } from "./localization"
 
 export const textDataTemplate = {
@@ -122,6 +120,11 @@ export class SectionInfo<T extends SectionData> {
         this.textData = textData;
         makeObservable(this);
     }
+
+    @action
+    setTemplateId = (templateId: string) => {
+        this.templateId = templateId;
+    } 
 }
 
 class SectionInfoTitle<T extends TitleData> extends SectionInfo<T> {

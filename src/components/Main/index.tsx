@@ -2,6 +2,7 @@ import { sectionInfos } from '@/data/docData';
 import { usePDF } from '@react-pdf/renderer';
 import { action, autorun, computed, makeAutoObservable, makeObservable, observable, reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
+import React from 'react';
 import { useEffect } from 'react';
 import { docStylesManager } from '../../data/docStyles';
 import ControlArea from '../ControlArea';
@@ -109,20 +110,20 @@ const Main = () => {
     const [instanceDoc, updateDoc] = usePDF({
         document: <PdfDocument />
     });
-    useEffect(() => {
-        const sectionInfosDispose = reaction(() => sectionInfos.arr, () => {
-            console.log('sectionInfosDispose')
-            updateDoc();
-        });
-        const docStylesDispose = reaction(() => docStylesManager.docStyles, () => {
-            console.log('docStylesDispose')
-            updateDoc();
-        })
-        return () => {
-            sectionInfosDispose();
-            docStylesDispose();
-        }
-    }, [])
+    // useEffect(() => {
+    //     const sectionInfosDispose = reaction(() => sectionInfos.arr, () => {
+    //         console.log('sectionInfosDispose')
+    //         updateDoc();
+    //     });
+    //     const docStylesDispose = reaction(() => docStylesManager.docStyles, () => {
+    //         console.log('docStylesDispose')
+    //         updateDoc();
+    //     })
+    //     return () => {
+    //         sectionInfosDispose();
+    //         docStylesDispose();
+    //     }
+    // }, [])
     return (
         <div className={styles.main}>
             {/* <Test0 /> */}

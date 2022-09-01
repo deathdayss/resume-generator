@@ -1,9 +1,8 @@
-import { Language } from '@/data/localization';
 import styles from './index.module.scss';
-import DraggableFormArea from './FormArea';
 import TopButtonArea from './TopButtonArea';
 import { UsePDFInstance } from '../helper/helper';
 import StyleControlArea from './StyleControlArea';
+import DraggableFormArea from './FormArea';
 
 interface ControlAreaProps {
     instanceDoc: UsePDFInstance,
@@ -19,9 +18,9 @@ const ControlArea = ({
                     instanceDoc={instanceDoc}
                 />
             </div>
-            {/* <div className={styles.formArea}>
+            <div className={styles.formArea}>
                 <DraggableFormArea />
-            </div> */}
+            </div>
             <div className={styles.styleArea}>
                 <StyleControlArea />
             </div>

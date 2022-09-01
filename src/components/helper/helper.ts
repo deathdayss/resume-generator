@@ -229,11 +229,36 @@ const validateObj = (obj: any, delegate: any, spectialKey: any = {}) => {
 //     return true;
 // }
 
-export const checkValidNumber = (value: any) => {
-    if (typeof value === 'string' && value !== '' && !isNaN(Number(value)) && value[0] !== '+' && value[0] !== '-' && value[0] !== '.') {
-        return true;
+export const validateNumericValue = (value: any) => {
+    return typeof value === 'string' && value !== '' && !isNaN(Number(value)) && value[0] !== '+' && value[0] !== '-' && value[0] !== '.'
+}
+
+const notRequireValidate = (value: any, validate: (text: string) => boolean) => {
+    if (typeof value === 'string') {
+        if (value === '') {
+            return true;
+        }
+        return validate(value);
     }
     return false;
+}
+
+const phoneNumberRegExp = new RegExp(/^(\+\d+[ ])?\d+?$/);
+export const validatePhoneNumber = (value: any) => {
+    return notRequireValidate(value, (text) => phoneNumberRegExp.test(text));
+}
+
+const emailAddressRegExp = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+export const validateEmailAddress = (value: any) => {
+    return notRequireValidate(value, (text) => emailAddressRegExp.test(text));
+}
+
+export const getIndexById = (arr: any[], id: string, key = 'id') => {
+    for (let i = 0; i < arr.length; ++i) {
+        if (arr[i][key] === id) {
+            return i;
+        }
+    }
 }
 
 export const validateFormStyle = (formStyle: any, delegate: any) => {
@@ -245,7 +270,7 @@ export const validateFormStyle = (formStyle: any, delegate: any) => {
         for (const key in formStyle) {
             let isValid = true;
             if (key === 'padding' && typeof formStyle[key] === 'string') {
-                if (!checkValidNumber(formStyle[key].substring(0, formStyle[key].length - 2))) {
+                if (!validateNumericValue(formStyle[key].substring(0, formStyle[key].length - 2))) {
                     isValid = false;
                 }
             }
@@ -255,7 +280,7 @@ export const validateFormStyle = (formStyle: any, delegate: any) => {
                 }
             }
             else if (typeof formStyle[key] === 'string') {
-                if (!checkValidNumber(formStyle[key])) {
+                if (!validateNumericValue(formStyle[key])) {
                     isValid = false;
                 }
             }

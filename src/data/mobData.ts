@@ -1,4 +1,5 @@
 import { produceItemWithId } from "@/components/helper/helper";
+import _, { cloneDeep, uniqueId } from "lodash";
 import { action, makeAutoObservable, makeObservable, observable } from "mobx";
 
 class ResizableState {
@@ -75,15 +76,17 @@ export class MobArray<T> {
     }
 
     @action
-    delete = (index: number) => {
+    deleteByIndex = (index: number) => {
         this.arr.splice(index, 1);
     }
 }
 
 export class MobIdArray<T> extends MobArray<T & { id: string }> {
     @observable prefix
+    @observable templateItem
 
-    constructor(arr: T[] = [], prefix = 'id-') {
+    constructor(arr: T[] = [], prefix = 'id-', templateItem: T | undefined = undefined) {
+        const trueTemplateItem = templateItem === undefined ? cloneDeep(arr[0]) : templateItem;
         for (const obj of arr) {
             if ((obj as any).id === undefined) {
                 (obj as any).id = produceItemWithId(obj, prefix);
@@ -91,7 +94,13 @@ export class MobIdArray<T> extends MobArray<T & { id: string }> {
         }
         super(arr as (T & { id: string })[]);
         this.prefix = prefix;
+        this.templateItem = trueTemplateItem;
         makeObservable(this);
+    }
+
+    @action
+    produceItem() {
+        this.arr.push(produceItemWithId(cloneDeep(this.templateItem), this.prefix))
     }
 }
 

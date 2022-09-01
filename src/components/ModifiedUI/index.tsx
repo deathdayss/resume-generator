@@ -3,21 +3,24 @@ import { StateKey, ValueChangePair, ValueChangePairHook } from "@/hooks";
 import styled from "@emotion/styled";
 import { Checkbox, checkboxClasses, FormControlLabel, inputClasses, inputLabelClasses, Select, SelectProps, TextField, TextFieldProps } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 export const TextFieldLabel = styled(TextField)(`
   .${inputLabelClasses.root} {
     font-size: 1rem;
-    font-weight: bold
+    font-weight: bold;]
   }
 `);
+
+type StringChange = (value: string) => void;
+type StringNullChange = (value: string | null) => void;
 
 type TextFieldStyleProps = {
     inputClassName?: string,
     inputWidth?: string,
     inputStyle?: object,
-    getValue?: () => string,
-    onValueChange?: (e: string) => void,
+    getValue?: () => string | null,
+    onValueChange?: StringChange | StringNullChange,
     getValidation?: (() => boolean)[],
     errorText?: string[],
 } & TextFieldProps
@@ -36,6 +39,7 @@ export const TextFieldStyle = observer(({ inputWidth, inputClassName, inputStyle
     return <div className={inputClassName} style={{
         width: inputWidth,
         display: 'inline-block',
+        position: 'relative',
         ...inputStyle
     }}>
         <TextFieldLabel {...leftProps}
@@ -45,6 +49,12 @@ export const TextFieldStyle = observer(({ inputWidth, inputClassName, inputStyle
             onChange={onValueChange ? (e) => {
                 onValueChange(e.target.value)
             } : undefined}
+            FormHelperTextProps={{
+                style: {
+                    position: 'absolute',
+                    bottom: '-1.25rem'
+                }
+            }}
             fullWidth={fullWidth === undefined ? true : fullWidth} variant={variant ? variant : 'filled'} />
     </div>
 })
@@ -56,13 +66,13 @@ type SelectStyleProps = {
 } & TextFieldStyleProps
 
 export const SelectStyle = observer((props: SelectStyleProps) => {
-    const { selectWidth, selectClassName, selectStyle, variant, fullWidth, ...leftProps } = props;
+    const { selectWidth, selectClassName, selectStyle, variant, fullWidth, inputWidth, ...leftProps } = props;
     return <div className={selectClassName} style={{
         width: selectWidth,
         display: 'inline-block',
         ...selectStyle
     }}>
-        <TextFieldStyle {...leftProps} inputWidth={'100%'} select fullWidth={fullWidth === undefined ? true : fullWidth} variant={variant ? variant : 'filled'} />
+        <TextFieldStyle {...leftProps} inputWidth={inputWidth ? inputWidth : '100%'} select fullWidth={fullWidth === undefined ? true : fullWidth} variant={variant ? variant : 'filled'} />
     </div>
 })
 
@@ -82,37 +92,42 @@ export const PeriodTextField = ({ keys, valueChangePairHook, inputStyle = { flex
 }
 
 type CheckTextFieldStyleProps = TextFieldStyleProps & {
-    valueOnChange: ValueChangePairHook,
-    keys: StateKey[],
     className?: string,
     width?: string,
     style?: object
 }
 
-export const CheckTextFieldStyle = (props: CheckTextFieldStyleProps) => {
-    const { valueOnChange, keys, className, width, style, ...leftProps } = props;
-    const inputValueOnChange = valueOnChange(keys);
-    const { value, onChange } = valueOnChange(keys, (value: string) => {
+export const CheckTextFieldStyle = observer(({ className, width, style, ...leftProps }: CheckTextFieldStyleProps) => {
+    const { getValue, onValueChange } = leftProps;
+    if (!getValue || !onValueChange) {
+        return null;
+    }
+    const [savedText, setSavedText] = useState('');
+    const value = getValue();
+    const getCheckedValue = () => {
         if (value === null) {
             return false;
         }
         return true;
-    },
-        (e) => {
-            if (e.target.checked) {
-                return '';
-            }
-            return null;
-        });
+    }
+    const onChangeHandle = (e: any) => {
+        if (e.target.checked) {
+            onValueChange(savedText);
+        }
+        else {
+            setSavedText(value as string);
+            (onValueChange as StringNullChange)(null);
+        }
+    }
     return <div className={className} style={{
         width: width,
         display: 'inline-flex',
         alignItems: 'center',
         ...style
     }}>
-        <FormControlLabel style={{ marginRight: '0.5rem' }} control={<Checkbox checked={value} onChange={onChange} />} label={value ? null : <span style={{ userSelect: 'none' }}>{leftProps.label}</span>} />
-        {value ? <TextFieldStyle inputStyle={{
+        <FormControlLabel style={{ marginRight: '0.5rem' }} control={<Checkbox checked={getCheckedValue()} onChange={onChangeHandle} />} label={value === null ? <span style={{ userSelect: 'none' }}>{leftProps.label}</span> : null} />
+        {value === null ? null : <TextFieldStyle inputStyle={{
             width: '100%'
-        }} {...leftProps} {...inputValueOnChange} /> : null}
+        }} {...leftProps} />}
     </div>
-}
+})

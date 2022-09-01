@@ -1,4 +1,4 @@
-import { checkValidNumber } from "@/components/helper/helper";
+import { validateNumericValue } from "@/components/helper/helper";
 import { chiFonts, specialFonts } from "@/fonts";
 import { action, computed, isAction, makeAutoObservable, makeObservable, observable, reaction } from "mobx";
 import { languageManager } from "./localization";
@@ -80,25 +80,15 @@ class FormStyles {
     @computed
     get pagePaddingText() {
         const pagePadding = this.stylesData.page.padding
-        if (pagePadding && pagePadding.length > 2) {
+        if (pagePadding && pagePadding.length >= 2) {
             return pagePadding.substring(0, pagePadding.length - 2);
         }
         return pagePadding;
     }
 
-    @computed
-    get validatePagePadding() {
-        return checkValidNumber(this.pagePaddingText);
-    }
-
     @action
     setPageFontSize = (value: string) => {
         this.stylesData.page.fontSize = value;
-    }
-
-    @computed
-    get validatePageFontSize() {
-        return checkValidNumber(this.stylesData.page.fontSize);
     }
 
     @action
@@ -111,36 +101,17 @@ class FormStyles {
         this.stylesData.section.marginBottom = value;
     }
 
-    @computed
-    get validateSectionMarginBottom() {
-        return checkValidNumber(this.stylesData.section.marginBottom);
-    }
 
     @action setTitleFontSize = (value: string) => {
         this.stylesData.title.fontSize = value;
-    }
-
-    @computed
-    get validateTitleFontSize() {
-        return checkValidNumber(this.stylesData.title.fontSize);
     }
 
     @action setTitleMarginBottom = (value: string) => {
         this.stylesData.title.marginBottom = value;
     }
 
-    @computed
-    get validateTitleMarginBottom() {
-        return checkValidNumber(this.stylesData.title.marginBottom);
-    }
-
     @action setSectionItemMarginBottom = (value: string) => {
         this.stylesData.sectionItem.marginBottom = value;
-    }
-
-    @computed
-    get validateSectionItemMarginBottom() {
-        return checkValidNumber(this.stylesData.sectionItem.marginBottom);
     }
 }
 

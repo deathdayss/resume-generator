@@ -1,10 +1,11 @@
 import { CollapseAll, CollapsePanel } from "@/components/ControlArea/Collapse";
 import { SectionData } from "@/data/docData";
-import { SectionForm } from "@/data/formData";
+import { FormDetail, FormOther, FormSkill, SectionForm, sectionForms } from "@/data/formData";
 // import { DocFormDataContext, SectionId } from "@/data/docData";
 import localization, { languageManager } from "@/data/localization";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Checkbox, IconButton, IconButtonProps, styled } from "@mui/material";
+import { Checkbox, Collapse, IconButton, IconButtonProps, styled } from "@mui/material";
+import { observer } from "mobx-react-lite";
 import React, { ReactNode, useContext, useMemo } from "react";
 import {
     SortableContainer,
@@ -40,57 +41,58 @@ const CollapseButton = styled((props: ExpandMoreProps) => {
     }),
 }));
 
-// const getFormPanel = (sectionForm: SectionForm) => {
-//     switch (sectionForm.id) {
-//         case 'Detail':
-//             return <DetailForm sectionForm={sectionForm} />;
-//         case 'Experience':
-//             return <ItemForm sectionForm={sectionForm} />;
-//         case 'Education':
-//             return <ItemForm sectionForm={sectionForm} />;
-//         case 'Skill':
-//             return <SkillForm sectionForm={sectionForm} />;
-//         case 'Other':
-//             return <OtherForm sectionForm={sectionForm} />;
-//         default:
-//             throw new Error('No such form id');
-//     }
-// }
-
-const SectionFormPanel = ({ value }: SectionFormPanelProps) => {
-    // const langCode = useContext(LanguageContext);
-    // const { sectionForms, setSectionForms } = useContext(DocFormDataContext);
-    // const titleLocal = localization[langCode].form.title;
-    // const collapseHandle = () => {
-    //     if (!value.inUse) {
-    //         return;
-    //     }
-    //     setSectionForms(changeFormPropValue(value, sectionForms, { isCollapse: !value.isCollapse }));
-    // }
-    // return <div>
-    //     <div className={styles.panelHeader}>
-    //         <CollapseButton
-    //             expand={!value.isCollapse}
-    //             onClick={collapseHandle}
-    //             aria-expanded={!value.isCollapse}
-    //             aria-label="show more"
-    //         >
-    //             <ExpandMoreIcon />
-    //         </CollapseButton>
-    //         <span className={styles.panelTitle}>
-    //             {titleLocal[value.id.toLocaleLowerCase() as keyof typeof titleLocal]}
-    //         </span>
-    //         <Checkbox className={styles.inUseCheckbox} checked={value.inUse} onChange={(_e, checked) => {
-    //             setSectionForms(changeFormPropValue(value, sectionForms, { inUse: checked, isCollapse: !checked }));
-    //         }} />
-    //         <DragHandle className={styles.dragingHandler} />
-    //     </div>
-    //     <CollapsePanel collapseId={value.id} timeout="auto" unmountOnExit>
-    //         {getFormPanel(value)}
-    //     </CollapsePanel>
-    // </div>
-    return <div>SectionFormPanel</div>
+const getFormPanel = (sectionForm: SectionForm<SectionData>) => {
+    switch (sectionForm.id) {
+        case 'Detail':
+            return <DetailForm sectionForm={sectionForm as FormDetail} />;
+        case 'Experience':
+            // return <ItemForm sectionForm={sectionForm} />;
+            return sectionForm.id;
+        case 'Education':
+            // return <ItemForm sectionForm={sectionForm} />;
+            return sectionForm.id;
+        case 'Skill':
+            // return sectionForm.id;
+            return <SkillForm sectionForm={sectionForm as FormSkill} />;
+        case 'Other':
+            return <OtherForm sectionForm={sectionForm as FormOther} />;
+        default:
+            throw new Error('No such form id');
+    }
 }
+
+const SectionFormPanel = observer(({ value }: SectionFormPanelProps) => {
+    const titleLocal = localization[languageManager.langCode].form.title;
+    const collapseHandle = () => {
+        if (!value.inUse) {
+            return;
+        }
+        value.toggleCollapse();
+    }
+    return <div>
+        <div className={styles.panelHeader}>
+            <CollapseButton
+                expand={!value.isCollapse}
+                onClick={collapseHandle}
+                aria-expanded={!value.isCollapse}
+                aria-label="show more"
+            >
+                <ExpandMoreIcon />
+            </CollapseButton>
+            <span className={styles.panelTitle}>
+                {titleLocal[value.id.toLocaleLowerCase() as keyof typeof titleLocal]}
+            </span>
+            <Checkbox className={styles.inUseCheckbox} checked={value.inUse} onChange={(_e, checked) => {
+                value.setInUse(checked);
+                value.setIsCollapse(!checked);
+            }} />
+            <DragHandle className={styles.dragingHandler} />
+        </div>
+        <Collapse in={!value.isCollapse} timeout="auto" unmountOnExit>
+            {getFormPanel(value)}
+        </Collapse>
+    </div>
+})
 
 const SortableItem: React.ComponentClass<SortableElementProps & SectionFormPanelProps, any> = SortableElement(SectionFormPanel);
 
@@ -103,27 +105,17 @@ export const SortableList: React.ComponentClass<SortableContainerProps & Sortabl
 });
 
 const DraggableFormArea = () => {
-    // const { sectionForms, setSectionForms } = useContext(DocFormDataContext);
-    // const onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
-    //     setSectionForms(changeArrayIndex(sectionForms, oldIndex, newIndex, true));
-    // }
-    // const collapseState = useMemo(() => sectionForms.reduce<SectionId[]>((result, sectionForm) => {
-    //     if (!sectionForm.isCollapse) {
-    //         result.push(sectionForm.id);
-    //     }
-    //     return result;
-    // }, []), [sectionForms]);
-    // return <CollapseAll collapseState={collapseState}>
-    //     <SortableList onSortEnd={onSortEnd} useDragHandle >
-    //         {sectionForms.map((sectionForm, index) => (
-    //             <SortableItem key={`item-${sectionForm.id}`}
-    //                 index={index}
-    //                 value={sectionForm}
-    //             />
-    //         ))}
-    //     </SortableList>
-    // </CollapseAll>
-    return null;
+    const onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
+        sectionForms.changeIndexFromTo(oldIndex, newIndex);
+    }
+    return <SortableList onSortEnd={onSortEnd} useDragHandle >
+        {sectionForms.arr.map((sectionForm, index) => (
+            <SortableItem key={`item-${sectionForm.id}`}
+                index={index}
+                value={sectionForm}
+            />
+        ))}
+    </SortableList>
 }
 
-export default DraggableFormArea;
+export default observer(DraggableFormArea);

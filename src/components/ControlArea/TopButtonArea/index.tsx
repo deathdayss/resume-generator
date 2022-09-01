@@ -33,7 +33,6 @@ const PdfButton = observer(({ showState, hideView, openView, ...leftProps }: Pdf
 const TopButtonArea = ({
     instanceDoc,
 }: TopButtonAreaProps) => {
-    console.log('render TopButtonArea');
     const buttonLocal = localization[languageManager.langCode].form.button;
     const messageLocal = localization[languageManager.langCode].form.message;
     const [willCollapse, setWillCollapse] = useState(true);

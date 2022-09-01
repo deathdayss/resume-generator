@@ -46,7 +46,9 @@ const eng = {
             default: 'default'
         },
         error: {
-            numericError: 'Need to input a numeric value'
+            numericError: 'Please input a valid numeric value',
+            phoneError: 'Please input a valid phone number',
+            emailError: 'please input a valid email address'
         },
         label: {
             title: 'Section Title',
@@ -67,7 +69,7 @@ const eng = {
             skill: 'Skill',
             skillDescription: 'Skill Description',
             otherDescription: 'Other Description',
-            pagePadding: 'Page Padding',
+            pagePadding: 'Page Padding (inch)',
             bodyFontSize: 'Body Font Size',
             titleFontSize: 'Title Font Size',
             titleGap: 'Title Bottom Margin',
@@ -183,7 +185,9 @@ const chi: localizationContent = {
             default: '默认'
         },
         error: {
-            numericError: '需要输入数字'
+            numericError: '请输入合规的数字',
+            phoneError: '请输入合规的电话号码',
+            emailError: '请输入合规的电子邮箱'
         },
         label: {
             title: '板块名称',
@@ -204,7 +208,7 @@ const chi: localizationContent = {
             skill: '技能',
             skillDescription: '技能描述',
             otherDescription: '其他描述',
-            pagePadding: '页面边内距',
+            pagePadding: '页面边内距（英尺）',
             bodyFontSize: '内容字号',
             titleFontSize: '标题字号',
             titleGap: '标题下边距',

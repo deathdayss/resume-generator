@@ -1,3 +1,4 @@
+import { validateNumericValue } from '@/components/helper/helper';
 import { SelectStyle, TextFieldStyle } from '@/components/ModifiedUI';
 import { formStylesManager, initialStylesData } from '@/data/docStyles';
 import localization, { languageManager } from '@/data/localization';
@@ -19,15 +20,16 @@ const StyleControlArea = () => {
                 <TextFieldStyle label={labelLocal.bodyFontSize}
                     getValue={() => formStylesManager.stylesData.page.fontSize}
                     onValueChange={formStylesManager.setPageFontSize}
-                    getValidation={[() => formStylesManager.validatePageFontSize]}
+                    getValidation={[() => validateNumericValue(formStylesManager.stylesData.page.fontSize)]}
                     errorText={errorText} />
                 <TextFieldStyle label={labelLocal.titleFontSize}
                     getValue={() => formStylesManager.stylesData.title.fontSize}
                     onValueChange={formStylesManager.setTitleFontSize}
-                    getValidation={[() => formStylesManager.validateTitleFontSize]}
+                    getValidation={[() => validateNumericValue(formStylesManager.stylesData.title.fontSize)]}
                     errorText={errorText}
                 />
                 <SelectStyle label={labelLocal.fontFamily}
+                    inputWidth='11.8rem'
                     getValue={() => formStylesManager.stylesData.page.fontFamily}
                     onValueChange={formStylesManager.setPageFontFamily}
                 >
@@ -38,19 +40,19 @@ const StyleControlArea = () => {
                 <TextFieldStyle label={labelLocal.pagePadding}
                     getValue={() => formStylesManager.pagePaddingText}
                     onValueChange={formStylesManager.setPagePadding}
-                    getValidation={[() => formStylesManager.validatePagePadding]}
+                    getValidation={[() => validateNumericValue(formStylesManager.pagePaddingText)]}
                     errorText={errorText}
                 />
                 <TextFieldStyle label={labelLocal.sectionGap}
                     getValue={() => formStylesManager.stylesData.section.marginBottom}
                     onValueChange={formStylesManager.setSectionMarginBottom}
-                    getValidation={[() => formStylesManager.validateSectionMarginBottom]}
+                    getValidation={[() => validateNumericValue(formStylesManager.stylesData.section.marginBottom)]}
                     errorText={errorText}
                 />
                 <TextFieldStyle label={labelLocal.sectionAddGap}
                     getValue={() => formStylesManager.stylesData.sectionItem.marginBottom}
                     onValueChange={formStylesManager.setSectionItemMarginBottom}
-                    getValidation={[() => formStylesManager.validateSectionItemMarginBottom]}
+                    getValidation={[() => validateNumericValue(formStylesManager.stylesData.sectionItem.marginBottom)]}
                     errorText={errorText}
                 />
             </div>
@@ -58,7 +60,7 @@ const StyleControlArea = () => {
                 <TextFieldStyle label={labelLocal.titleGap}
                     getValue={() => formStylesManager.stylesData.title.marginBottom}
                     onValueChange={formStylesManager.setTitleMarginBottom}
-                    getValidation={[() => formStylesManager.validateTitleMarginBottom]}
+                    getValidation={[() => validateNumericValue(formStylesManager.stylesData.title.marginBottom)]}
                     errorText={errorText}
                 />
                 <div />

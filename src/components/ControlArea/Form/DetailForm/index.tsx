@@ -1,23 +1,41 @@
+import { validateEmailAddress, validatePhoneNumber } from "@/components/helper/helper";
 import { CheckTextFieldStyle, TextFieldStyle } from "@/components/ModifiedUI";
+import { FormDetail } from "@/data/formData";
+import localization, { languageManager } from "@/data/localization";
+import { observer } from "mobx-react-lite";
 import FormCard from "../FormCard";
 import { SectionFormProps } from "../type";
 import styles from './index.module.scss';
 
-
-const DetailForm = ({ sectionForm }: SectionFormProps) => {
-    // const { labelLocal, valueChangePairHook, index, last } = useSectionForm(sectionForm);
-     
-    // return <FormCard last={last} hasTitle={false} index={index} valueOnChange={valueChangePairHook}>
-    //     <div className={styles.line}>
-    //         <TextFieldStyle label={labelLocal.personName} {...valueChangePairHook([index, 'textData', 'personName'])} />
-    //         <CheckTextFieldStyle label={labelLocal.visa} valueOnChange={valueChangePairHook} keys={[index, 'textData', 'visa']} />
-    //     </div>
-    //     <div className={styles.line}>
-    //         <CheckTextFieldStyle label={labelLocal.email} valueOnChange={valueChangePairHook} keys={[index, 'textData', 'email']} />
-    //         <CheckTextFieldStyle label={labelLocal.phone} valueOnChange={valueChangePairHook} keys={[index, 'textData', 'phone']} />
-    //     </div>
-    // </FormCard >
-    return null;
+interface DetailFormProps {
+    sectionForm: FormDetail
 }
 
-export default DetailForm;
+
+const DetailForm = ({ sectionForm }: DetailFormProps) => {
+    const labelLocal = localization[languageManager.langCode].form.label;
+    const errorLocal = localization[languageManager.langCode].form.error;
+    return <FormCard sectionForm={sectionForm}>
+        <div className={styles.line}>
+            <TextFieldStyle label={labelLocal.personName} getValue={() => sectionForm.textData.personName}
+                onValueChange={sectionForm.setPersonName}
+            />
+            <CheckTextFieldStyle label={labelLocal.visa} getValue={() => sectionForm.textData.visa}
+                onValueChange={sectionForm.setVisa}
+            />
+        </div>
+        <div className={styles.line}>
+            <CheckTextFieldStyle label={labelLocal.email} getValue={() => sectionForm.textData.email}
+                onValueChange={sectionForm.setEmail}
+                getValidation={[() => validateEmailAddress(sectionForm.textData.email)]}
+                errorText={[errorLocal.emailError]}
+            />
+            <CheckTextFieldStyle label={labelLocal.phone} getValue={() => sectionForm.textData.phone}
+                onValueChange={sectionForm.setPhone}
+                getValidation={[() => validatePhoneNumber(sectionForm.textData.phone)]}
+                errorText={[errorLocal.phoneError]} />
+        </div>
+    </FormCard >
+}
+
+export default observer(DetailForm);
