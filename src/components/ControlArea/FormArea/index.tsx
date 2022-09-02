@@ -1,20 +1,16 @@
-import { CollapseAll, CollapsePanel } from "@/components/ControlArea/Collapse";
-import { SectionData } from "@/data/docData";
-import { FormDetail, FormOther, FormSkill, SectionForm, sectionForms } from "@/data/formData";
-// import { DocFormDataContext, SectionId } from "@/data/docData";
+import { Education, EducationInfo, Experience, ExperienceInfo, SectionData } from "@/data/docData";
+import { FormDetail, FormOther, FormSkill, SectionForm, SectionFormItems, sectionForms } from "@/data/formData";
 import localization, { languageManager } from "@/data/localization";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Checkbox, Collapse, IconButton, IconButtonProps, styled } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import React, { ReactNode, useContext, useMemo } from "react";
+import React, { ReactNode } from "react";
 import {
     SortableContainer,
     SortableContainerProps,
     SortableElement,
     SortableElementProps, SortEnd
 } from 'react-sortable-hoc';
-// import { SectionForm } from "../../../data/formData";
-// import { changeArrayIndex, changeFormPropValue } from "../../helper/helper";
 import { DragHandle } from "../Draggable";
 import DetailForm from '../Form/DetailForm';
 import ItemForm from "../Form/ItemForm";
@@ -46,13 +42,10 @@ const getFormPanel = (sectionForm: SectionForm<SectionData>) => {
         case 'Detail':
             return <DetailForm sectionForm={sectionForm as FormDetail} />;
         case 'Experience':
-            // return <ItemForm sectionForm={sectionForm} />;
-            return sectionForm.id;
+            return <ItemForm sectionForm={sectionForm as SectionFormItems<Experience, ExperienceInfo>} />;
         case 'Education':
-            // return <ItemForm sectionForm={sectionForm} />;
-            return sectionForm.id;
+            return <ItemForm sectionForm={sectionForm as SectionFormItems<Education, EducationInfo>} />;
         case 'Skill':
-            // return sectionForm.id;
             return <SkillForm sectionForm={sectionForm as FormSkill} />;
         case 'Other':
             return <OtherForm sectionForm={sectionForm as FormOther} />;

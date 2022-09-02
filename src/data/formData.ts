@@ -85,7 +85,7 @@ export class FormOther extends SectionFormTitle<Other> {
     }
 }
 
-class SectionFormItems<F extends SectionItem, T extends ItemsData<F>> extends SectionFormTitle<T> {
+export class SectionFormItems<F extends SectionItem, T extends ItemsData<F>> extends SectionFormTitle<T> {
 
     constructor(id: SectionId, textData: T) {
         super(id, textData);

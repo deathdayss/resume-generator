@@ -1,14 +1,18 @@
 import { CheckTextFieldStyle, TextFieldStyle } from '@/components/ModifiedUI';
+import { ItemsData, SectionItem } from '@/data/docData';
+import { SectionFormItems } from '@/data/formData';
 import AddedItemArea from '../component/AddedItemArea';
 import FormCard from '../FormCard';
 import { SectionFormProps } from '../type';
 
-const ItemForm = ({ sectionForm }: SectionFormProps) => {
-    // const { sectionForms, usePropsForInputObj, valueChangePairHook, index, last } = useSectionForm(sectionForm);
-    // return <FormCard last={last} index={index} valueOnChange={valueChangePairHook}>
-    //     <AddedItemArea sectionForm={sectionForm} sectionForms={sectionForms} usePropsForInputObj={usePropsForInputObj} />
-    // </FormCard >
-    return null;
+interface ItemFormProps {
+    sectionForm: SectionFormItems<SectionItem, ItemsData<SectionItem>>
+}
+
+const ItemForm = ({ sectionForm }: ItemFormProps) => {
+    return <FormCard sectionForm={sectionForm}>
+        <AddedItemArea sectionForm={sectionForm} />
+    </FormCard >
 }
 
 export default ItemForm;

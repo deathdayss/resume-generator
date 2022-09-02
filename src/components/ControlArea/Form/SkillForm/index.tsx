@@ -1,7 +1,6 @@
 import { TextFieldStyle } from "@/components/ModifiedUI";
 import { FormSkill } from "@/data/formData";
 import localization, { languageManager } from "@/data/localization";
-import { StateKey } from "@/hooks";
 import { action } from "mobx";
 import { observer } from "mobx-react-lite";
 import VariableInputList from "../component/VariableInputList";
@@ -29,7 +28,7 @@ const SkillForm = ({ sectionForm }: SkillFormProps) => {
         <FormCard sectionForm={sectionForm} >
             <VariableInputList id={sectionForm.id}
                 addData={sectionForm.items.produceItem}
-                items={sectionForm.items.arr}
+                itemsArr={sectionForm.items.arr}
                 changeIndexFromTo={sectionForm.items.changeIndexFromTo}
                 deleteByIndex={sectionForm.items.deleteByIndex}
                 getInputContent={getInputContent}

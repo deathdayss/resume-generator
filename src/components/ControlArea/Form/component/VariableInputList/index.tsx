@@ -1,12 +1,10 @@
 import { DragHandleDnd } from '@/components/ControlArea/Draggable';
-import { SectionForm } from '@/data/formData';
 import localization, { languageManager } from '@/data/localization';
-import { DeleteValueHook, getObjValue, StateKey, UsePropsForInputObj } from '@/hooks';
 import { DragDropContext, Draggable, DragStart, Droppable, DropResult } from '@hello-pangea/dnd';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { animated, useSpring } from 'react-spring';
 import styles from './index.module.scss';
 
@@ -22,7 +20,7 @@ interface InputItemProps {
     className: string
 }
 
-const InputItem = ({ value, index, draggingId, getInputContent, deleteByIndex, itemModalLabel, className }: InputItemProps) => {
+const InputItem = observer(({ value, index, draggingId, getInputContent, deleteByIndex, itemModalLabel, className }: InputItemProps) => {
     const modalLocal = localization[languageManager.langCode].form.modal;
     const [openDialog, setOpenDialog] = useState(false);
     const [showButtons, setShowButtons] = useState(false);
@@ -58,11 +56,11 @@ const InputItem = ({ value, index, draggingId, getInputContent, deleteByIndex, i
             }
         </Draggable >
     )
-}
+})
 
 interface VariableInputListProps {
     id: string,
-    items: Item[],
+    itemsArr: Item[],
     addData: () => void,
     changeIndexFromTo: (oldIndex: number, newIndex: number) => void,
     deleteByIndex: (index: number) => void,
@@ -75,7 +73,7 @@ interface VariableInputListProps {
 }
 const VariableInputList = ({
     id,
-    items,
+    itemsArr,
     addData,
     changeIndexFromTo,
     deleteByIndex,
@@ -94,8 +92,8 @@ const VariableInputList = ({
     const onDragEnd = ({ draggableId, destination }: DropResult) => {
         setDraggingId(null);
         if (destination) {
-            for (let i = 0; i < items.length; ++i) {
-                if (items[i].id === draggableId) {
+            for (let i = 0; i < itemsArr.length; ++i) {
+                if (itemsArr[i].id === draggableId) {
                     changeIndexFromTo(i, destination.index);
                     break;
                 }
@@ -111,7 +109,7 @@ const VariableInputList = ({
             <Droppable droppableId={id}>
                 {(provider) => (
                     <div ref={provider.innerRef} {...provider.droppableProps}>
-                        {items.map((value, index) => <InputItem key={value.id}
+                        {itemsArr.map((value, index) => <InputItem key={value.id}
                             index={index}
                             value={value}
                             draggingId={draggingId}
@@ -141,4 +139,4 @@ const VariableInputList = ({
     </div>
 }
 
-export default VariableInputList;
+export default observer(VariableInputList);

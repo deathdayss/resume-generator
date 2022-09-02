@@ -30,20 +30,19 @@ class ArrayElement {
 const myArr = [{ a: { text: 'second' } }, { a: { text: 'second' } }];
 
 class Timer {
-    count;
+    @observable count;
     constructor() {
         makeObservable(this);
-        this.count = 0;
+        this.count = '0';
     }
 
     @action
     addTime() {
         console.log('addTime()')
-        this.count++;
+        this.count += '0';
     }
 }
 
-const timer = new Timer();
 
 class ArrayTest {
     @observable k = myArr;
@@ -89,7 +88,9 @@ class ArrayTest {
 
 const array = new ArrayTest();
 
-const Test0 = observer(() => {
+const timer = new Timer();
+
+const Test0 = () => {
     console.log('render Test0')
     useEffect(() => {
         autorun(() => {
@@ -99,11 +100,13 @@ const Test0 = observer(() => {
     }, [])
     return <div>
         <button onClick={() => timer.addTime()}>change first</button>
-        <div>{array.time}</div>
-        {/* <div>{(array.k[0] as ArrayElement).text2}</div> */}
-        <div>{JSON.stringify(docStylesManager.docStyles)}</div>
-        {/* {array.k.map((elem, index) => <div>array element</div>)} */}
+        <Test1 getValue={() => timer.count} />
     </div>
+}
+
+const Test1 = observer(({ getValue }: { getValue: () => string }) => {
+    console.log('render Test1')
+    return <div>{getValue()}</div>
 })
 
 const Main = () => {

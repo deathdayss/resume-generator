@@ -77,19 +77,20 @@ export const SelectStyle = observer((props: SelectStyleProps) => {
 })
 
 type PeriodTextFieldProps = {
-    keys: StateKey[],
-    valueChangePairHook: ValueChangePairHook
+    valueChangePairs: { getValue?: () => string | null, onValueChange?: StringChange | StringNullChange }[],
 } & TextFieldStyleProps
 
-export const PeriodTextField = ({ keys, valueChangePairHook, inputStyle = { flex: '1' }, ...leftProps }: PeriodTextFieldProps) => {
-    // const langCode = useContext(LanguageContext);
+export const PeriodTextField = observer(({ valueChangePairs, inputStyle = { flex: '1' }, ...leftProps }: PeriodTextFieldProps) => {
     const labelLocal = localization[languageManager.langCode].form.label;
+    if (valueChangePairs.length !== 2) {
+        return null;
+    }
     return <div style={{ display: 'inline-flex' }}>
-        <TextFieldStyle label={labelLocal.startTime} {...valueChangePairHook([...keys, 0])} inputStyle={inputStyle} {...leftProps} />
+        <TextFieldStyle label={labelLocal.startTime} {...valueChangePairs[0]} inputStyle={inputStyle} {...leftProps} />
         <div style={{ width: '10%', minWidth: '2rem' }} />
-        <TextFieldStyle label={labelLocal.endTime} {...valueChangePairHook([...keys, 1])} inputStyle={inputStyle} {...leftProps} />
+        <TextFieldStyle label={labelLocal.endTime} {...valueChangePairs[1]} inputStyle={inputStyle} {...leftProps} />
     </div>
-}
+})
 
 type CheckTextFieldStyleProps = TextFieldStyleProps & {
     className?: string,
