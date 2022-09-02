@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/resume-generator/static/css/main.9fe155a2.css",
-    "main.js": "/resume-generator/static/js/main.8be81482.js",
+    "main.css": "/resume-generator/static/css/main.368bd11b.css",
+    "main.js": "/resume-generator/static/js/main.a5db7922.js",
     "static/js/787.3ec2375e.chunk.js": "/resume-generator/static/js/787.3ec2375e.chunk.js",
     "static/media/Alibaba-PuHuiTi.ttf": "/resume-generator/static/media/Alibaba-PuHuiTi.ec42239dbbf0e9008b5b.ttf",
     "static/media/Alibaba-PuHuiTi-bold.ttf": "/resume-generator/static/media/Alibaba-PuHuiTi-bold.295e4c0da74978d42fae.ttf",
     "static/media/Butler.otf": "/resume-generator/static/media/Butler.b85860dbaabcf35bba43.otf",
     "static/media/Butler-bold.otf": "/resume-generator/static/media/Butler-bold.f6c5b1cef0ad4dae4734.otf",
     "index.html": "/resume-generator/index.html",
-    "main.9fe155a2.css.map": "/resume-generator/static/css/main.9fe155a2.css.map",
-    "main.8be81482.js.map": "/resume-generator/static/js/main.8be81482.js.map",
+    "main.368bd11b.css.map": "/resume-generator/static/css/main.368bd11b.css.map",
+    "main.a5db7922.js.map": "/resume-generator/static/js/main.a5db7922.js.map",
     "787.3ec2375e.chunk.js.map": "/resume-generator/static/js/787.3ec2375e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9fe155a2.css",
-    "static/js/main.8be81482.js"
+    "static/css/main.368bd11b.css",
+    "static/js/main.a5db7922.js"
   ]
 }
