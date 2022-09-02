@@ -133,7 +133,7 @@ const TopButtonArea = ({
             }
         };
     };
-    return <div className={styles.buttonContainer}>
+    return <div id='topButtonArea' className={styles.buttonContainer}>
         <div className={styles.firstLine}>
             <Button variant="contained" onClick={collapseAllHandle} className={styles.CollapseButton} >
                 <animated.span style={{ marginRight: '0.4rem', ...arrowStyles }}> <ForwardOutlined /></animated.span>
@@ -141,7 +141,7 @@ const TopButtonArea = ({
             <Button className={styles.layoutButton} onClick={layoutHandle} >{buttonLocal.defaultLayout}</Button>
             <PdfButton showState={() => pdfViewOpen.state} hideView={buttonLocal.hideView} openView={buttonLocal.openView} className={styles.pdfViewButton} onClick={PdfViewHandle} />
             <Button style={{ textTransform: 'none' }} onClick={inUseHandle}>{buttonLocal.useAll}</Button>
-            <Select className={styles.selectLang} value={languageManager.langCode} style={{ width: 120 }} onChange={selectLanguageHandle}>
+            <Select className={styles.selectLang} getPopupContainer={() => document.getElementById('topButtonArea') as HTMLElement} value={languageManager.langCode} style={{ width: 120 }} onChange={selectLanguageHandle}>
                 {Object.keys(localization).map((value) => <Option key={value} value={value}>{localization[value as Language].name}</Option>)}
             </Select>
         </div>
