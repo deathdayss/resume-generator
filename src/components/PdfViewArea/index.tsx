@@ -1,4 +1,4 @@
-import { PdfViewOpen, resizableState } from '@/data/mobData';
+import { pdfViewOpen, resizableState } from '@/data/mobData';
 import { observer } from 'mobx-react-lite';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Resizable, { ResizableProps } from '../Resizable';
@@ -30,9 +30,12 @@ const PdfViewArea = ({ src }: PdfViewAreaProps) => {
             setWidthRange({ minWidth, maxWidth });
             const resizableContainer = resizableContainerRef.current?.children[0];
             if (resizableContainer) {
-                let containerWidth = Math.max(resizableContainer.clientWidth, minWidth);
-                containerWidth = Math.min(resizableContainer.clientWidth, maxWidth);
-                resizableState.setWidth = containerWidth;
+                if (resizableState.width <= minWidth) {
+                    resizableState.setWidth = minWidth;
+                }
+                else if (resizableState.width >= maxWidth) {
+                    resizableState.setWidth = maxWidth;
+                }
             }
         }
         const mouseDownHandle = () => setIframePointerEvent('none');
@@ -46,7 +49,7 @@ const PdfViewArea = ({ src }: PdfViewAreaProps) => {
             window.removeEventListener('mouseup', mouseUpHandle);
         }
     }, []);
-    if (!PdfViewOpen.state) {
+    if (!pdfViewOpen.state) {
         return null;
     }
     return <div ref={resizableContainerRef} className={styles.PdfViewContainer}>

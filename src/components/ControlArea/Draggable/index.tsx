@@ -1,10 +1,9 @@
-import { SortableHandle } from "react-sortable-hoc";
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import styles from './index.module.scss';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
-import { DraggableProvidedDragHandleProps } from "@hello-pangea/dnd";
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { useState } from "react";
+import { SortableHandle } from "react-sortable-hoc";
 import { animated, useSpring } from "react-spring";
+import styles from './index.module.scss';
 
 type DragHandleDndProps = {
     className?: string,

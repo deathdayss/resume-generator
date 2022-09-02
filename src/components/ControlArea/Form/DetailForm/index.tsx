@@ -4,7 +4,6 @@ import { FormDetail } from "@/data/formData";
 import localization, { languageManager } from "@/data/localization";
 import { observer } from "mobx-react-lite";
 import FormCard from "../FormCard";
-import { SectionFormProps } from "../type";
 import styles from './index.module.scss';
 
 interface DetailFormProps {

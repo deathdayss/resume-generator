@@ -1,14 +1,13 @@
 import { MuiDragHandle } from "@/components/ControlArea/Draggable";
+import { changeIndexFromTo, deleteByIndex, pushElement, unShiftElement } from "@/components/helper/helper";
 import { CheckTextFieldStyle, PeriodTextField, TextFieldStyle } from "@/components/ModifiedUI";
-import { Education, Experience, ItemsData, SectionData, SectionItem } from "@/data/docData";
-import { SectionForm, SectionFormItems } from "@/data/formData";
+import { Education, Experience, ItemsData, SectionItem, textDataTemplate } from "@/data/docData";
+import { SectionFormItems } from "@/data/formData";
 import localization, { languageManager } from "@/data/localization";
-import { MobIdArray } from "@/data/mobData";
-import { DeleteValueHook, StateKey, UsePropsForInputObj } from "@/hooks";
 import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
 import { action } from "mobx";
 import { observer } from "mobx-react-lite";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { SortableContainer, SortableContainerProps, SortableElement, SortableElementProps, SortEnd } from "react-sortable-hoc";
 import { animated, useSpring } from "react-spring";
 import { SectionFormProps } from "../../type";
@@ -30,7 +29,7 @@ const AddedItemCard = ({ itemIndex, sectionForm, children, className = styles.it
     const opacityStyles = useSpring({ opacity: showButtons ? 1 : 0, config: { duration: 150 } });
     const handleDeletion = () => {
         setOpenDialog(false);
-        sectionForm.items.deleteByIndex(itemIndex);
+        sectionForm.setItems(deleteByIndex(sectionForm.items, itemIndex))
     }
     return <div className={className} onMouseEnter={() => setShowButtons(true)} onMouseLeave={() => setShowButtons(false)} >
         <animated.span style={opacityStyles}><MuiDragHandle className={styles.dragingHandler} /></animated.span>
@@ -73,12 +72,12 @@ const AddedItem = observer(({ value, sectionForm, myIndex }: AddedItemProps) => 
             getValue={() => item.description} onValueChange={action((value: string) => item.description = value)}
         />;
     }
-    const items = (value as Experience | Education).descriptions;
+    const myValue = (value as Experience | Education);
     const getVariableInputList = <VariableInputList id={sectionForm.id}
-        itemsArr={items.arr}
-        addData={items.produceItem}
-        changeIndexFromTo={items.changeIndexFromTo}
-        deleteByIndex={items.deleteByIndex}
+        getItems={() => myValue.descriptions}
+        addData={action(() => myValue.descriptions = pushElement(myValue.descriptions, (textDataTemplate as any)[sectionForm.id][sectionForm.templateId]().items[0].descriptions[0]))}
+        changeIndexFromTo={action((oldIndex: number, newIndex: number) => myValue.descriptions = changeIndexFromTo(myValue.descriptions, oldIndex, newIndex))}
+        deleteByIndex={action((index: number) => myValue.descriptions = deleteByIndex(myValue.descriptions, index))}
         getInputContent={getInputContent}
         buttonLabel={buttonLocal.addDescription}
         listModalLabel={modalLocal.addDescription}
@@ -148,16 +147,16 @@ const AddedItemArea = ({ sectionForm, className }: AddedItemAreaProps) => {
     const modalLocal = localization[langCode].form.modal;
     const [openDialog, setOpenDialog] = useState(false);
     const onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
-        sectionForm.items.changeIndexFromTo(oldIndex, newIndex);
+        sectionForm.setItems(changeIndexFromTo(sectionForm.items, oldIndex, newIndex));
     }
     const addHandle = () => {
         setOpenDialog(false);
-        sectionForm.items.produceItem();
+        sectionForm.setItems(unShiftElement(sectionForm.items, (textDataTemplate as any)[sectionForm.id][sectionForm.templateId]().items[0]));
     }
     return <div className={className}>
         <Button onClick={() => setOpenDialog(true)} variant='outlined'>{buttonLocal.add}</Button>
         <SortableList onSortEnd={onSortEnd} useDragHandle>
-            {sectionForm.items.arr.map((value, index) => <SortableItem key={value.id} value={value} sectionForm={sectionForm} myIndex={index} index={index} />)}
+            {sectionForm.items.map((value, index) => <SortableItem key={value.id} value={value} sectionForm={sectionForm} myIndex={index} index={index} />)}
         </SortableList>
         <Dialog open={openDialog}
             onClose={() => setOpenDialog(false)}

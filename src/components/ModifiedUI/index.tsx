@@ -1,9 +1,8 @@
 import localization, { languageManager } from "@/data/localization";
-import { StateKey, ValueChangePair, ValueChangePairHook } from "@/hooks";
 import styled from "@emotion/styled";
-import { Checkbox, checkboxClasses, FormControlLabel, inputClasses, inputLabelClasses, Select, SelectProps, TextField, TextFieldProps } from "@mui/material";
+import { Checkbox, FormControlLabel, inputLabelClasses, TextField, TextFieldProps } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import { useContext, useState } from "react";
+import { useState } from "react";
 
 export const TextFieldLabel = styled(TextField)(`
   .${inputLabelClasses.root} {

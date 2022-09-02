@@ -1,12 +1,9 @@
 // import { Detail, DocFormDataContext, EducationInfo, ExperienceInfo, OtherInfo, SkillInfo } from '@/data/docData';
 import { Detail, EducationInfo, ExperienceInfo, Other, sectionInfos, SkillInfo } from '@/data/docData';
 import { docStylesManager } from '@/data/docStyles';
-import { specialFonts } from '@/fonts';
 import { Document, Page } from '@react-pdf/renderer';
 import { observer } from 'mobx-react-lite';
-import { useContext, useMemo } from 'react';
 import DetailSection from './DetailSection';
-// import { DocStylesContext, stableDocStyles } from './docStyles';
 import EducationSection from './EducationSection';
 import ExperienceSection from './ExperienceSection';
 import OtherSection from './OtherSection';

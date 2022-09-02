@@ -1,28 +1,6 @@
-import { docStylesManager } from "@/data/docStyles";
-import { chiFonts } from "@/fonts";
-import { action, makeAutoObservable, makeObservable, observable, reaction } from "mobx";
+import { action, makeObservable, observable } from "mobx";
 
 export type Language = 'eng' | 'chi';
-// export const LanguageContext = React.createContext<Language>('eng');
-class LanguageManager {
-    @observable langCode: Language = 'eng';
-
-    constructor() {
-        makeObservable(this);
-        const storeLangCode = localStorage.getItem('resumeLangCode');
-        if (storeLangCode) {
-            this.langCode = storeLangCode as Language;
-        }
-    }
-
-    @action
-    setLangCode = (langCode: Language) => {
-        localStorage.setItem('resumeLangCode', langCode);
-        this.langCode = langCode;
-    }
-}
-
-export const languageManager = new LanguageManager();
 
 const eng = {
     name: 'English',
@@ -280,5 +258,26 @@ const localization: { [key in Language]: localizationContent } = {
     eng,
     chi
 }
+
+
+class LanguageManager {
+    @observable langCode: Language = 'eng';
+
+    constructor() {
+        makeObservable(this);
+        const storeLangCode = localStorage.getItem('resumeLangCode');
+        if (storeLangCode && storeLangCode in localization) {
+            this.langCode = storeLangCode as Language;
+        }
+    }
+
+    @action
+    setLangCode = (langCode: Language) => {
+        localStorage.setItem('resumeLangCode', langCode);
+        this.langCode = langCode;
+    }
+}
+
+export const languageManager = new LanguageManager();
 
 export default localization;

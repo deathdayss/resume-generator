@@ -1,11 +1,11 @@
-import { validateNumericValue } from "@/components/helper/helper";
 import { chiFonts, specialFonts } from "@/fonts";
-import { action, computed, isAction, makeAutoObservable, makeObservable, observable, reaction } from "mobx";
-import { languageManager } from "./localization";
 import { StyleSheet } from '@react-pdf/renderer';
+import { action, computed, makeObservable, observable, reaction } from "mobx";
+import { Language, languageManager } from "./localization";
 
 type FontWeight = 'normal' | 'bold'
-export const initialStylesData = {
+
+export const getInitialStylesData = () => ({
     page: {
         padding: '0.75in',
         fontSize: '12',
@@ -21,7 +21,9 @@ export const initialStylesData = {
     sectionItem: {
         marginBottom: '10',
     }
-};
+});
+
+export const initialStylesData = getInitialStylesData();
 
 export const stableDocStyles = {}
 export type StableStyles = typeof stableDocStyles;
@@ -33,7 +35,7 @@ export type BoldText = {
 export type StylesData = typeof initialStylesData;
 
 export class DocStyles {
-    @observable stylesData = initialStylesData;
+    @observable stylesData = getInitialStylesData();
 
     constructor() {
         makeObservable(this);
@@ -61,7 +63,7 @@ export class DocStyles {
 export const docStylesManager = new DocStyles();
 
 class FormStyles {
-    @observable stylesData = initialStylesData;
+    @observable stylesData = getInitialStylesData();
 
     constructor() {
         makeObservable(this);
@@ -117,11 +119,15 @@ class FormStyles {
 
 export const formStylesManager = new FormStyles();
 
+export const switchToLanguageFont = (langCode: Language) => {
+    if (langCode === 'chi' && !chiFonts.includes(docStylesManager.stylesData.page.fontFamily)) {
+        formStylesManager.stylesData.page.fontFamily = docStylesManager.stylesData.page.fontFamily = 'Alibaba-PuHuTi';
+        docStylesManager.setStylesData(docStylesManager.stylesData);
+        formStylesManager.setStylesData(formStylesManager.stylesData);
+    }
+}
+
 // TODO: autorun for language switcher to Chinese
 reaction(() => languageManager.langCode, (langCode) => {
-    if (langCode === 'chi' && !chiFonts.includes(docStylesManager.stylesData.page.fontFamily)) {
-        docStylesManager.stylesData.page.fontFamily = 'Alibaba-PuHuTi';
-        docStylesManager.setStylesData(docStylesManager.docStyles);
-        formStylesManager.setStylesData(docStylesManager.docStyles);
-    }
+    switchToLanguageFont(langCode);
 })

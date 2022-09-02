@@ -1,8 +1,8 @@
-import styles from './index.module.scss';
-import TopButtonArea from './TopButtonArea';
 import { UsePDFInstance } from '../helper/helper';
-import StyleControlArea from './StyleControlArea';
 import DraggableFormArea from './FormArea';
+import styles from './index.module.scss';
+import StyleControlArea from './StyleControlArea';
+import TopButtonArea from './TopButtonArea';
 
 interface ControlAreaProps {
     instanceDoc: UsePDFInstance,

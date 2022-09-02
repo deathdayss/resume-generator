@@ -1,3 +1,4 @@
+import { changeIndexFromTo } from "@/components/helper/helper";
 import { Education, EducationInfo, Experience, ExperienceInfo, SectionData } from "@/data/docData";
 import { FormDetail, FormOther, FormSkill, SectionForm, SectionFormItems, sectionForms } from "@/data/formData";
 import localization, { languageManager } from "@/data/localization";
@@ -99,7 +100,7 @@ export const SortableList: React.ComponentClass<SortableContainerProps & Sortabl
 
 const DraggableFormArea = () => {
     const onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
-        sectionForms.changeIndexFromTo(oldIndex, newIndex);
+        sectionForms.arr = changeIndexFromTo(sectionForms.arr, oldIndex, newIndex);
     }
     return <SortableList onSortEnd={onSortEnd} useDragHandle >
         {sectionForms.arr.map((sectionForm, index) => (

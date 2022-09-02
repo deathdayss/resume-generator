@@ -60,7 +60,7 @@ const InputItem = observer(({ value, index, draggingId, getInputContent, deleteB
 
 interface VariableInputListProps {
     id: string,
-    itemsArr: Item[],
+    getItems: () => Item[],
     addData: () => void,
     changeIndexFromTo: (oldIndex: number, newIndex: number) => void,
     deleteByIndex: (index: number) => void,
@@ -73,7 +73,7 @@ interface VariableInputListProps {
 }
 const VariableInputList = ({
     id,
-    itemsArr,
+    getItems,
     addData,
     changeIndexFromTo,
     deleteByIndex,
@@ -89,6 +89,7 @@ const VariableInputList = ({
     const onDragStart = ({ draggableId }: DragStart) => {
         setDraggingId(draggableId);
     };
+    const itemsArr = getItems();
     const onDragEnd = ({ draggableId, destination }: DropResult) => {
         setDraggingId(null);
         if (destination) {

@@ -1,6 +1,6 @@
 import { validateNumericValue } from '@/components/helper/helper';
 import { SelectStyle, TextFieldStyle } from '@/components/ModifiedUI';
-import { formStylesManager, initialStylesData } from '@/data/docStyles';
+import { formStylesManager, getInitialStylesData } from '@/data/docStyles';
 import localization, { languageManager } from '@/data/localization';
 import globalFontFamily from '@/fonts';
 import { Button, MenuItem } from '@mui/material';
@@ -66,7 +66,7 @@ const StyleControlArea = () => {
                 <div />
                 <div className={styles.buttonContainer} >
                     <Button variant='outlined'
-                        onClick={() => formStylesManager.setStylesData(initialStylesData)}>{buttonLocal.defaultStyle}</Button>
+                        onClick={() => formStylesManager.setStylesData(getInitialStylesData())}>{buttonLocal.defaultStyle}</Button>
                 </div>
             </div>
         </div>

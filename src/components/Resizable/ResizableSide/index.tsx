@@ -1,15 +1,13 @@
 import { observer } from 'mobx-react-lite';
-import React, { CSSProperties, MutableRefObject, useContext, useEffect, useMemo } from 'react';
+import React, { CSSProperties, useContext, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import useStateRef from '../hooks/useStateRef';
 
 import {
-  Direction,
-  ResizableContext,
+  Direction, getRealLength, ResizableContext,
   SetNumberState,
   SideClickHandler,
-  SideLength,
-  getRealLength,
+  SideLength
 } from '../utils';
 
 interface ResizableSideProps {

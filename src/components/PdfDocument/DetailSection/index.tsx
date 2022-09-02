@@ -1,10 +1,9 @@
+import { Detail } from "@/data/docData";
 import localization, { languageManager } from "@/data/localization";
-import { Detail } from "@/data/docData"
 import { Text } from "@react-pdf/renderer";
-import { useContext, useMemo } from "react";
-import { SectionProps } from "../common/type";
-import Section from "../components/Section"
 import { observer } from "mobx-react-lite";
+import { SectionProps } from "../common/type";
+import Section from "../components/Section";
 
 interface DetailSectionProps extends SectionProps {
     detail: Detail

@@ -1,11 +1,11 @@
-import localization, { languageManager } from '@/data/localization';
+import { getPeriodText } from '@/components/helper/helper';
 import { Experience, ExperienceInfo } from '@/data/docData';
-import { Text, View } from '@react-pdf/renderer'
+import { docStylesManager } from '@/data/docStyles';
+import localization, { languageManager } from '@/data/localization';
+import { Text, View } from '@react-pdf/renderer';
+import { observer } from 'mobx-react-lite';
 import { LastProps, SectionProps } from '../common/type';
 import Section from '../components/Section';
-import { docStylesManager } from '@/data/docStyles';
-import { getPeriodText } from '@/components/helper/helper';
-import { observer } from 'mobx-react-lite';
 // import { DocStylesContext } from '../docStyles';
 
 interface ExperienceViewProps extends LastProps {
@@ -26,7 +26,7 @@ const ExperienceView = observer(({ experience, last }: ExperienceViewProps) => {
             <Text style={docStyles.boldText}>{experience.duration ? experience.duration : commonLocal.duration}</Text>
             <Text>{`    ${periodText}`}</Text>
         </Text>
-        {experience.descriptions.arr.map((description, index) => <Text key={description.id}>
+        {experience.descriptions.map((description) => <Text key={description.id}>
             <Text style={docStyles.boldText}>·</Text>
             <Text>{` ${description.description ? description.description : commonLocal.yourDescription}`}</Text>
         </Text>)}
@@ -41,7 +41,7 @@ const ExperienceSection = ({ experience, last = false }: ExperienceSectionProps)
     const { title, items } = experience;
     const experienceLocal = localization[languageManager.langCode].document.experience;
     return <Section title={title ? title : experienceLocal.titile} last={last}>
-        {items.arr.map((exp, index) => <ExperienceView key={index} experience={exp} last={index === items.arr.length - 1} />)}
+        {items.map((exp, index) => <ExperienceView key={exp.id} experience={exp} last={index === items.length - 1} />)}
     </Section>
 }
 

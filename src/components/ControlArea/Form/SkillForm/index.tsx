@@ -1,4 +1,6 @@
+import { changeIndexFromTo, deleteByIndex, pushElement } from "@/components/helper/helper";
 import { TextFieldStyle } from "@/components/ModifiedUI";
+import { textDataTemplate } from "@/data/docData";
 import { FormSkill } from "@/data/formData";
 import localization, { languageManager } from "@/data/localization";
 import { action } from "mobx";
@@ -27,10 +29,10 @@ const SkillForm = ({ sectionForm }: SkillFormProps) => {
     return (
         <FormCard sectionForm={sectionForm} >
             <VariableInputList id={sectionForm.id}
-                addData={sectionForm.items.produceItem}
-                itemsArr={sectionForm.items.arr}
-                changeIndexFromTo={sectionForm.items.changeIndexFromTo}
-                deleteByIndex={sectionForm.items.deleteByIndex}
+                addData={action(() => sectionForm.setItems(pushElement(sectionForm.items, (textDataTemplate as any)[sectionForm.id][sectionForm.templateId]().items[0])))}
+                getItems={() => sectionForm.items}
+                changeIndexFromTo={action((oldIndex: number, newIndex: number) => sectionForm.setItems(changeIndexFromTo(sectionForm.items, oldIndex, newIndex)))}
+                deleteByIndex={action((index: number) => sectionForm.setItems(deleteByIndex(sectionForm.items, index)))}
                 getInputContent={getInputContent}
                 buttonLabel={buttonLocal.add}
                 listModalLabel={modalLocal.addSkill}

@@ -1,9 +1,7 @@
-// import { OtherInfo } from "@/data/docData";
 import { Other } from "@/data/docData";
 import localization, { languageManager } from "@/data/localization";
 import { Text } from "@react-pdf/renderer";
 import { observer } from "mobx-react-lite";
-import { useContext } from "react";
 import { SectionProps } from "../common/type";
 import Section from "../components/Section";
 import TextLink from "../components/TextLink";

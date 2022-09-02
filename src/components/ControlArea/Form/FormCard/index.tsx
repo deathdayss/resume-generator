@@ -3,10 +3,9 @@ import { SelectStyle, TextFieldStyle } from '@/components/ModifiedUI';
 import { DetailTemplate, SectionData } from '@/data/docData';
 import { SectionForm, sectionForms, SectionFormTitle } from '@/data/formData';
 import localization, { languageManager } from '@/data/localization';
-import { ValueChangePairHook } from '@/hooks';
 import { MenuItem } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import { ReactNode, useContext } from 'react';
+import { ReactNode } from 'react';
 import styles from './index.module.scss';
 
 interface FormCardProps {
