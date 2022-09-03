@@ -163,7 +163,6 @@ export class SectionForms {
     @action
     setUploadJson = (json: any) => {
         this.arr = [];
-        console.log('set form json', json)
         const cloneSectionIds = [...sectionIds]
         for (const data of json) {
             cloneSectionIds.splice(cloneSectionIds.indexOf(data.id), 1);
@@ -173,7 +172,6 @@ export class SectionForms {
         for (const id of cloneSectionIds) {
             this.arr.push(createNewSectionInfo(id as SectionId, textDataTemplate[id as keyof typeof textDataTemplate].default(), 'default', false, true));
         }
-        console.log('result arr',this.arr)
     }
 }
 

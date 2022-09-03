@@ -16,7 +16,7 @@ const PdfDocument = () => {
             {sectionInfos.arr.map((sectionInfo, index) => {
                 const last = index === sectionInfos.arr.length - 1;
                 const { id, textData, templateId } = sectionInfo;
-                const commonProps = { key: id, last, templateId };
+                const commonProps = { key: index, last, templateId };
                 switch (id) {
                     case 'Detail':
                         return <DetailSection {...commonProps} detail={textData as Detail} />;
