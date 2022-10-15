@@ -1,4 +1,4 @@
-import { produceItemWithId } from "@/components/helper/helper"
+import { produceItemWithId } from "@/components/helper/helperFunction"
 import { cloneDeep } from "lodash"
 import { action, autorun, computed, makeObservable, observable } from "mobx"
 import { SectionForms } from "./formData"

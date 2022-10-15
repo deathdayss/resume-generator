@@ -296,10 +296,6 @@ export const validateFormStyle = (formStyle: any, delegate: any) => {
     return true;
 }
 
-export const produceItemWithId = (prefix = 'id-') => {
-    return prefix + Math.random() * Date.now()
-}
-
 export const getPeriodText = (period: Period) => {
     const commonLocal = localization[languageManager.langCode].document.common;
     let startDate = commonLocal.startDate;
