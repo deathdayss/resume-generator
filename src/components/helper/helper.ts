@@ -3,7 +3,6 @@ import { initialStylesData } from "@/data/docStyles";
 import { SectionForms } from "@/data/formData";
 import localization, { languageManager } from "@/data/localization";
 import globalFontFamily from "@/fonts";
-import { uniqueId } from "lodash";
 export interface UsePDFInstance {
     loading: boolean;
     blob: Blob | null;
@@ -297,8 +296,8 @@ export const validateFormStyle = (formStyle: any, delegate: any) => {
     return true;
 }
 
-export const produceItemWithId = (itemProps: any, prefix = 'id-') => {
-    return { id: uniqueId(prefix), ...itemProps }
+export const produceItemWithId = (prefix = 'id-') => {
+    return prefix + Math.random() * Date.now()
 }
 
 export const getPeriodText = (period: Period) => {

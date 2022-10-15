@@ -1,4 +1,5 @@
-import { cloneDeep, uniqueId } from "lodash"
+import { produceItemWithId } from "@/components/helper/helper"
+import { cloneDeep } from "lodash"
 import { action, autorun, computed, makeObservable, observable } from "mobx"
 import { SectionForms } from "./formData"
 import localization, { languageManager } from "./localization"
@@ -16,12 +17,12 @@ export const textDataTemplate = {
         default: () => ({
             title: '',
             items: [{
-                id: uniqueId('exp-item-'),
+                id: produceItemWithId('exp-item-'),
                 companyName: '',
                 position: '',
                 duration: '',
                 period: ['', ''] as Period,
-                descriptions: [{ id: uniqueId('exp-desc-'), description: '' }],
+                descriptions: [{ id: produceItemWithId('exp-desc-'), description: '' }],
             }]
         } as ExperienceInfo)
     },
@@ -29,13 +30,13 @@ export const textDataTemplate = {
         default: () => ({
             title: '',
             items: [{
-                id: uniqueId('edu-item-'),
+                id: produceItemWithId('edu-item-'),
                 instituionName: '',
                 degree: '',
                 period: ['', ''] as Period,
                 duration: '',
                 GPA: '',
-                descriptions: [{ id: uniqueId('edu-desc-'), description: '' }],
+                descriptions: [{ id: produceItemWithId('edu-desc-'), description: '' }],
             }]
         } as EducationInfo)
     },
@@ -43,7 +44,7 @@ export const textDataTemplate = {
         default: () => ({
             title: '',
             items: [{
-                id: uniqueId('skill-item-'),
+                id: produceItemWithId('skill-item-'),
                 skillName: '',
                 description: ''
             }]
