@@ -1,5 +1,5 @@
 import { changeIndexFromTo } from "@/components/helper/helper";
-import { Education, EducationInfo, Experience, ExperienceInfo, SectionData } from "@/data/docData";
+import { Education, EducationInfo, Experience, ExperienceInfo, SectionData, SectionId } from "@/data/docData";
 import { FormDetail, FormOther, FormSkill, SectionForm, SectionFormItems, sectionForms } from "@/data/formData";
 import localization, { languageManager } from "@/data/localization";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -40,15 +40,15 @@ const CollapseButton = styled((props: ExpandMoreProps) => {
 
 const getFormPanel = (sectionForm: SectionForm<SectionData>) => {
     switch (sectionForm.id) {
-        case 'Detail':
+        case SectionId.Detail:
             return <DetailForm sectionForm={sectionForm as FormDetail} />;
-        case 'Experience':
+        case SectionId.Experience:
             return <ItemForm sectionForm={sectionForm as SectionFormItems<Experience, ExperienceInfo>} />;
-        case 'Education':
+        case SectionId.Education:
             return <ItemForm sectionForm={sectionForm as SectionFormItems<Education, EducationInfo>} />;
-        case 'Skill':
+        case SectionId.Skill:
             return <SkillForm sectionForm={sectionForm as FormSkill} />;
-        case 'Other':
+        case SectionId.Other:
             return <OtherForm sectionForm={sectionForm as FormOther} />;
         default:
             throw new Error('No such form id');

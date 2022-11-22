@@ -118,8 +118,15 @@ export interface Other extends TitleData {
 }
 
 export type TemplateId = string
-export type SectionId = 'Detail' | 'Experience' | 'Education' | 'Skill' | 'Other';
-export const sectionIds = ['Detail', 'Experience', 'Education', 'Skill', 'Other']
+export enum SectionId {
+    Detail = 'Detail',
+    Experience = 'Experience',
+    Education = 'Education',
+    Skill = 'Skill',
+    Other = 'Other'
+}
+
+export const sectionIds = [SectionId.Detail, SectionId.Experience, SectionId.Education, SectionId.Skill, SectionId.Other]
 export type SectionData = Detail | TitleData
 export type SectionItem = Experience | Education | Skill
 
@@ -158,13 +165,13 @@ class SectionInfoTitle<T extends TitleData> extends SectionInfo<T> {
 
 class SectionDetail extends SectionInfo<Detail> {
     constructor(textData = textDataTemplate.Detail.default(), templateId = 'default') {
-        super('Detail', textData, templateId)
+        super(SectionId.Detail, textData, templateId)
     }
 }
 
 class SectionOther extends SectionInfoTitle<Other> {
     constructor(textData = textDataTemplate.Other.default(), templateId = 'default') {
-        super('Other', textData, templateId)
+        super(SectionId.Other, textData, templateId)
     }
 }
 
@@ -183,33 +190,33 @@ class SectionInfoItems<F extends SectionItem, T extends ItemsData<F>> extends Se
 
 class SectionExperience extends SectionInfoItems<Experience, ExperienceInfo> {
     constructor(textData = textDataTemplate.Experience.default(), templateId = 'default') {
-        super('Experience', textData, templateId);
+        super(SectionId.Experience, textData, templateId);
     }
 }
 
 class SectionEducation extends SectionInfoItems<Education, EducationInfo> {
     constructor(textData = textDataTemplate.Education.default(), templateId = 'default') {
-        super('Education', textData, templateId);
+        super(SectionId.Education, textData, templateId);
     }
 }
 
 class SectionSkill extends SectionInfoItems<Skill, SkillInfo> {
     constructor(textData = textDataTemplate.Skill.default(), templateId = 'default') {
-        super('Skill', textData, templateId);
+        super(SectionId.Skill, textData, templateId);
     }
 }
 
 const createNewSectionInfo = (id: SectionId, textData: SectionData, templateId = 'default') => {
     switch (id) {
-        case 'Detail':
+        case SectionId.Detail:
             return new SectionDetail(textData as Detail, templateId);
-        case 'Experience':
+        case SectionId.Experience:
             return new SectionExperience(textData as ExperienceInfo, templateId);
-        case 'Education':
+        case SectionId.Education:
             return new SectionEducation(textData as EducationInfo, templateId);
-        case 'Skill':
+        case SectionId.Skill:
             return new SectionSkill(textData as SkillInfo, templateId);
-        case 'Other':
+        case SectionId.Other:
             return new SectionOther(textData as Other, templateId);
         default:
             throw new Error('no such as section id');

@@ -1,7 +1,7 @@
 import { MuiDragHandle } from "@/components/ControlArea/Draggable";
 import { changeIndexFromTo, deleteByIndex, pushElement, unShiftElement } from "@/components/helper/helper";
 import { CheckTextFieldStyle, PeriodTextField, TextFieldStyle } from "@/components/ModifiedUI";
-import { Education, Experience, ItemsData, SectionItem, textDataTemplate } from "@/data/docData";
+import { Education, Experience, ItemsData, SectionId, SectionItem, textDataTemplate } from "@/data/docData";
 import { SectionFormItems } from "@/data/formData";
 import localization, { languageManager } from "@/data/localization";
 import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
@@ -83,7 +83,7 @@ const AddedItem = observer(({ value, sectionForm, myIndex }: AddedItemProps) => 
         listModalLabel={modalLocal.addDescription}
         itemModalLabel={modalLocal.deleteDescription} />
     switch (sectionForm.id) {
-        case 'Experience':
+        case SectionId.Experience:
             const experienceValue = value as Experience;
             return <AddedItemCard itemIndex={myIndex} sectionForm={sectionForm}>
                 <div className={styles.line}>
@@ -100,7 +100,7 @@ const AddedItem = observer(({ value, sectionForm, myIndex }: AddedItemProps) => 
                 </div>
                 {getVariableInputList}
             </AddedItemCard>;
-        case 'Education':
+        case SectionId.Education:
             const educationValue = value as Education;
             return <AddedItemCard itemIndex={myIndex} sectionForm={sectionForm}>
                 <div className={styles.line}>

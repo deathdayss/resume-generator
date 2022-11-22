@@ -51,7 +51,7 @@ export class SectionFormTitle<T extends TitleData> extends SectionForm<T> {
 
 export class FormDetail extends SectionForm<Detail> {
     constructor(textData = textDataTemplate.Detail.default(), templateId = 'default', inUse = true, isCollapse = false) {
-        super('Detail', textData, templateId, inUse, isCollapse)
+        super(SectionId.Detail, textData, templateId, inUse, isCollapse)
         makeObservable(this);
     }
 
@@ -78,7 +78,7 @@ export class FormDetail extends SectionForm<Detail> {
 
 export class FormOther extends SectionFormTitle<Other> {
     constructor(textData = textDataTemplate.Other.default(), templateId = 'default', inUse = true, isCollapse = false) {
-        super('Other', textData, templateId, inUse, isCollapse)
+        super(SectionId.Other, textData, templateId, inUse, isCollapse)
         makeObservable(this);
     }
 
@@ -108,15 +108,15 @@ export class SectionFormItems<F extends SectionItem, T extends ItemsData<F>> ext
 
 const createNewSectionInfo = (id: SectionId, textData: SectionData, templateId = 'default', inUse = true, isCollapse = false) => {
     switch (id) {
-        case 'Detail':
+        case SectionId.Detail:
             return new FormDetail(textData as Detail, templateId, inUse, isCollapse);
-        case 'Experience':
+        case SectionId.Experience:
             return new FormExperience(textData as ExperienceInfo, templateId, inUse, isCollapse);
-        case 'Education':
+        case SectionId.Education:
             return new FormEducation(textData as EducationInfo, templateId, inUse, isCollapse);
-        case 'Skill':
+        case SectionId.Skill:
             return new FormSkill(textData as SkillInfo, templateId, inUse, isCollapse);
-        case 'Other':
+        case SectionId.Other:
             return new FormOther(textData as Other, templateId, inUse, isCollapse);
         default:
             throw new Error('no such as section id');
@@ -125,20 +125,20 @@ const createNewSectionInfo = (id: SectionId, textData: SectionData, templateId =
 
 export class FormExperience extends SectionFormItems<Experience, ExperienceInfo> {
     constructor(textData = textDataTemplate.Experience.default(), templateId = 'default', inUse = true, isCollapse = false) {
-        super('Experience', textData, templateId, inUse, isCollapse);
+        super(SectionId.Experience, textData, templateId, inUse, isCollapse);
         makeObservable(this);
     }
 }
 
 export class FormEducation extends SectionFormItems<Education, EducationInfo> {
     constructor(textData = textDataTemplate.Education.default(), templateId = 'default', inUse = true, isCollapse = false) {
-        super('Education', textData, templateId, inUse, isCollapse);
+        super(SectionId.Education, textData, templateId, inUse, isCollapse);
     }
 }
 
 export class FormSkill extends SectionFormItems<Skill, SkillInfo> {
     constructor(textData = textDataTemplate.Skill.default(), templateId = 'default', inUse = true, isCollapse = false) {
-        super('Skill', textData, templateId, inUse, isCollapse);
+        super(SectionId.Skill, textData, templateId, inUse, isCollapse);
     }
 }
 
