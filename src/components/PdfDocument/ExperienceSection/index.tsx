@@ -27,7 +27,7 @@ const ExperienceView = observer(({ experience, last }: ExperienceViewProps) => {
             <Text>{`    ${periodText}`}</Text>
         </Text>
         {experience.descriptions.map((description) => <Text key={description.id}>
-            <Text style={docStyles.boldText}>·</Text>
+            <Text style={docStyles.boldText}>-</Text>
             <Text>{` ${description.description ? description.description : commonLocal.yourDescription}`}</Text>
         </Text>)}
     </View>

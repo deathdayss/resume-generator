@@ -27,7 +27,7 @@ const EducationView = observer(({ education, last }: EducationViewProps) => {
         </Text>
         {education.GPA === null ? null : <Text style={docStyles.boldText}>GPA: {education.GPA ? education.GPA : educationLocal.yourGPA}</Text>}
         {education.descriptions.map((description) => <Text key={description.id}>
-            <Text style={docStyles.boldText}>·</Text>
+            <Text style={docStyles.boldText}>-</Text>
             <Text>{` ${description.description ? description.description : commonLocal.yourDescription}`}</Text>
         </Text>)}
     </View>
