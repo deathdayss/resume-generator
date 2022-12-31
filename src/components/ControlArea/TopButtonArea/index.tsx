@@ -158,7 +158,7 @@ const TopButtonArea = ({
             </a>
 
             <label className={styles.inputUpload}>
-                <input type="file" onChange={uploadHanlde} onClick={(e) => (e.target as any).value = ''} />
+                <input type="file" accept=".json" onChange={uploadHanlde} onClick={(e) => (e.target as any).value = ''} />
                 {isLoading ? <LoadingOutlined /> : <UploadOutlined />}
                 &nbsp;&nbsp;&nbsp;{fileName ? fileName : buttonLocal.uploadJson}
             </label>
