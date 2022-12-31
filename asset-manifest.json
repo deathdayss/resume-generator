@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/resume-generator/static/css/main.b1b58ede.css",
-    "main.js": "/resume-generator/static/js/main.a7474f93.js",
+    "main.js": "/resume-generator/static/js/main.d0b0107a.js",
     "static/js/787.3ec2375e.chunk.js": "/resume-generator/static/js/787.3ec2375e.chunk.js",
     "static/media/Alibaba-PuHuiTi.ttf": "/resume-generator/static/media/Alibaba-PuHuiTi.ec42239dbbf0e9008b5b.ttf",
     "static/media/Alibaba-PuHuiTi-bold.ttf": "/resume-generator/static/media/Alibaba-PuHuiTi-bold.295e4c0da74978d42fae.ttf",
@@ -9,11 +9,11 @@
     "static/media/Butler-bold.otf": "/resume-generator/static/media/Butler-bold.f6c5b1cef0ad4dae4734.otf",
     "index.html": "/resume-generator/index.html",
     "main.b1b58ede.css.map": "/resume-generator/static/css/main.b1b58ede.css.map",
-    "main.a7474f93.js.map": "/resume-generator/static/js/main.a7474f93.js.map",
+    "main.d0b0107a.js.map": "/resume-generator/static/js/main.d0b0107a.js.map",
     "787.3ec2375e.chunk.js.map": "/resume-generator/static/js/787.3ec2375e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b1b58ede.css",
-    "static/js/main.a7474f93.js"
+    "static/js/main.d0b0107a.js"
   ]
 }
