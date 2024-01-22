@@ -26,7 +26,7 @@ const ExperienceView = observer(({ experience, last }: ExperienceViewProps) => {
             <Text style={docStyles.boldText}>{experience.duration ? experience.duration : commonLocal.duration}</Text>
             <Text>{`    ${periodText}`}</Text>
         </Text>
-        {experience.descriptions.map((description) => <Text key={description.id}>
+        {experience.descriptions.map((description, index) => <Text key={index}>
             <Text style={docStyles.boldText}>-</Text>
             <Text>{` ${description.description ? description.description : commonLocal.yourDescription}`}</Text>
         </Text>)}
@@ -41,7 +41,7 @@ const ExperienceSection = ({ experience, last = false }: ExperienceSectionProps)
     const { title, items } = experience;
     const experienceLocal = localization[languageManager.langCode].document.experience;
     return <Section title={title ? title : experienceLocal.titile} last={last}>
-        {items.map((exp, index) => <ExperienceView key={exp.id} experience={exp} last={index === items.length - 1} />)}
+        {items.map((exp, index) => <ExperienceView key={index} experience={exp} last={index === items.length - 1} />)}
     </Section>
 }
 

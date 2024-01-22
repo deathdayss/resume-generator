@@ -26,7 +26,7 @@ const EducationView = observer(({ education, last }: EducationViewProps) => {
             <Text>{`    ${periodText}`}</Text>
         </Text>
         {education.GPA === null ? null : <Text style={docStyles.boldText}>GPA: {education.GPA ? education.GPA : educationLocal.yourGPA}</Text>}
-        {education.descriptions.map((description) => <Text key={description.id}>
+        {education.descriptions.map((description, index) => <Text key={index}>
             <Text style={docStyles.boldText}>-</Text>
             <Text>{` ${description.description ? description.description : commonLocal.yourDescription}`}</Text>
         </Text>)}
@@ -44,7 +44,7 @@ const EducationSection = ({ education, templateId, last = false }: EducationSect
     }
     const educationLocal = localization[languageManager.langCode].document.education;
     return <Section title={title ? title : educationLocal.title} last={last}>
-        {items.map((edu, index) => <EducationView key={edu.id} education={edu} last={index === items.length - 1} />)}
+        {items.map((edu, index) => <EducationView key={index} education={edu} last={index === items.length - 1} />)}
     </Section>
 }
 
